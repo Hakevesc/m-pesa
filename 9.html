@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Available Rewards</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Switzer', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f5f5f7;
+    max-width: 390px;
+    margin: 0 auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: #fff;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 16px 8px;
+    position: relative;
+  }
+
+  .back-btn {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  .back-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: #000;
+  }
+
+  .header-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    font-family: 'Switzer', 'Inter', sans-serif;
+  }
+
+  /* Points Card */
+  .points-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin: 14px 16px 0;
+    padding: 15px 16px;
+    background: linear-gradient(135deg, #34b86b 0%, #22a05a 45%, #0f7c3e 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(15,124,62,0.24);
+  }
+
+  .points-card::before {
+    content: '';
+    position: absolute;
+    top: -46px;
+    left: -30px;
+    width: 240px;
+    height: 160px;
+    background: linear-gradient(120deg, rgba(255,255,255,0.14), rgba(255,255,255,0) 70%);
+    transform: rotate(-8deg);
+    pointer-events: none;
+  }
+
+  .points-star {
+    position: relative;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .points-star svg { width: 23px; height: 23px; fill: #fff; }
+
+  .points-body { position: relative; flex: 1; min-width: 0; }
+
+  .points-label {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.88);
+    letter-spacing: 0.1px;
+  }
+
+  .points-total {
+    font-size: 27px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.7px;
+    line-height: 1.1;
+    margin: 1px 0 2px;
+  }
+
+  .points-sub {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.80);
+  }
+
+  /* Search */
+  .search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px 0;
+  }
+
+  .search-bar {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    background: #f3f4f6;
+    border-radius: 13px;
+    padding: 0 13px;
+    height: 44px;
+    gap: 9px;
+  }
+
+  .search-bar svg { width: 17px; height: 17px; fill: #9aa0a6; flex-shrink: 0; }
+
+  .search-bar input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    font-size: 13.5px;
+    font-family: 'Switzer', 'Inter', sans-serif;
+    color: #16181d;
+    outline: none;
+  }
+
+  .search-bar input::placeholder { color: #9aa0a6; }
+
+  /* Category chips */
+  .chip-row {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .chip-row::-webkit-scrollbar { display: none; }
+
+  .chip {
+    flex-shrink: 0;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    border-radius: 17px;
+    background: #f3f4f6;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #5b6169;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .chip.active {
+    background: #1c9b52;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  /* Reward List */
+  .reward-list {
+    padding: 14px 16px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .reward-card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #eceef1;
+    border-radius: 14px;
+    padding: 10px;
+    gap: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+
+  .reward-card:active { transform: scale(0.99); }
+
+  .reward-image {
+    width: 84px;
+    height: 84px;
+    border-radius: 11px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #eef0f3;
+  }
+
+  .reward-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .reward-info { flex: 1; min-width: 0; }
+
+  .reward-title {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #16181d;
+    letter-spacing: 0.3px;
+    line-height: 1.25;
+  }
+
+  .reward-value {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1c9b52;
+    letter-spacing: -0.4px;
+    margin-top: 4px;
+  }
+
+  .reward-points {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 5px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #8a9099;
+  }
+
+  .reward-points svg { width: 14px; height: 14px; fill: #c2c6cc; flex-shrink: 0; }
+
+  .reward-arrow { flex-shrink: 0; display: flex; }
+
+  .reward-arrow svg { width: 19px; height: 19px; fill: #22a55b; }
+
+  /* Bottom Navigation */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 390px;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0 12px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
+    z-index: 99;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    flex: 1;
+  }
+
+  .nav-item svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .nav-item span {
+    font-size: 10px;
+    font-weight: 600;
+    color: #999;
+    letter-spacing: 0.3px;
+    font-family: 'Switzer', 'Inter', sans-serif;
+  }
+
+  .nav-item.active span {
+    color: #2ec56d;
+  }
+
+  .nav-item.active svg {
+    fill: #2ec56d;
+  }
+
+  .nav-item svg {
+    fill: #999;
+  }
+
+  .bottom-spacer {
+    height: 80px;
+  }
+
+  .gesture-bar {
+    width: 134px;
+    height: 5px;
+    background: #1a1a1a;
+    border-radius: 3px;
+    margin: 8px auto 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <button class="back-btn" onclick="history.back()">
+    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+  </button>
+  <div class="header-title">AVAILABLE REWARDS</div>
+</div>
+
+<!-- Points Card -->
+<div class="points-card">
+  <div class="points-star"><svg viewBox="0 0 24 24"><path d="m12 2.6 3 6 6.7.9-4.8 4.7 1.1 6.6-6-3.1-6 3.1 1.1-6.6L2.3 9.5l6.7-.9 3-6z"/></svg></div>
+  <div class="points-body">
+    <div class="points-label">Your Points</div>
+    <div class="points-total">12,450</div>
+    <div class="points-sub">Available to redeem</div>
+  </div>
+</div>
+
+<!-- Search -->
+<div class="search-container">
+  <div class="search-bar">
+    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+    <input type="text" placeholder="Search rewards..." id="searchInput">
+  </div>
+</div>
+
+<!-- Categories -->
+<div class="chip-row" id="chipRow">
+  <div class="chip active" data-cat="all">All</div>
+  <div class="chip" data-cat="electronics">Electronics</div>
+  <div class="chip" data-cat="airtime">Airtime</div>
+  <div class="chip" data-cat="data">Data</div>
+  <div class="chip" data-cat="float">Float</div>
+</div>
+
+<!-- Reward List -->
+<div class="reward-list">
+  <div class="reward-card" data-cat="electronics" onclick="window.location.href='16.html?name=Smartphone&amp;value=5000&amp;pts=6667&amp;have=12450&amp;img=photo-1511707171634-5f897ff02aa9'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='16.html?name=Smartphone&amp;value=5000&amp;pts=6667&amp;have=12450&amp;img=photo-1511707171634-5f897ff02aa9'">
+    <div class="reward-image">
+      <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=240&h=240&fit=crop" alt="Smart Phone">
+    </div>
+    <div class="reward-info">
+      <div class="reward-title">SMART PHONE</div>
+      <div class="reward-value">5,000.00 ETB</div>
+      <div class="reward-points"><svg viewBox="0 0 24 24"><path d="M12 2.6A9.4 9.4 0 1 0 21.4 12 9.4 9.4 0 0 0 12 2.6zm0 17A7.6 7.6 0 1 1 19.6 12 7.6 7.6 0 0 1 12 19.6z"/><path d="m12 6.6 1.7 3.4 3.8.5-2.7 2.7.6 3.8-3.4-1.8-3.4 1.8.6-3.8-2.7-2.7 3.8-.5L12 6.6z"/></svg> 6,667 points</div>
+    </div>
+    <div class="reward-arrow"><svg viewBox="0 0 24 24"><path d="M9.4 6 8 7.4l4.6 4.6L8 16.6 9.4 18l6-6z"/></svg></div>
+  </div>
+  <div class="reward-card" data-cat="electronics" onclick="window.location.href='16.html?name=Tablet&amp;value=25000&amp;pts=33334&amp;have=12450&amp;img=photo-1544244015-0df4b3ffc6b0'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='16.html?name=Tablet&amp;value=25000&amp;pts=33334&amp;have=12450&amp;img=photo-1544244015-0df4b3ffc6b0'">
+    <div class="reward-image">
+      <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=240&h=240&fit=crop" alt="Tablet">
+    </div>
+    <div class="reward-info">
+      <div class="reward-title">TABLET</div>
+      <div class="reward-value">25,000.00 ETB</div>
+      <div class="reward-points"><svg viewBox="0 0 24 24"><path d="M12 2.6A9.4 9.4 0 1 0 21.4 12 9.4 9.4 0 0 0 12 2.6zm0 17A7.6 7.6 0 1 1 19.6 12 7.6 7.6 0 0 1 12 19.6z"/><path d="m12 6.6 1.7 3.4 3.8.5-2.7 2.7.6 3.8-3.4-1.8-3.4 1.8.6-3.8-2.7-2.7 3.8-.5L12 6.6z"/></svg> 33,334 points</div>
+    </div>
+    <div class="reward-arrow"><svg viewBox="0 0 24 24"><path d="M9.4 6 8 7.4l4.6 4.6L8 16.6 9.4 18l6-6z"/></svg></div>
+  </div>
+  <div class="reward-card" data-cat="electronics" onclick="window.location.href='16.html?name=Power%20Bank&amp;value=4000&amp;pts=5334&amp;have=12450&amp;img=photo-1609091839311-d5365f9ff1c5'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='16.html?name=Power%20Bank&amp;value=4000&amp;pts=5334&amp;have=12450&amp;img=photo-1609091839311-d5365f9ff1c5'">
+    <div class="reward-image">
+      <img src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=240&h=240&fit=crop" alt="Power Bank">
+    </div>
+    <div class="reward-info">
+      <div class="reward-title">POWER BANK</div>
+      <div class="reward-value">4,000.00 ETB</div>
+      <div class="reward-points"><svg viewBox="0 0 24 24"><path d="M12 2.6A9.4 9.4 0 1 0 21.4 12 9.4 9.4 0 0 0 12 2.6zm0 17A7.6 7.6 0 1 1 19.6 12 7.6 7.6 0 0 1 12 19.6z"/><path d="m12 6.6 1.7 3.4 3.8.5-2.7 2.7.6 3.8-3.4-1.8-3.4 1.8.6-3.8-2.7-2.7 3.8-.5L12 6.6z"/></svg> 5,334 points</div>
+    </div>
+    <div class="reward-arrow"><svg viewBox="0 0 24 24"><path d="M9.4 6 8 7.4l4.6 4.6L8 16.6 9.4 18l6-6z"/></svg></div>
+  </div>
+  <div class="reward-card" data-cat="electronics" onclick="window.location.href='16.html?name=MiFi%20Modem&amp;value=5000&amp;pts=6667&amp;have=12450&amp;img=photo-1606904825846-647eb07f5be2'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='16.html?name=MiFi%20Modem&amp;value=5000&amp;pts=6667&amp;have=12450&amp;img=photo-1606904825846-647eb07f5be2'">
+    <div class="reward-image">
+      <img src="https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=240&h=240&fit=crop" alt="MiFi Modem">
+    </div>
+    <div class="reward-info">
+      <div class="reward-title">MIFI MODEM</div>
+      <div class="reward-value">5,000.00 ETB</div>
+      <div class="reward-points"><svg viewBox="0 0 24 24"><path d="M12 2.6A9.4 9.4 0 1 0 21.4 12 9.4 9.4 0 0 0 12 2.6zm0 17A7.6 7.6 0 1 1 19.6 12 7.6 7.6 0 0 1 12 19.6z"/><path d="m12 6.6 1.7 3.4 3.8.5-2.7 2.7.6 3.8-3.4-1.8-3.4 1.8.6-3.8-2.7-2.7 3.8-.5L12 6.6z"/></svg> 6,667 points</div>
+    </div>
+    <div class="reward-arrow"><svg viewBox="0 0 24 24"><path d="M9.4 6 8 7.4l4.6 4.6L8 16.6 9.4 18l6-6z"/></svg></div>
+  </div>
+  <div class="reward-card" data-cat="float" onclick="window.location.href='16.html?name=Float%20Top-Up&amp;value=500&amp;pts=667&amp;have=12450&amp;img=photo-1601972599720-36938d4ecd31'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='16.html?name=Float%20Top-Up&amp;value=500&amp;pts=667&amp;have=12450&amp;img=photo-1601972599720-36938d4ecd31'">
+    <div class="reward-image">
+      <img src="https://images.unsplash.com/photo-1601972599720-36938d4ecd31?w=240&h=240&fit=crop" alt="Float">
+    </div>
+    <div class="reward-info">
+      <div class="reward-title">FLOAT TOP-UP</div>
+      <div class="reward-value">500.00 ETB</div>
+      <div class="reward-points"><svg viewBox="0 0 24 24"><path d="M12 2.6A9.4 9.4 0 1 0 21.4 12 9.4 9.4 0 0 0 12 2.6zm0 17A7.6 7.6 0 1 1 19.6 12 7.6 7.6 0 0 1 12 19.6z"/><path d="m12 6.6 1.7 3.4 3.8.5-2.7 2.7.6 3.8-3.4-1.8-3.4 1.8.6-3.8-2.7-2.7 3.8-.5L12 6.6z"/></svg> 667 points</div>
+    </div>
+    <div class="reward-arrow"><svg viewBox="0 0 24 24"><path d="M9.4 6 8 7.4l4.6 4.6L8 16.6 9.4 18l6-6z"/></svg></div>
+  </div>
+  <div class="reward-card" data-cat="data" onclick="window.location.href='16.html?name=Data%20Bundle%201GB&amp;value=150&amp;pts=200&amp;have=12450&amp;img=photo-1580136579312-94651dfd596d'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='16.html?name=Data%20Bundle%201GB&amp;value=150&amp;pts=200&amp;have=12450&amp;img=photo-1580136579312-94651dfd596d'">
+    <div class="reward-image">
+      <img src="https://images.unsplash.com/photo-1580136579312-94651dfd596d?w=240&h=240&fit=crop" alt="Data Bundle">
+    </div>
+    <div class="reward-info">
+      <div class="reward-title">DATA BUNDLE 1GB</div>
+      <div class="reward-value">150.00 ETB</div>
+      <div class="reward-points"><svg viewBox="0 0 24 24"><path d="M12 2.6A9.4 9.4 0 1 0 21.4 12 9.4 9.4 0 0 0 12 2.6zm0 17A7.6 7.6 0 1 1 19.6 12 7.6 7.6 0 0 1 12 19.6z"/><path d="m12 6.6 1.7 3.4 3.8.5-2.7 2.7.6 3.8-3.4-1.8-3.4 1.8.6-3.8-2.7-2.7 3.8-.5L12 6.6z"/></svg> 200 points</div>
+    </div>
+    <div class="reward-arrow"><svg viewBox="0 0 24 24"><path d="M9.4 6 8 7.4l4.6 4.6L8 16.6 9.4 18l6-6z"/></svg></div>
+  </div>
+</div>
+
+<div class="bottom-spacer"></div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+  <a class="nav-item active" href="#">
+    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span>HOME</span>
+  </a>
+  <a class="nav-item" href="#">
+    <svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
+    <span>ORGANIZATION</span>
+  </a>
+  <a class="nav-item" href="#">
+    <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+    <span>MINIAPPS</span>
+  </a>
+  <a class="nav-item" href="#">
+    <svg viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
+    <span>TRANSACT</span>
+  </a>
+  <a class="nav-item" href="#">
+    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+    <span>ACCOUNT</span>
+  </a>
+</div>
+
+<div class="gesture-bar"></div>
+
+<script>
+  (function () {
+    var input = document.getElementById('searchInput');
+    var chips = Array.prototype.slice.call(document.querySelectorAll('#chipRow .chip'));
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.reward-list .reward-card'));
+    var activeCat = 'all';
+
+    function apply() {
+      var term = (input.value || '').trim().toLowerCase();
+      cards.forEach(function (card) {
+        var cat = card.getAttribute('data-cat') || 'all';
+        var title = (card.querySelector('.reward-title').textContent || '').toLowerCase();
+        var okCat = activeCat === 'all' || cat === activeCat;
+        var okTerm = !term || title.indexOf(term) !== -1;
+        card.style.display = (okCat && okTerm) ? '' : 'none';
+      });
+    }
+
+    input.addEventListener('input', apply);
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        activeCat = chip.getAttribute('data-cat') || 'all';
+        chips.forEach(function (c) { c.classList.remove('active'); });
+        chip.classList.add('active');
+        apply();
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
