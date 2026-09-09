@@ -153,6 +153,51 @@
     color:#9aa0a6;
   }
 
+  /* ---------- Conversion progress card ---------- */
+  .progress-card{
+    margin-top:16px;
+    background:#fff;
+    border:1px solid #eceef1;
+    border-radius:16px;
+    padding:14px 16px;
+    box-shadow:0 1px 3px rgba(0,0,0,.05);
+  }
+  .pc-head{display:flex;align-items:center;justify-content:space-between}
+  .pc-col{flex:1;min-width:0}
+  .pc-col.right{text-align:right}
+  .pc-label{font-size:10.5px;font-weight:500;color:#8a9099;letter-spacing:.1px}
+  .pc-value{
+    margin-top:3px;
+    font-size:19px;font-weight:800;color:#16181d;
+    letter-spacing:-.4px;line-height:1.15;
+  }
+  .pc-need{color:#22a55b}
+  .pc-vs{
+    flex-shrink:0;
+    width:30px;height:30px;border-radius:50%;
+    background:#eef0f3;
+    display:flex;align-items:center;justify-content:center;
+    font-size:9.5px;font-weight:700;color:#8a9099;
+  }
+  .pc-track{
+    height:9px;
+    margin-top:12px;
+    border-radius:5px;
+    background:#eef0f3;
+    overflow:hidden;
+  }
+  .pc-fill{
+    height:100%;width:0%;
+    border-radius:5px;
+    background:linear-gradient(90deg,#33ca73,#1f9e52);
+  }
+  .pc-note{
+    margin-top:10px;
+    font-size:12px;font-weight:500;color:#5b6169;
+    line-height:1.45;
+  }
+  .pc-note b{color:#c2410c;font-weight:700}
+
   /* ---------- Summary stat cards ---------- */
   .summary-row{
     display:grid;
@@ -446,6 +491,23 @@
       </div>
     </div>
 
+    <!-- Conversion progress -->
+    <div class="progress-card">
+      <div class="pc-head">
+        <div class="pc-col">
+          <div class="pc-label">Your Points</div>
+          <div class="pc-value" id="pcHave">12,450</div>
+        </div>
+        <div class="pc-vs">vs</div>
+        <div class="pc-col right">
+          <div class="pc-label">Points to Convert</div>
+          <div class="pc-value pc-need" id="pcNeed">0</div>
+        </div>
+      </div>
+      <div class="pc-track"><div class="pc-fill" id="pcFill"></div></div>
+      <div class="pc-note" id="pcNote">Enter the points you want to convert to see your progress.</div>
+    </div>
+
     <!-- Points to redeem -->
     <div class="redeem-card">
       <div class="redeem-label">POINTS TO REDEEM</div>
@@ -548,20 +610,52 @@
 
 <script>
   (function () {
+    var q = new URLSearchParams(location.search);
+    var HAVE = parseInt(q.get('have') || '12450', 10);
+    var PRE  = parseInt(q.get('pts')  || '0', 10);
+
     var input = document.getElementById('pointsInput');
     var floatEl = document.getElementById('floatValue');
     var remainingEl = document.getElementById('remainingValue');
+    var pcHaveEl = document.getElementById('pcHave');
+    var pcNeedEl = document.getElementById('pcNeed');
+    var pcFillEl = document.getElementById('pcFill');
+    var pcNoteEl = document.getElementById('pcNote');
 
-    var backdrop  = document.getElementById('sheetBackdrop');
-    var sheet     = document.getElementById('confirmSheet');
-    var pending   = 0;
+    var backdrop = document.getElementById('sheetBackdrop');
+    var sheet = document.getElementById('confirmSheet');
+    var pending = 0;
+
+    var n = function (v) { return v.toLocaleString('en-US'); };
+
+    function updateProgress(points) {
+      pcHaveEl.textContent = n(HAVE);
+      pcNeedEl.textContent = n(points);
+      var pct = points > 0 ? Math.min(100, Math.round(HAVE * 100 / points)) : 0;
+      pcFillEl.style.width = pct + '%';
+      if (points <= 0) {
+        pcNoteEl.innerHTML = 'Enter the points you want to convert to see your progress.';
+      } else if (HAVE >= points) {
+        pcNoteEl.innerHTML = 'You have enough points. <b>' + n(HAVE - points) + ' points</b> will remain.';
+      } else {
+        pcNoteEl.innerHTML = 'You need <b>' + n(points - HAVE) + ' more points</b> to convert.';
+      }
+    }
+
+    function sync(points) {
+      var convertible = Math.floor(points / 100) * 100;
+      var leftover = points - convertible;
+      floatEl.textContent = (convertible / 100).toFixed(2) + ' Br';
+      remainingEl.textContent = leftover + (leftover === 1 ? ' Point' : ' Points');
+      updateProgress(points);
+    }
 
     function openSheet(points) {
       var convertible = Math.floor(points / 100) * 100;
-      var leftover    = points - convertible;
+      var leftover = points - convertible;
 
-      document.getElementById('sheetPoints').textContent    = convertible.toLocaleString('en-US') + ' PTS';
-      document.getElementById('sheetFloat').textContent     = (convertible / 100).toFixed(2) + ' Br';
+      document.getElementById('sheetPoints').textContent = convertible.toLocaleString('en-US') + ' PTS';
+      document.getElementById('sheetFloat').textContent = (convertible / 100).toFixed(2) + ' Br';
       document.getElementById('sheetRemaining').textContent = leftover.toLocaleString('en-US') + ' PTS';
 
       pending = points;
@@ -598,14 +692,15 @@
     input.addEventListener('input', function () {
       var digits = input.value.replace(/[^0-9]/g, '');
       if (digits !== input.value) input.value = digits;
-
-      var points = parseInt(digits || '0', 10);
-      var convertible = Math.floor(points / 100) * 100;
-      var remaining = points - convertible;
-
-      floatEl.textContent = (convertible / 100).toFixed(2) + ' Br';
-      remainingEl.textContent = remaining + (remaining === 1 ? ' Point' : ' Points');
+      sync(parseInt(digits || '0', 10));
     });
+
+    if (PRE > 0) {
+      input.value = String(PRE);
+      sync(PRE);
+    } else {
+      sync(0);
+    }
   })();
 </script>
 
