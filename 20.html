@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Accumulation History</title>
+<title>History</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
@@ -32,29 +32,69 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:16px 16px 12px;
+    height:64px;
+    padding:0 16px;
     background:#fff;
     position:sticky;
     top:0;
     z-index:50;
+    border-bottom:1px solid #f0f0f0;
   }
   .back-btn{
-    width:40px;height:40px;
+    width:40px;height:40px;flex-shrink:0;
     display:flex;align-items:center;justify-content:center;
-    cursor:pointer;background:none;border:none;
+    cursor:pointer;background:none;border:none;padding:0;
   }
   .back-btn svg{width:24px;height:24px;fill:#1a1a1a}
   .header-title{
     flex:1;text-align:center;
-    font-size:20px;font-weight:800;color:#1a1a1a;
-    letter-spacing:.5px;
-    white-space:nowrap;
+    font-size:18px;font-weight:800;color:#1a1a1a;
+    letter-spacing:.5px;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;
   }
   .header-spacer{width:40px;flex-shrink:0}
 
   .page{padding:14px 16px 20px}
 
-  /* ---------- Summary card ---------- */
+  /* ---------- Segmented Tabs ---------- */
+  .tabs-container{
+    margin-bottom:14px;
+  }
+  .tab-pill-bar{
+    display:flex;
+    background:#e8eaee;
+    padding:4px;
+    border-radius:14px;
+    gap:4px;
+  }
+  .tab-pill{
+    flex:1;
+    padding:9px 4px;
+    border:none;
+    background:transparent;
+    font-family:'Switzer','Inter',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    color:#5b6169;
+    border-radius:10px;
+    cursor:pointer;
+    transition:all .2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align:center;
+    white-space:nowrap;
+  }
+  .tab-pill.active{
+    background:#1c9b52;
+    color:#fff;
+    font-weight:700;
+    box-shadow:0 2px 8px rgba(28,155,82,.28);
+  }
+  .tab-pill:active{transform:scale(.97)}
+
+  /* Tab Panes */
+  .tab-pane{display:none}
+  .tab-pane.active{display:block}
+
+  /* ---------- Summary card (Accumulation & Redemption) ---------- */
   .summary-card{
     position:relative;
     display:flex;
@@ -126,6 +166,7 @@
   }
   .si-green{background:#dff3e4}
   .si-blue{background:#dceafc}
+  .si-amber{background:#fff1dc}
   .stat-icon svg{width:16px;height:16px}
   .stat-text{flex:1;min-width:0}
   .stat-label{
@@ -142,42 +183,192 @@
     letter-spacing:0;margin-left:2px;
   }
 
-  /* ---------- History list ---------- */
+  /* ---------- Order summary strip ---------- */
+  .summary-strip{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+    padding:14px 16px;
+    background:#fff;
+    border:1px solid #ececf0;
+    border-radius:14px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .summary-packicon{
+    width:38px;height:38px;flex-shrink:0;
+    border-radius:50%;background:#e4f9ed;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .summary-packicon svg{width:20px;height:20px;fill:#1c9b52}
+  .s-main{flex:1;min-width:0}
+  .s-label{font-size:11px;font-weight:500;color:#8a9099;letter-spacing:.1px}
+  .s-value{font-size:18px;font-weight:800;color:#1c9b52;letter-spacing:-.3px;margin-top:2px}
+  .s-sub{font-size:10.5px;font-weight:500;color:#8a9099}
+  .s-count{flex-shrink:0;text-align:right}
+  .s-count-num{font-size:16px;font-weight:800;color:#16181d;letter-spacing:-.2px}
+  .s-count-label{display:block;margin-top:2px;font-size:10px;font-weight:600;color:#8a9099}
+
+  /* ---------- Section title & actions ---------- */
   .section-title{
     display:flex;align-items:center;gap:7px;
-    margin-bottom:11px;
+    margin-bottom:12px;
     font-size:12px;font-weight:800;color:#16181d;
     letter-spacing:.7px;
+    justify-content:space-between;
   }
-  .section-title::before{
+  .section-title-left{
+    display:flex;align-items:center;gap:7px;
+  }
+  .section-title-left::before{
     content:'';width:3px;height:13px;border-radius:2px;
     background:#22a55b;flex-shrink:0;
   }
-  .section-title{justify-content:space-between}
-  .section-actions{display:flex;align-items:center;gap:7px;flex-shrink:0}
+  .section-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
   .see-all{
     color:#1fa855;
     font-size:11px;font-weight:700;
     letter-spacing:0;
     text-decoration:none;
     cursor:pointer;
+    padding:4px 6px;
+    border-radius:6px;
+    transition:background .15s ease;
   }
+  .see-all:hover{background:#eaf7ee}
   .see-all:active{color:#1c9b52}
 
+  /* Filter icon button with active dot */
   .filter-icon-btn{
     position:relative;
-    width:30px;height:30px;
+    width:32px;height:32px;
     display:flex;align-items:center;justify-content:center;
-    cursor:pointer;background:#f2f3f5;border:none;padding:0;
+    cursor:pointer;background:#eceef2;border:1px solid #dcdfe4;padding:0;
     border-radius:50%;
-    color:#5b6169;
+    color:#525964;
+    transition:all .18s ease;
   }
-  .filter-icon-btn.active{color:#1c9b52}
+  .filter-icon-btn:hover{background:#e2e5eb;color:#16181d}
+  .filter-icon-btn.active{
+    background:#e4f9ed;
+    border-color:#1c9b52;
+    color:#1c9b52;
+  }
   .filter-icon-btn.active::after{
     content:'';
-    position:absolute;top:1px;right:1px;
-    width:6px;height:6px;border-radius:50%;
+    position:absolute;top:2px;right:2px;
+    width:7px;height:7px;border-radius:50%;
     background:#1c9b52;border:1.5px solid #fff;
+  }
+
+  /* ---------- Entries (Accumulation & Redemption) ---------- */
+  .day-group{
+    margin-top:14px;
+    font-size:11.5px;font-weight:700;color:#8a9099;
+    letter-spacing:.4px;
+  }
+  .day-group:first-child{margin-top:4px}
+
+  .entry{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:13px 14px;
+    background:#fff;
+    border:1px solid #ececf0;
+    border-radius:12px;
+    margin-top:8px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+
+  .entry-icon{
+    width:38px;height:38px;
+    border-radius:50%;
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .ei-green{background:#e4f9ed}
+  .ei-blue{background:#e6f0fb}
+  .ei-amber{background:#fef3e3}
+  .entry-icon svg{width:19px;height:19px}
+
+  .entry-info{flex:1;min-width:0}
+  .entry-title{
+    font-size:12.5px;font-weight:700;color:#16181d;
+    font-family:'Switzer','Inter',sans-serif;
+    line-height:1.25;
+  }
+  .entry-desc{
+    margin-top:2px;
+    font-size:11px;color:#8a9099;
+    font-family:'Switzer','Inter',sans-serif;
+    line-height:1.4;
+  }
+
+  .entry-right{text-align:right;flex-shrink:0}
+  .entry-points{
+    font-size:14px;font-weight:800;
+    letter-spacing:-.2px;line-height:1.2;
+  }
+  .entry-points.pt-green{color:#1c9b52}
+  .entry-points.pt-green span{font-size:9.5px;font-weight:700;color:#1c9b52;margin-left:1px}
+  .entry-points.pt-red{color:#cf3426}
+  .entry-points.pt-red span{font-size:9.5px;font-weight:700;color:#cf3426;margin-left:1px}
+  .entry-time{
+    margin-top:2px;
+    font-size:10.5px;color:#8a9099;
+    font-family:'Switzer','Inter',sans-serif;
+  }
+
+  /* ---------- Order cards ---------- */
+  .order-card{
+    display:flex;
+    gap:12px;
+    background:#fff;
+    border:1px solid #ececf0;
+    border-radius:14px;
+    padding:12px;
+    margin-top:8px;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+    cursor:pointer;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .order-card:active{transform:scale(.99)}
+  .order-card:hover{border-color:#dcdfe5}
+
+  .order-thumb{
+    width:74px;height:74px;flex-shrink:0;
+    border-radius:10px;overflow:hidden;background:#f4f5f7;
+  }
+  .order-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .order-body{flex:1;min-width:0}
+  .order-name{font-size:13.5px;font-weight:800;color:#16181d;letter-spacing:.2px;line-height:1.25}
+  .order-meta{margin-top:3px;font-size:11px;font-weight:500;color:#8a9099;line-height:1.4}
+  .order-status-row{margin-top:7px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .order-status{
+    display:inline-flex;align-items:center;gap:5px;
+    font-size:11px;font-weight:700;line-height:1;
+  }
+  .st-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+  .st-delivered{color:#1c7a3d}
+  .st-transit{color:#c9820a}
+  .st-processing{color:#2f6fd0}
+  .st-delivered .st-dot{background:#2fbf6f}
+  .st-transit .st-dot{background:#f0a500}
+  .st-processing .st-dot{background:#5b8ff0}
+
+  .order-chev{flex-shrink:0;display:flex;align-items:center}
+  .order-chev svg{width:8px;height:13px;fill:#22a55b}
+
+  /* Empty state */
+  .empty-state{
+    display:none;
+    text-align:center;
+    padding:36px 16px;
+    color:#8a9099;
+    font-size:13px;
+    font-weight:600;
   }
 
   /* ---------- Filter sheet ---------- */
@@ -191,6 +382,7 @@
     border-radius:20px;
     cursor:pointer;
     font-family:'Switzer','Inter',sans-serif;
+    transition:all .15s ease;
   }
   .filter-chip.active{
     background:#1c9b52;
@@ -231,78 +423,27 @@
     text-align:center;
     font-size:15px;font-weight:800;color:#16181d;
     letter-spacing:.3px;
-    margin-bottom:6px;
+    margin-bottom:12px;
   }
-  .sheet-group{margin:2px 0 4px}
+  .sheet-group{margin:6px 0 12px}
   .sheet-group-title{
     font-size:11px;font-weight:700;color:#8a9099;
     letter-spacing:.6px;
     margin-bottom:9px;
   }
-  .sheet-chips{display:flex;flex-wrap:wrap;gap:9px}
-  .sheet-actions{display:flex;gap:10px;margin-top:16px}
+  .sheet-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .sheet-actions{display:flex;gap:10px;margin-top:20px}
   .sheet-btn{
     flex:1;height:44px;border-radius:12px;
     font-size:13px;font-weight:800;
     cursor:pointer;
     font-family:'Switzer','Inter',sans-serif;
+    transition:all .15s ease;
   }
   .sheet-btn.reset{background:#f2f3f5;border:1px solid #ececf0;color:#5b6169}
+  .sheet-btn.reset:hover{background:#e5e7eb}
   .sheet-btn.done{background:#1c9b52;border:none;color:#fff}
-
-  .day-group{
-    margin-top:12px;
-    font-size:11.5px;font-weight:700;color:#8a9099;
-    letter-spacing:.4px;
-  }
-  .day-group:first-child{margin-top:4px}
-
-  .entry{
-    display:flex;
-    align-items:center;
-    gap:13px;
-    padding:13px 14px;
-    background:#fff;
-    border:1px solid #ececf0;
-    border-radius:12px;
-    margin-top:8px;
-    box-shadow:0 1px 3px rgba(0,0,0,.04);
-  }
-
-  .entry-icon{
-    width:38px;height:38px;
-    border-radius:50%;
-    flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .ei-green{background:#e4f9ed}
-  .ei-blue{background:#e6f0fb}
-  .entry-icon svg{width:19px;height:19px}
-
-  .entry-info{flex:1;min-width:0}
-  .entry-title{
-    font-size:12.5px;font-weight:700;color:#16181d;
-    font-family:'Switzer','Inter',sans-serif;
-    line-height:1.25;
-  }
-  .entry-desc{
-    margin-top:2px;
-    font-size:11px;color:#8a9099;
-    font-family:'Switzer','Inter',sans-serif;
-    line-height:1.4;
-  }
-
-  .entry-right{text-align:right;flex-shrink:0}
-  .entry-points{
-    font-size:14px;font-weight:800;color:#1c9b52;
-    letter-spacing:-.2px;line-height:1.2;
-  }
-  .entry-points span{font-size:9.5px;font-weight:700;color:#1c9b52;margin-left:1px}
-  .entry-time{
-    margin-top:2px;
-    font-size:10.5px;color:#8a9099;
-    font-family:'Switzer','Inter',sans-serif;
-  }
+  .sheet-btn.done:hover{background:#168545}
 
   /* ---------- Bottom Navigation ---------- */
   .bottom-nav{
@@ -314,21 +455,20 @@
     display:flex;justify-content:space-around;
     padding:8px 0 12px;
     box-shadow:0 -2px 10px rgba(0,0,0,.06);
-    z-index:99;
+    z-index:80;
     border-top:1px solid #f0f0f0;
   }
   .nav-item{
     display:flex;flex-direction:column;align-items:center;
     gap:4px;cursor:pointer;text-decoration:none;flex:1;
   }
-  .nav-item svg{width:22px;height:22px}
+  .nav-item svg{width:22px;height:22px;fill:#999}
   .nav-item span{
     font-size:10px;font-weight:600;color:#999;
     letter-spacing:.3px;font-family:'Switzer','Inter',sans-serif;
   }
   .nav-item.active span{color:#2ec56d}
   .nav-item.active svg{fill:#2ec56d}
-  .nav-item svg{fill:#999}
   .bottom-spacer{height:80px}
 
   .gesture-bar{
@@ -336,185 +476,366 @@
     background:#1a1a1a;border-radius:3px;
     margin:8px auto 12px;
   }
-  /* ---------- Header (consistent) ---------- */
-  .header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    height:64px;
-    padding:0 16px;
-    background:#fff;
-    position:sticky;
-    top:0;
-    z-index:50;
-  }
-  .back-btn{
-    width:40px;height:40px;flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;background:none;border:none;padding:0;
-    position:static;
-  }
-  .back-btn svg{width:24px;height:24px;fill:#1a1a1a}
-  .header-title{
-    flex:1;text-align:center;
-    font-size:20px;font-weight:800;color:#1a1a1a;
-    letter-spacing:.5px;white-space:nowrap;
-    overflow:hidden;text-overflow:ellipsis;
-  }
-  .header-spacer{width:40px;flex-shrink:0}
-  .info-btn{
-    width:40px;height:40px;flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;background:none;border:none;padding:0;
-    position:static;
-  }
-  .info-btn svg{width:24px;height:24px;fill:#1a1a1a}
-
 </style>
 </head>
 <body>
+
 <!-- Header -->
 <div class="header">
   <button class="back-btn" onclick="history.back()" aria-label="Go back">
     <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
   </button>
-  <div class="header-title">ACCUMULATION HISTORY</div>
+  <div class="header-title" id="headerTitle">HISTORY</div>
   <div class="header-spacer"></div>
 </div>
 
 <div class="page">
 
-  <!-- Summary card -->
-  <div class="summary-card">
-    <div class="summary-star"><svg viewBox="0 0 24 24"><path d="m12 2.6 3 6 6.7.9-4.8 4.7 1.1 6.6-6-3.1-6 3.1 1.1-6.6L2.3 9.5l6.7-.9 3-6z"/></svg></div>
-    <div class="summary-body">
-      <div class="summary-label">Total Accumulated</div>
-      <div class="summary-total">12,450 PTS</div>
-      <div class="summary-sub">Lifetime points earned</div>
+  <!-- Top Segmented Tabs: Accumulation, Redemption, Order -->
+  <div class="tabs-container">
+    <div class="tab-pill-bar" role="tablist">
+      <button type="button" role="tab" aria-selected="true" class="tab-pill active" id="tabBtn-accumulation" onclick="selectTab('accumulation')">Accumulation</button>
+      <button type="button" role="tab" aria-selected="false" class="tab-pill" id="tabBtn-redemption" onclick="selectTab('redemption')">Redemption</button>
+      <button type="button" role="tab" aria-selected="false" class="tab-pill" id="tabBtn-order" onclick="selectTab('order')">Order</button>
     </div>
   </div>
 
-  <!-- Stats -->
-  <div class="stats-grid">
-    <div class="stat-cell">
-      <div class="stat-icon si-green">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#22a55b" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6.6" rx="6.6" ry="2.8"/><path d="M5.4 6.6v4.2c0 1.5 3 2.8 6.6 2.8s6.6-1.3 6.6-2.8V6.6"/><path d="M5.4 10.8V15c0 1.6 3 2.8 6.6 2.8s6.6-1.2 6.6-2.8v-4.2"/></svg>
-      </div>
-      <div class="stat-text">
-        <div class="stat-label">This Month</div>
-        <div class="stat-value">100.00 <span>PTS</span></div>
-      </div>
-    </div>
+  <!-- ==================== PANE: ACCUMULATION ==================== -->
+  <div class="tab-pane active" id="pane-accumulation">
 
-    <div class="stat-cell">
-      <div class="stat-icon si-blue">
-        <svg viewBox="0 0 24 24" fill="#2f6fd0"><path d="M3.4 2.1v19.8l2.4-1.6 2.4 1.6 2.4-1.6 2.4 1.6 2.4-1.6 2.6 1.6V2.1l-2.6 1.6-2.4-1.6-2.4 1.6-2.4-1.6-2.4 1.6L3.4 2.1z"/></svg>
-      </div>
-      <div class="stat-text">
-        <div class="stat-label">This Week</div>
-        <div class="stat-value">80.00 <span>PTS</span></div>
+    <!-- Summary card -->
+    <div class="summary-card">
+      <div class="summary-star"><svg viewBox="0 0 24 24"><path d="m12 2.6 3 6 6.7.9-4.8 4.7 1.1 6.6-6-3.1-6 3.1 1.1-6.6L2.3 9.5l6.7-.9 3-6z"/></svg></div>
+      <div class="summary-body">
+        <div class="summary-label">Total Accumulated</div>
+        <div class="summary-total">12,450 PTS</div>
+        <div class="summary-sub">Lifetime points earned</div>
       </div>
     </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-icon si-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#22a55b" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6.6" rx="6.6" ry="2.8"/><path d="M5.4 6.6v4.2c0 1.5 3 2.8 6.6 2.8s6.6-1.3 6.6-2.8V6.6"/><path d="M5.4 10.8V15c0 1.6 3 2.8 6.6 2.8s6.6-1.2 6.6-2.8v-4.2"/></svg>
+        </div>
+        <div class="stat-text">
+          <div class="stat-label">This Month</div>
+          <div class="stat-value">100.00 <span>PTS</span></div>
+        </div>
+      </div>
+
+      <div class="stat-cell">
+        <div class="stat-icon si-blue">
+          <svg viewBox="0 0 24 24" fill="#2f6fd0"><path d="M3.4 2.1v19.8l2.4-1.6 2.4 1.6 2.4-1.6 2.4 1.6 2.4-1.6 2.6 1.6V2.1l-2.6 1.6-2.4-1.6-2.4 1.6-2.4-1.6-2.4 1.6L3.4 2.1z"/></svg>
+        </div>
+        <div class="stat-text">
+          <div class="stat-label">This Week</div>
+          <div class="stat-value">80.00 <span>PTS</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Title & Filter Button -->
+    <div class="section-title">
+      <div class="section-title-left">ACCUMULATION HISTORY</div>
+      <div class="section-actions">
+        <button type="button" class="filter-icon-btn" id="filterBtn-accumulation" onclick="openFilter()" aria-label="Filter accumulation history">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+        </button>
+        <a class="see-all" href="javascript:void(0)" id="seeAllBtn-accumulation" onclick="toggleSeeAll('accumulation')">SEE ALL</a>
+      </div>
+    </div>
+
+    <div class="list-container" id="list-accumulation">
+      <div class="day-group">TODAY</div>
+
+      <div class="entry">
+        <div class="entry-icon ei-green">
+          <svg viewBox="0 0 24 24" fill="#1c9b52"><path d="M16.5 2h-9C6.1 2 5 3.1 5 4.5v15C5 20.9 6.1 22 7.5 22h9c1.4 0 2.5-1.1 2.5-2.5v-15C19 3.1 17.9 2 16.5 2zM12 20.6a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm5.1-3.4H6.9V5.1h10.2v12.1z"/></svg>
+        </div>
+        <div class="entry-info">
+          <div class="entry-title">Sell Airtime</div>
+          <div class="entry-desc">2,000 ETB &middot; Ref #TX889022</div>
+        </div>
+        <div class="entry-right">
+          <div class="entry-points pt-green">+20.00 <span>PTS</span></div>
+          <div class="entry-time">10:30 AM</div>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-icon ei-blue">
+          <svg viewBox="0 0 24 24" fill="#1a73e8"><path d="M20.2 12.1c-.5-.5-1.3-.5-1.8 0l-3 2.7c-.4.4-.9.6-1.4.6H10c-.4 0-.7-.3-.7-.7s.3-.7.7-.7h3c.7 0 1.3-.6 1.3-1.3s-.6-1.3-1.3-1.3h-2.6c-.9 0-1.7.3-2.4.9l-1.8 1.5H3.5c-.6 0-1 .4-1 1v3.4c0 .6.4 1 1 1h9.6c.9 0 1.8-.3 2.5-.9l4.6-3.9c.6-.5.6-1.4 0-1.9z"/><circle cx="12.9" cy="6.9" r="3.4"/></svg>
+        </div>
+        <div class="entry-info">
+          <div class="entry-title">Received Payment</div>
+          <div class="entry-desc">1,200 ETB &middot; Ref #TX889015</div>
+        </div>
+        <div class="entry-right">
+          <div class="entry-points pt-green">+5.00 <span>PTS</span></div>
+          <div class="entry-time">9:15 AM</div>
+        </div>
+      </div>
+
+      <div class="day-group">YESTERDAY</div>
+
+      <div class="entry">
+        <div class="entry-icon ei-green">
+          <svg viewBox="0 0 24 24" fill="#1c9b52"><path d="M12 2.2 2.9 6.5 12 10.9l9.1-4.4L12 2.2zM2 8.2v9l9.1 4.4v-9L2 8.2zM12.9 12.6v9l9.1-4.4v-9l-9.1 4.4z"/></svg>
+        </div>
+        <div class="entry-info">
+          <div class="entry-title">Sell Package</div>
+          <div class="entry-desc">5,000 ETB &middot; Ref #TX887940</div>
+        </div>
+        <div class="entry-right">
+          <div class="entry-points pt-green">+50.00 <span>PTS</span></div>
+          <div class="entry-time">4:20 PM</div>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-icon ei-blue">
+          <svg viewBox="0 0 24 24" fill="#1a73e8"><path d="M12 2 2 7v2h20V7L12 2zM4 11v7H2v2h20v-2h-2v-7h-2v7h-3v-7h-2v7h-3v-7H8v7H6v-7H4z"/></svg>
+        </div>
+        <div class="entry-info">
+          <div class="entry-title">Payment via ET-Switch</div>
+          <div class="entry-desc">3,500 ETB &middot; Ref #TX887912</div>
+        </div>
+        <div class="entry-right">
+          <div class="entry-points pt-green">+5.00 <span>PTS</span></div>
+          <div class="entry-time">2:05 PM</div>
+        </div>
+      </div>
+
+      <div class="day-group">SEP 6</div>
+
+      <div class="entry">
+        <div class="entry-icon ei-green">
+          <svg viewBox="0 0 24 24" fill="#1c9b52"><path d="M16.5 2h-9C6.1 2 5 3.1 5 4.5v15C5 20.9 6.1 22 7.5 22h9c1.4 0 2.5-1.1 2.5-2.5v-15C19 3.1 17.9 2 16.5 2zM12 20.6a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm5.1-3.4H6.9V5.1h10.2v12.1z"/></svg>
+        </div>
+        <div class="entry-info">
+          <div class="entry-title">Sell Airtime</div>
+          <div class="entry-desc">1,500 ETB &middot; Ref #TX885423</div>
+        </div>
+        <div class="entry-right">
+          <div class="entry-points pt-green">+15.00 <span>PTS</span></div>
+          <div class="entry-time">11:40 AM</div>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-icon ei-blue">
+          <svg viewBox="0 0 24 24" fill="#1a73e8"><path d="M20.2 12.1c-.5-.5-1.3-.5-1.8 0l-3 2.7c-.4.4-.9.6-1.4.6H10c-.4 0-.7-.3-.7-.7s.3-.7.7-.7h3c.7 0 1.3-.6 1.3-1.3s-.6-1.3-1.3-1.3h-2.6c-.9 0-1.7.3-2.4.9l-1.8 1.5H3.5c-.6 0-1 .4-1 1v3.4c0 .6.4 1 1 1h9.6c.9 0 1.8-.3 2.5-.9l4.6-3.9c.6-.5.6-1.4 0-1.9z"/><circle cx="12.9" cy="6.9" r="3.4"/></svg>
+        </div>
+        <div class="entry-info">
+          <div class="entry-title">Received Payment</div>
+          <div class="entry-desc">900 ETB &middot; Ref #TX885410</div>
+        </div>
+        <div class="entry-right">
+          <div class="entry-points pt-green">+5.00 <span>PTS</span></div>
+          <div class="entry-time">9:50 AM</div>
+        </div>
+      </div>
+
+      <div class="empty-state" id="empty-accumulation">No accumulation records found</div>
+    </div>
   </div>
 
-  <!-- History list -->
-  <div class="section-title">
-    ACCUMULATION HISTORY
-    <div class="section-actions">
-      <button type="button" class="filter-icon-btn" id="filterBtn" onclick="toggleFilter()" aria-label="Filter history">
-        <svg viewBox="0 0 24 24"><path d="M4 4l6 4M20 4l-6 4M10 8l1.5 6M14 8l-1.5 6M12 14v5M9 19h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <a class="see-all" href="javascript:void(0)" id="seeAllBtn" onclick="toggleSeeAll()">SEE ALL</a>
+  <!-- ==================== PANE: REDEMPTION ==================== -->
+  <div class="tab-pane" id="pane-redemption">
+
+    <!-- Summary card -->
+    <div class="summary-card">
+      <div class="summary-star"><svg viewBox="0 0 24 24"><path d="M19.9 7h-2.4a3.1 3.1 0 0 0-4.9-3.6l-.6.6-.6-.6A3.1 3.1 0 0 0 6.5 7H4.1c-.9 0-1.6.7-1.6 1.6v2.7c0 .5.4.9.9.9h7.5V7.9h2.2v4.3h7.5c.5 0 .9-.4.9-.9V8.6c0-.9-.7-1.6-1.6-1.6zM8.7 4.7c.6 0 1.1.5 1.1 1.1V7H8.7a1.15 1.15 0 0 1 0-2.3zm6.6 2.3h-1.1V5.8a1.15 1.15 0 1 1 1.1 1.2z"/></svg></div>
+      <div class="summary-body">
+        <div class="summary-label">Total Redeemed</div>
+        <div class="summary-total">8,534 PTS</div>
+        <div class="summary-sub">Lifetime points redeemed</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-icon si-amber">
+          <svg viewBox="0 0 24 24" fill="#e8912a"><path d="M7.2 18.4a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM17.2 18.4a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM1.7 2.4a1 1 0 1 0 0 2h1.6l3 12.3c.1.5.5.8 1 .8h11a1 1 0 1 0 0-2H8.1l-.4-1.8h9.9c.5 0 .9-.3 1-.8l1.7-7.3a1 1 0 0 0-1-1.2H5.7l-.6-2.4a1 1 0 0 0-1-.6H1.7z"/></svg>
+        </div>
+        <div class="stat-text">
+          <div class="stat-label">This Month</div>
+          <div class="stat-value">8,534 <span>PTS</span></div>
+        </div>
+      </div>
+
+      <div class="stat-cell">
+        <div class="stat-icon si-blue">
+          <svg viewBox="0 0 24 24" fill="#2f6fd0"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        </div>
+        <div class="stat-text">
+          <div class="stat-label">This Week</div>
+          <div class="stat-value">7,867 <span>PTS</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Title & Filter Button -->
+    <div class="section-title">
+      <div class="section-title-left">REDEMPTION HISTORY</div>
+      <div class="section-actions">
+        <button type="button" class="filter-icon-btn" id="filterBtn-redemption" onclick="openFilter()" aria-label="Filter redemption history">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+        </button>
+        <a class="see-all" href="javascript:void(0)" id="seeAllBtn-redemption" onclick="toggleSeeAll('redemption')">SEE ALL</a>
+      </div>
+    </div>
+
+    <div class="list-container" id="list-redemption">
+      <div class="day-group">TODAY</div>
+
+      <div class="entry">
+        <div class="entry-icon ei-blue">
+          <svg viewBox="0 0 24 24" fill="#2f6fd0"><path d="M7.6 3.3 3.2 7.7l4.4 4.4 1.6-1.6-1.7-1.7h9.2V6.6H7.5l1.7-1.7z"/><path d="m16.4 20.7 4.4-4.4-4.4-4.4-1.6 1.6 1.7 1.7H7.3v2.2h9.2l-1.7 1.7z"/></svg>
+        </div>
+        <div class="entry-info">
+          <div class="entry-title">Convert to Float</div>
+          <div class="entry-desc">10.00 Br credited &middot; Ref #LP7K42XB09</div>
+        </div>
+        <div class="entry-right">
+          <div class="entry-points pt-red">-1,000 <span>PTS</span></div>
+          <div class="entry-time">11:15 AM</div>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="entry-icon ei-amber">
+          <svg viewBox="0 0 24 24" fill="#e8912a"><path d="M19.9 7h-2.4a3.1 3.1 0 0 0-4.9-3.6l-.6.6-.6-.6A3.1 3.1 0 0 0 6.5 7H4.1c-.9 0-1.6.7-1.6 1.6v2.7c0 .5.4.9.9.9h7.5V7.9h2.2v4.3h7.5c.5 0 .9-.4.9-.9V8.6c0-.9-.7-1.6-1.6-1.6zM8.7 4.7c.6 0 1.1.5 1.1 1.1V7H8.7a1.15 1.15 0 0 1 0-2.3zm6.6 2.3h-1.1V5.8a1.15 1.15 0 1 1 1.1 1.2z"/></svg>
+        </div>
+        <div class="entry-info">
+          <div class="entry-title">DATA BUNDLE 1GB</div>
+          <div class="entry-desc">Reward item &middot; Ref #RD776501</div>
+        </div>
+        <div class="entry-right">
+          <div class="entry-points pt-red">-200 <span>PTS</span></div>
+          <div class="entry-time">10:30 AM</div>
+        </div>
+      </div>
+
+      <div class="day-group">YESTERDAY</div>
+
+      <div class="entry">
+        <div class="entry-icon ei-amber">
+          <svg viewBox="0 0 24 24" fill="#e8912a"><path d="M19.9 7h-2.4a3.1 3.1 0 0 0-4.9-3.6l-.6.6-.6-.6A3.1 3.1 0 0 0 6.5 7H4.1c-.9 0-1.6.7-1.6 1.6v2.7c0 .5.4.9.9.9h7.5V7.9h2.2v4.3h7.5c.5 0 .9-.4.9-.9V8.6c0-.9-.7-1.6-1.6-1.6zM8.7 4.7c.6 0 1.1.5 1.1 1.1V7H8.7a1.15 1.15 0 0 1 0-2.3zm6.6 2.3h-1.1V5.8a1.15 1.15 0 1 1 1.1 1.2z"/></svg>
+        </div>
+        <div class="entry-info">
+          <div class="entry-title">SMART PHONE</div>
+          <div class="entry-desc">Reward item &middot; Ref #RD775420</div>
+        </div>
+        <div class="entry-right">
+          <div class="entry-points pt-red">-6,667 <span>PTS</span></div>
+          <div class="entry-time">4:15 PM</div>
+        </div>
+      </div>
+
+      <div class="day-group">SEP 6</div>
+
+      <div class="entry">
+        <div class="entry-icon ei-blue">
+          <svg viewBox="0 0 24 24" fill="#2f6fd0"><path d="M7.6 3.3 3.2 7.7l4.4 4.4 1.6-1.6-1.7-1.7h9.2V6.6H7.5l1.7-1.7z"/><path d="m16.4 20.7 4.4-4.4-4.4-4.4-1.6 1.6 1.7 1.7H7.3v2.2h9.2l-1.7 1.7z"/></svg>
+        </div>
+        <div class="entry-info">
+          <div class="entry-title">FLOAT TOP-UP</div>
+          <div class="entry-desc">500.00 ETB float &middot; Ref #LP7K38KA02</div>
+        </div>
+        <div class="entry-right">
+          <div class="entry-points pt-red">-667 <span>PTS</span></div>
+          <div class="entry-time">2:05 PM</div>
+        </div>
+      </div>
+
+      <div class="empty-state" id="empty-redemption">No redemption records found</div>
     </div>
   </div>
 
-  <div class="day-group">TODAY</div>
+  <!-- ==================== PANE: ORDER ==================== -->
+  <div class="tab-pane" id="pane-order">
 
-  <div class="entry">
-    <div class="entry-icon ei-green">
-      <svg viewBox="0 0 24 24" fill="#1c9b52"><path d="M16.5 2h-9C6.1 2 5 3.1 5 4.5v15C5 20.9 6.1 22 7.5 22h9c1.4 0 2.5-1.1 2.5-2.5v-15C19 3.1 17.9 2 16.5 2zM12 20.6a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm5.1-3.4H6.9V5.1h10.2v12.1z"/></svg>
+    <!-- Summary strip -->
+    <div class="summary-strip">
+      <div class="summary-packicon">
+        <svg viewBox="0 0 24 24"><path d="M17.3 1.6H6.7c-1.2 0-2.2 1-2.2 2.2v16.4c0 1.2 1 2.2 2.2 2.2h10.6c1.2 0 2.2-1 2.2-2.2V3.8c0-1.2-1-2.2-2.2-2.2zM9 19.7H6.8v-2.2H9v2.2zm0-4H6.8v-2.2H9v2.2zm4.1 4h-2.2v-2.2h2.2v2.2zm0-4h-2.2v-2.2h2.2v2.2zm4.1 4H15v-2.2h2.2v2.2zm0-4H15v-2.2h2.2v2.2zm0-4.4H6.8V4.8h10.4v6.5z"/></svg>
+      </div>
+      <div class="s-main">
+        <div class="s-label">Total Orders</div>
+        <div class="s-value">3</div>
+        <div class="s-sub">Reward items</div>
+      </div>
+      <div class="s-count">
+        <div class="s-count-num">1</div>
+        <div class="s-count-label">IN TRANSIT</div>
+      </div>
     </div>
-    <div class="entry-info">
-      <div class="entry-title">Sell Airtime</div>
-      <div class="entry-desc">2,000 ETB &middot; Ref #TX889022</div>
-    </div>
-    <div class="entry-right">
-      <div class="entry-points">+20.00 <span>PTS</span></div>
-      <div class="entry-time">10:30 AM</div>
-    </div>
-  </div>
 
-  <div class="entry">
-    <div class="entry-icon ei-blue">
-      <svg viewBox="0 0 24 24" fill="#1a73e8"><path d="M20.2 12.1c-.5-.5-1.3-.5-1.8 0l-3 2.7c-.4.4-.9.6-1.4.6H10c-.4 0-.7-.3-.7-.7s.3-.7.7-.7h3c.7 0 1.3-.6 1.3-1.3s-.6-1.3-1.3-1.3h-2.6c-.9 0-1.7.3-2.4.9l-1.8 1.5H3.5c-.6 0-1 .4-1 1v3.4c0 .6.4 1 1 1h9.6c.9 0 1.8-.3 2.5-.9l4.6-3.9c.6-.5.6-1.4 0-1.9z"/><circle cx="12.9" cy="6.9" r="3.4"/></svg>
+    <!-- Section Title & Filter Button -->
+    <div class="section-title">
+      <div class="section-title-left">ORDER HISTORY</div>
+      <div class="section-actions">
+        <button type="button" class="filter-icon-btn" id="filterBtn-order" onclick="openFilter()" aria-label="Filter order history">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+        </button>
+        <a class="see-all" href="javascript:void(0)" id="seeAllBtn-order" onclick="toggleSeeAll('order')">SEE ALL</a>
+      </div>
     </div>
-    <div class="entry-info">
-      <div class="entry-title">Received Payment</div>
-      <div class="entry-desc">1,200 ETB &middot; Ref #TX889015</div>
-    </div>
-    <div class="entry-right">
-      <div class="entry-points">+5.00 <span>PTS</span></div>
-      <div class="entry-time">9:15 AM</div>
-    </div>
-  </div>
 
-  <div class="day-group">YESTERDAY</div>
+    <div class="list-container" id="list-order">
+      <!-- Order 1 -->
+      <div class="order-card" data-status="delivered" data-time="month" onclick="window.location.href='18.html'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='18.html'">
+        <div class="order-thumb">
+          <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=240&h=240&fit=crop" alt="Smartphone">
+        </div>
+        <div class="order-body">
+          <div class="order-name">Smartphone</div>
+          <div class="order-meta">Order #ORD-88231 &middot; 6,667 PTS</div>
+          <div class="order-status-row">
+            <span class="order-status st-delivered"><span class="st-dot"></span>Delivered</span>
+            <span class="order-meta" style="font-size:10.5px;color:#b7bcc3">Sep 8, 2026</span>
+          </div>
+        </div>
+        <div class="order-chev"><svg viewBox="0 0 8 13" fill="none" stroke="#22a55b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m1.6 1.6 5 4.9-5 4.9"/></svg></div>
+      </div>
 
-  <div class="entry">
-    <div class="entry-icon ei-green">
-      <svg viewBox="0 0 24 24" fill="#1c9b52"><path d="M12 2.2 2.9 6.5 12 10.9l9.1-4.4L12 2.2zM2 8.2v9l9.1 4.4v-9L2 8.2zM12.9 12.6v9l9.1-4.4v-9l-9.1 4.4z"/></svg>
-    </div>
-    <div class="entry-info">
-      <div class="entry-title">Sell Package</div>
-      <div class="entry-desc">5,000 ETB &middot; Ref #TX887940</div>
-    </div>
-    <div class="entry-right">
-      <div class="entry-points">+50.00 <span>PTS</span></div>
-      <div class="entry-time">4:20 PM</div>
-    </div>
-  </div>
+      <!-- Order 2 -->
+      <div class="order-card" data-status="in transit" data-time="month" onclick="window.location.href='18.html'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='18.html'">
+        <div class="order-thumb">
+          <img src="https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=240&h=240&fit=crop" alt="MiFi Modem">
+        </div>
+        <div class="order-body">
+          <div class="order-name">MiFi Modem</div>
+          <div class="order-meta">Order #ORD-87410 &middot; 6,667 PTS</div>
+          <div class="order-status-row">
+            <span class="order-status st-transit"><span class="st-dot"></span>In Transit</span>
+            <span class="order-meta" style="font-size:10.5px;color:#b7bcc3">Sep 6, 2026</span>
+          </div>
+        </div>
+        <div class="order-chev"><svg viewBox="0 0 8 13" fill="none" stroke="#22a55b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m1.6 1.6 5 4.9-5 4.9"/></svg></div>
+      </div>
 
-  <div class="entry">
-    <div class="entry-icon ei-blue">
-      <svg viewBox="0 0 24 24" fill="#1a73e8"><path d="M12 2 2 7v2h20V7L12 2zM4 11v7H2v2h20v-2h-2v-7h-2v7h-3v-7h-2v7h-3v-7H8v7H6v-7H4z"/></svg>
-    </div>
-    <div class="entry-info">
-      <div class="entry-title">Payment via ET-Switch</div>
-      <div class="entry-desc">3,500 ETB &middot; Ref #TX887912</div>
-    </div>
-    <div class="entry-right">
-      <div class="entry-points">+5.00 <span>PTS</span></div>
-      <div class="entry-time">2:05 PM</div>
-    </div>
-  </div>
+      <!-- Order 3 -->
+      <div class="order-card" data-status="processing" data-time="older" onclick="window.location.href='18.html'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='18.html'">
+        <div class="order-thumb">
+          <img src="https://images.unsplash.com/photo-1580136579312-94651dfd596d?w=240&h=240&fit=crop" alt="Data Bundle">
+        </div>
+        <div class="order-body">
+          <div class="order-name">Data Bundle 1GB</div>
+          <div class="order-meta">Order #ORD-86902 &middot; 200 PTS</div>
+          <div class="order-status-row">
+            <span class="order-status st-processing"><span class="st-dot"></span>Processing</span>
+            <span class="order-meta" style="font-size:10.5px;color:#b7bcc3">Sep 3, 2026</span>
+          </div>
+        </div>
+        <div class="order-chev"><svg viewBox="0 0 8 13" fill="none" stroke="#22a55b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m1.6 1.6 5 4.9-5 4.9"/></svg></div>
+      </div>
 
-  <div class="day-group">SEP 6</div>
-
-  <div class="entry">
-    <div class="entry-icon ei-green">
-      <svg viewBox="0 0 24 24" fill="#1c9b52"><path d="M16.5 2h-9C6.1 2 5 3.1 5 4.5v15C5 20.9 6.1 22 7.5 22h9c1.4 0 2.5-1.1 2.5-2.5v-15C19 3.1 17.9 2 16.5 2zM12 20.6a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm5.1-3.4H6.9V5.1h10.2v12.1z"/></svg>
-    </div>
-    <div class="entry-info">
-      <div class="entry-title">Sell Airtime</div>
-      <div class="entry-desc">1,500 ETB &middot; Ref #TX885423</div>
-    </div>
-    <div class="entry-right">
-      <div class="entry-points">+15.00 <span>PTS</span></div>
-      <div class="entry-time">11:40 AM</div>
-    </div>
-  </div>
-
-  <div class="entry">
-    <div class="entry-icon ei-blue">
-      <svg viewBox="0 0 24 24" fill="#1a73e8"><path d="M20.2 12.1c-.5-.5-1.3-.5-1.8 0l-3 2.7c-.4.4-.9.6-1.4.6H10c-.4 0-.7-.3-.7-.7s.3-.7.7-.7h3c.7 0 1.3-.6 1.3-1.3s-.6-1.3-1.3-1.3h-2.6c-.9 0-1.7.3-2.4.9l-1.8 1.5H3.5c-.6 0-1 .4-1 1v3.4c0 .6.4 1 1 1h9.6c.9 0 1.8-.3 2.5-.9l4.6-3.9c.6-.5.6-1.4 0-1.9z"/><circle cx="12.9" cy="6.9" r="3.4"/></svg>
-    </div>
-    <div class="entry-info">
-      <div class="entry-title">Received Payment</div>
-      <div class="entry-desc">900 ETB &middot; Ref #TX885410</div>
-    </div>
-    <div class="entry-right">
-      <div class="entry-points">+5.00 <span>PTS</span></div>
-      <div class="entry-time">9:50 AM</div>
+      <div class="empty-state" id="empty-order">No orders found</div>
     </div>
   </div>
 
@@ -524,30 +845,77 @@
 <div class="filter-overlay" id="filterOverlay" onclick="closeFilter()"></div>
 <div class="filter-sheet" id="filterSheet" role="dialog" aria-label="Filter history">
   <div class="sheet-handle"></div>
-  <div class="sheet-title">FILTER HISTORY</div>
+  <div class="sheet-title" id="sheetTitle">FILTER HISTORY</div>
 
-  <div class="sheet-group">
-    <div class="sheet-group-title">TIME</div>
-    <div class="sheet-chips" id="timeGroup">
-      <button type="button" class="filter-chip active" data-time="all" onclick="setTime('all')">ALL</button>
-      <button type="button" class="filter-chip" data-time="today" onclick="setTime('today')">TODAY</button>
-      <button type="button" class="filter-chip" data-time="week" onclick="setTime('week')">THIS WEEK</button>
-      <button type="button" class="filter-chip" data-time="month" onclick="setTime('month')">THIS MONTH</button>
+  <!-- Filter fields for Accumulation -->
+  <div class="filter-pane-fields" id="fields-accumulation">
+    <div class="sheet-group">
+      <div class="sheet-group-title">TIME</div>
+      <div class="sheet-chips" id="timeChips-accumulation">
+        <button type="button" class="filter-chip active" data-val="all" onclick="setTime('accumulation', 'all')">ALL</button>
+        <button type="button" class="filter-chip" data-val="today" onclick="setTime('accumulation', 'today')">TODAY</button>
+        <button type="button" class="filter-chip" data-val="week" onclick="setTime('accumulation', 'week')">THIS WEEK</button>
+        <button type="button" class="filter-chip" data-val="month" onclick="setTime('accumulation', 'month')">THIS MONTH</button>
+      </div>
+    </div>
+
+    <div class="sheet-group">
+      <div class="sheet-group-title">TYPE</div>
+      <div class="sheet-chips" id="typeChips-accumulation">
+        <button type="button" class="filter-chip active" data-val="all" onclick="setType('accumulation', 'all')">ALL</button>
+        <button type="button" class="filter-chip" data-val="airtime" onclick="setType('accumulation', 'airtime')">AIRTIME</button>
+        <button type="button" class="filter-chip" data-val="payment" onclick="setType('accumulation', 'payment')">PAYMENT</button>
+        <button type="button" class="filter-chip" data-val="package" onclick="setType('accumulation', 'package')">PACKAGE</button>
+      </div>
     </div>
   </div>
 
-  <div class="sheet-group">
-    <div class="sheet-group-title">TYPE</div>
-    <div class="sheet-chips" id="typeGroup">
-      <button type="button" class="filter-chip active" data-type="all" onclick="setType('all')">ALL</button>
-      <button type="button" class="filter-chip" data-type="airtime" onclick="setType('airtime')">AIRTIME</button>
-      <button type="button" class="filter-chip" data-type="payment" onclick="setType('payment')">PAYMENT</button>
-      <button type="button" class="filter-chip" data-type="package" onclick="setType('package')">PACKAGE</button>
+  <!-- Filter fields for Redemption -->
+  <div class="filter-pane-fields" id="fields-redemption" style="display:none">
+    <div class="sheet-group">
+      <div class="sheet-group-title">TIME</div>
+      <div class="sheet-chips" id="timeChips-redemption">
+        <button type="button" class="filter-chip active" data-val="all" onclick="setTime('redemption', 'all')">ALL</button>
+        <button type="button" class="filter-chip" data-val="today" onclick="setTime('redemption', 'today')">TODAY</button>
+        <button type="button" class="filter-chip" data-val="week" onclick="setTime('redemption', 'week')">THIS WEEK</button>
+        <button type="button" class="filter-chip" data-val="month" onclick="setTime('redemption', 'month')">THIS MONTH</button>
+      </div>
+    </div>
+
+    <div class="sheet-group">
+      <div class="sheet-group-title">TYPE</div>
+      <div class="sheet-chips" id="typeChips-redemption">
+        <button type="button" class="filter-chip active" data-val="all" onclick="setType('redemption', 'all')">ALL</button>
+        <button type="button" class="filter-chip" data-val="float" onclick="setType('redemption', 'float')">FLOAT</button>
+        <button type="button" class="filter-chip" data-val="reward" onclick="setType('redemption', 'reward')">REWARD</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter fields for Order -->
+  <div class="filter-pane-fields" id="fields-order" style="display:none">
+    <div class="sheet-group">
+      <div class="sheet-group-title">STATUS</div>
+      <div class="sheet-chips" id="statusChips-order">
+        <button type="button" class="filter-chip active" data-val="all" onclick="setStatus('order', 'all')">ALL</button>
+        <button type="button" class="filter-chip" data-val="in transit" onclick="setStatus('order', 'in transit')">IN TRANSIT</button>
+        <button type="button" class="filter-chip" data-val="delivered" onclick="setStatus('order', 'delivered')">DELIVERED</button>
+        <button type="button" class="filter-chip" data-val="processing" onclick="setStatus('order', 'processing')">PROCESSING</button>
+      </div>
+    </div>
+
+    <div class="sheet-group">
+      <div class="sheet-group-title">TIME</div>
+      <div class="sheet-chips" id="timeChips-order">
+        <button type="button" class="filter-chip active" data-val="all" onclick="setTime('order', 'all')">ALL</button>
+        <button type="button" class="filter-chip" data-val="month" onclick="setTime('order', 'month')">THIS MONTH</button>
+        <button type="button" class="filter-chip" data-val="older" onclick="setTime('order', 'older')">OLDER</button>
+      </div>
     </div>
   </div>
 
   <div class="sheet-actions">
-    <button type="button" class="sheet-btn reset" onclick="resetFilters()">RESET</button>
+    <button type="button" class="sheet-btn reset" onclick="resetActiveFilters()">RESET</button>
     <button type="button" class="sheet-btn done" onclick="closeFilter()">DONE</button>
   </div>
 </div>
@@ -581,58 +949,154 @@
 <div class="gesture-bar"></div>
 
 <script>
-  var expanded = false;
-  var timeSel = 'all';
-  var typeSel = 'all';
+  var currentTab = 'accumulation';
 
-  function setActive(groupId, attr, val) {
-    var chips = document.getElementById(groupId).querySelectorAll('.filter-chip');
+  // Filters state
+  var state = {
+    accumulation: { time: 'all', type: 'all', expanded: false },
+    redemption: { time: 'all', type: 'all', expanded: false },
+    order: { time: 'all', status: 'all', expanded: false }
+  };
+
+  function selectTab(tab, pushState = true) {
+    currentTab = tab;
+
+    // Update pill buttons
+    var tabs = ['accumulation', 'redemption', 'order'];
+    tabs.forEach(function(t) {
+      var btn = document.getElementById('tabBtn-' + t);
+      var pane = document.getElementById('pane-' + t);
+      var fields = document.getElementById('fields-' + t);
+      var isActive = (t === tab);
+
+      if (btn) {
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      }
+      if (pane) {
+        pane.classList.toggle('active', isActive);
+      }
+      if (fields) {
+        fields.style.display = isActive ? 'block' : 'none';
+      }
+    });
+
+    var sheetTitle = document.getElementById('sheetTitle');
+    if (sheetTitle) {
+      if (tab === 'accumulation') sheetTitle.textContent = 'FILTER ACCUMULATION';
+      else if (tab === 'redemption') sheetTitle.textContent = 'FILTER REDEMPTION';
+      else if (tab === 'order') sheetTitle.textContent = 'FILTER ORDERS';
+    }
+
+    if (pushState && window.history && window.history.replaceState) {
+      var url = new URL(window.location);
+      url.searchParams.set('tab', tab);
+      window.history.replaceState({}, '', url);
+    }
+
+    applyFilters(tab);
+  }
+
+  function setActiveChip(containerId, val) {
+    var cont = document.getElementById(containerId);
+    if (!cont) return;
+    var chips = cont.querySelectorAll('.filter-chip');
     for (var i = 0; i < chips.length; i++) {
-      chips[i].className = (chips[i].getAttribute(attr) === val) ? 'filter-chip active' : 'filter-chip';
+      chips[i].classList.toggle('active', chips[i].getAttribute('data-val') === val);
     }
   }
-  function setTime(v) { timeSel = v; setActive('timeGroup', 'data-time', v); updateFilterIcon(); applyFilters(); }
-  function setType(v) { typeSel = v; setActive('typeGroup', 'data-type', v); updateFilterIcon(); applyFilters(); }
+
+  function setTime(tab, val) {
+    state[tab].time = val;
+    setActiveChip('timeChips-' + tab, val);
+    updateFilterIcon(tab);
+    applyFilters(tab);
+  }
+
+  function setType(tab, val) {
+    state[tab].type = val;
+    setActiveChip('typeChips-' + tab, val);
+    updateFilterIcon(tab);
+    applyFilters(tab);
+  }
+
+  function setStatus(tab, val) {
+    state[tab].status = val;
+    setActiveChip('statusChips-' + tab, val);
+    updateFilterIcon(tab);
+    applyFilters(tab);
+  }
+
+  function updateFilterIcon(tab) {
+    var btn = document.getElementById('filterBtn-' + tab);
+    if (!btn) return;
+    var s = state[tab];
+    var isFiltered = false;
+    if (tab === 'order') {
+      isFiltered = (s.time !== 'all' || s.status !== 'all');
+    } else {
+      isFiltered = (s.time !== 'all' || s.type !== 'all');
+    }
+    btn.classList.toggle('active', isFiltered);
+  }
+
+  function resetActiveFilters() {
+    var tab = currentTab;
+    state[tab].time = 'all';
+    if (tab === 'order') {
+      state[tab].status = 'all';
+      setActiveChip('statusChips-order', 'all');
+    } else {
+      state[tab].type = 'all';
+      setActiveChip('typeChips-' + tab, 'all');
+    }
+    setActiveChip('timeChips-' + tab, 'all');
+    updateFilterIcon(tab);
+    applyFilters(tab);
+  }
+
   function toggleFilter() {
     var sheet = document.getElementById('filterSheet');
     var overlay = document.getElementById('filterOverlay');
     var open = !sheet.classList.contains('show');
-    if (open) { sheet.classList.add('show'); overlay.classList.add('show'); }
-    else { sheet.classList.remove('show'); overlay.classList.remove('show'); }
+    if (open) openFilter();
+    else closeFilter();
   }
+
+  function openFilter() {
+    document.getElementById('filterSheet').classList.add('show');
+    document.getElementById('filterOverlay').classList.add('show');
+  }
+
   function closeFilter() {
     document.getElementById('filterSheet').classList.remove('show');
     document.getElementById('filterOverlay').classList.remove('show');
   }
-  function resetFilters() {
-    timeSel = 'all'; typeSel = 'all';
-    setActive('timeGroup', 'data-time', 'all');
-    setActive('typeGroup', 'data-type', 'all');
-    updateFilterIcon();
-    applyFilters();
+
+  function toggleSeeAll(tab) {
+    state[tab].expanded = !state[tab].expanded;
+    var btn = document.getElementById('seeAllBtn-' + tab);
+    if (btn) {
+      btn.textContent = state[tab].expanded ? 'SHOW LESS' : 'SEE ALL';
+    }
+    applyFilters(tab);
   }
-  function updateFilterIcon() {
-    var btn = document.getElementById('filterBtn');
-    if (timeSel !== 'all' || typeSel !== 'all') btn.classList.add('active');
-    else btn.classList.remove('active');
-  }
-  function toggleSeeAll() {
-    expanded = !expanded;
-    document.getElementById('seeAllBtn').textContent = expanded ? 'SHOW LESS' : 'SEE ALL';
-    applyFilters();
-  }
+
+  // --- Filtering Logic for Accumulation & Redemption ---
   function groupOf(entry) {
     var s = entry.previousElementSibling;
     while (s && !s.classList.contains('day-group')) s = s.previousElementSibling;
     return s ? s.textContent.trim().toUpperCase() : '';
   }
+
   function whenOf(entry) {
     var g = groupOf(entry);
     if (g === 'TODAY') return 'today';
     if (g === 'YESTERDAY') return 'yesterday';
     return 'older';
   }
-  function typeOf(entry) {
+
+  function typeOfAccumulation(entry) {
     var el = entry.querySelector('.entry-title');
     var t = (el ? el.textContent : '').toUpperCase();
     if (t.indexOf('AIRTIME') > -1) return 'airtime';
@@ -640,31 +1104,95 @@
     if (t.indexOf('PACKAGE') > -1) return 'package';
     return 'other';
   }
-  function entryMatches(e) {
-    var w = whenOf(e);
-    if (!expanded && w === 'older') return false;
-    if (timeSel === 'today' && w !== 'today') return false;
-    if (timeSel === 'week' && w === 'older') return false;
-    if (typeSel !== 'all' && typeOf(e) !== typeSel) return false;
-    return true;
+
+  function typeOfRedemption(entry) {
+    var el = entry.querySelector('.entry-title');
+    var t = (el ? el.textContent : '').toUpperCase();
+    if (t.indexOf('FLOAT') > -1 || t.indexOf('TOP-UP') > -1) return 'float';
+    return 'reward';
   }
-  function applyFilters() {
-    var entries = document.querySelectorAll('.entry');
-    var groups = document.querySelectorAll('.day-group');
-    for (var i = 0; i < entries.length; i++) {
-      entries[i].style.display = entryMatches(entries[i]) ? '' : 'none';
+
+  function applyFilters(tab) {
+    if (tab === 'order') {
+      applyOrderFilters();
+      return;
     }
+
+    var pane = document.getElementById('pane-' + tab);
+    if (!pane) return;
+    var s = state[tab];
+    var entries = pane.querySelectorAll('.entry');
+    var groups = pane.querySelectorAll('.day-group');
+    var typeFn = (tab === 'accumulation') ? typeOfAccumulation : typeOfRedemption;
+
+    var visibleCount = 0;
+
+    for (var i = 0; i < entries.length; i++) {
+      var e = entries[i];
+      var w = whenOf(e);
+      var match = true;
+
+      if (!s.expanded && w === 'older') match = false;
+      if (s.time === 'today' && w !== 'today') match = false;
+      if (s.time === 'week' && w === 'older') match = false;
+      if (s.type !== 'all' && typeFn(e) !== s.type) match = false;
+
+      e.style.display = match ? '' : 'none';
+      if (match) visibleCount++;
+    }
+
     for (var g = 0; g < groups.length; g++) {
       var sib = groups[g].nextElementSibling;
-      var show = false;
+      var showGroup = false;
       while (sib && !sib.classList.contains('day-group')) {
-        if (sib.classList.contains('entry') && sib.style.display !== 'none') { show = true; break; }
+        if (sib.classList.contains('entry') && sib.style.display !== 'none') {
+          showGroup = true;
+          break;
+        }
         sib = sib.nextElementSibling;
       }
-      groups[g].style.display = show ? '' : 'none';
+      groups[g].style.display = showGroup ? '' : 'none';
     }
+
+    var empty = document.getElementById('empty-' + tab);
+    if (empty) empty.style.display = (visibleCount === 0) ? 'block' : 'none';
   }
-  applyFilters();
+
+  function applyOrderFilters() {
+    var pane = document.getElementById('pane-order');
+    if (!pane) return;
+    var s = state.order;
+    var cards = pane.querySelectorAll('.order-card');
+    var visibleCount = 0;
+
+    for (var i = 0; i < cards.length; i++) {
+      var c = cards[i];
+      var st = c.getAttribute('data-status');
+      var tm = c.getAttribute('data-time');
+      var match = true;
+
+      if (!s.expanded && tm === 'older') match = false;
+      if (s.status !== 'all' && st !== s.status) match = false;
+      if (s.time !== 'all' && tm !== s.time) match = false;
+
+      c.style.display = match ? '' : 'none';
+      if (match) visibleCount++;
+    }
+
+    var empty = document.getElementById('empty-order');
+    if (empty) empty.style.display = (visibleCount === 0) ? 'block' : 'none';
+  }
+
+  // Initialize from URL or default
+  (function init() {
+    var params = new URLSearchParams(window.location.search);
+    var tabParam = params.get('tab') || window.location.hash.replace('#', '');
+    if (['accumulation', 'redemption', 'order'].indexOf(tabParam) > -1) {
+      selectTab(tabParam, false);
+    } else {
+      selectTab('accumulation', false);
+    }
+  })();
 </script>
 
 </body>

@@ -76,54 +76,216 @@
     text-transform: uppercase;
   }
 
-  /* Float Value Card */
-  .float-card {
-    background: linear-gradient(135deg, #34b86b 0%, #22a05a 45%, #0f7c3e 100%);
-    border-radius: 12px;
+  /* Top Points Card */
+  .top-card {
+    position: relative;
     display: flex;
     align-items: center;
-    padding: 20px 24px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 12px rgba(15, 124, 62, 0.3);
+    background: linear-gradient(135deg, #34b86b 0%, #22a05a 45%, #0f7c3e 100%);
+    border-radius: 16px;
+    padding: 14px 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(15, 124, 62, 0.25);
   }
 
-  .float-left {
-    flex: 1;
+  .top-card::before {
+    content: '';
+    position: absolute;
+    top: -46px;
+    left: -30px;
+    width: 240px;
+    height: 160px;
+    background: linear-gradient(120deg, rgba(255,255,255,0.14), rgba(255,255,255,0) 70%);
+    transform: rotate(-8deg);
+    pointer-events: none;
   }
 
-  .float-label {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.85);
-    font-weight: 400;
-    margin-bottom: 4px;
+  .tc-left {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .tc-coin { width: 36px; height: 36px; flex-shrink: 0; }
+
+  .tc-label {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.2;
     font-family: 'Switzer', 'Inter', sans-serif;
   }
 
-  .float-value {
-    font-size: 22px;
-    font-weight: 700;
+  .tc-value {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    margin-top: 2px;
+  }
+
+  .tc-value b {
+    font-size: 24px;
+    font-weight: 800;
     color: #fff;
+    letter-spacing: -0.5px;
+    line-height: 1.05;
     font-family: 'Switzer', 'Inter', sans-serif;
   }
 
-  .float-divider {
+  .tc-value span {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    font-family: 'Switzer', 'Inter', sans-serif;
+  }
+
+  .tc-more {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 4px;
+    cursor: pointer;
+  }
+
+  .tc-more span {
+    font-size: 10.5px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    font-family: 'Switzer', 'Inter', sans-serif;
+  }
+
+  .tc-more svg { width: 11px; height: 7px; }
+
+  .tc-divider {
     width: 1px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.3);
-    margin: 0 20px;
+    align-self: stretch;
+    margin: 2px 8px;
+    background: rgba(255,255,255,0.22);
+    flex-shrink: 0;
   }
 
-  .float-right {
+  .tc-right {
+    position: relative;
     flex: 1;
-    text-align: right;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,255,255,0.14);
+    border-radius: 12px;
+    padding: 8px 7px 8px 8px;
+    text-decoration: none;
   }
 
-  .float-right .float-label {
-    text-align: right;
+  .tc-gift {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: rgba(255,255,255,0.20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .float-right .float-value {
-    text-align: right;
+  .tc-gift svg { width: 15px; height: 15px; fill: #fff; }
+
+  .tc-right-text { flex: 1; min-width: 0; }
+
+  .tc-right-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    white-space: nowrap;
+    font-family: 'Switzer', 'Inter', sans-serif;
+  }
+
+  .tc-right-value {
+    font-size: 15.5px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.3px;
+    margin-top: 1px;
+    font-family: 'Switzer', 'Inter', sans-serif;
+  }
+
+  .tc-chev { width: 7px; height: 12px; flex-shrink: 0; }
+
+  /* Points Summary Grid */
+  .points-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .points-cell {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    height: 62px;
+    background: #ffffff;
+    border: 1px solid #ececf0;
+    border-radius: 12px;
+    padding: 0 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .points-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .points-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .pi-green  { background: #dff3e4; }
+  .pi-blue   { background: #dceafc; }
+  .pi-purple { background: #ece0fb; }
+  .pi-amber  { background: #fdeacc; }
+
+  .points-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .points-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: #5b6169;
+    line-height: 1.25;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Switzer', 'Inter', sans-serif;
+  }
+
+  .points-value {
+    font-size: 15px;
+    font-weight: 800;
+    color: #16181d;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+    font-family: 'Switzer', 'Inter', sans-serif;
+  }
+
+  .points-value span {
+    font-size: 10px;
+    font-weight: 700;
+    color: #8a9099;
+    letter-spacing: 0;
+    margin-left: 2px;
   }
 
   /* Action Cards Grid */
@@ -373,16 +535,88 @@
   <!-- Section Title -->
   <div class="section-title">YOUR PRIZES HIGHLIGHT</div>
 
-  <!-- Float Value Card -->
-  <div class="float-card">
-    <div class="float-left">
-      <div class="float-label">Float Value</div>
-      <div class="float-value">10.00 Br</div>
+  <!-- Top Points Card -->
+  <div class="top-card">
+    <div class="tc-left">
+      <svg class="tc-coin" viewBox="0 0 48 48">
+        <defs>
+          <linearGradient id="coinFace" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffdf6b"/>
+            <stop offset="1" stop-color="#efa529"/>
+          </linearGradient>
+        </defs>
+        <g stroke="#f7c53c" stroke-width="2.4" stroke-linecap="round">
+          <path d="M3.6 24h4.2M6.2 14.2l3.6 2.1M6.2 33.8l3.6-2.1M13.4 7l2.1 3.6M13.4 41l2.1-3.6"/>
+          <path d="M44.4 24h-4.2M41.8 14.2l-3.6 2.1M41.8 33.8l-3.6-2.1"/>
+        </g>
+        <circle cx="24" cy="24" r="14.6" fill="#e09a1c"/>
+        <circle cx="24" cy="24" r="12.2" fill="url(#coinFace)"/>
+        <path d="m24 15.8 2.6 5.2 5.8.9-4.2 4.1 1 5.7-5.2-2.7-5.2 2.7 1-5.7-4.2-4.1 5.8-.9 2.6-5.2z" fill="#fffbe9"/>
+      </svg>
+      <div>
+        <div class="tc-label">Current Available Points</div>
+        <div class="tc-value"><b>1,750</b><span>PTS</span></div>
+        <div class="tc-more">
+          <span>Keep earning more!</span>
+          <svg viewBox="0 0 11 7" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.2 5.5 5.5 1.4l4.3 4.1"/></svg>
+        </div>
+      </div>
     </div>
-    <div class="float-divider"></div>
-    <div class="float-right">
-      <div class="float-label">Total Loyalty Points</div>
-      <div class="float-value">1,000</div>
+
+    <div class="tc-divider"></div>
+
+    <a class="tc-right" href="12.html">
+      <div class="tc-gift">
+        <svg viewBox="0 0 24 24"><path d="M19.9 7h-2.4a3.1 3.1 0 0 0-4.9-3.6l-.6.6-.6-.6A3.1 3.1 0 0 0 6.5 7H4.1c-.9 0-1.6.7-1.6 1.6v2.7c0 .5.4.9.9.9h7.5V7.9h2.2v4.3h7.5c.5 0 .9-.4.9-.9V8.6c0-.9-.7-1.6-1.6-1.6zM8.7 4.7c.6 0 1.1.5 1.1 1.1V7H8.7a1.15 1.15 0 0 1 0-2.3zm6.6 2.3h-1.1V5.8a1.15 1.15 0 1 1 1.1 1.2z"/><path d="M3.9 13.9v5.9c0 .9.7 1.6 1.6 1.6h5.4v-7.5H3.9zM13.1 21.4h5.4c.9 0 1.6-.7 1.6-1.6v-5.9h-7v7.5z"/></svg>
+      </div>
+      <div class="tc-right-text">
+        <div class="tc-right-label">Current Redeemable</div>
+        <div class="tc-right-value">10.00 Br</div>
+      </div>
+      <svg class="tc-chev" viewBox="0 0 7 12" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m1.3 1.3 4.4 4.7-4.4 4.7"/></svg>
+    </a>
+  </div>
+
+  <!-- Points Summary -->
+  <div class="points-grid">
+    <div class="points-cell">
+      <div class="points-icon pi-green">
+        <svg viewBox="0 0 24 24" fill="#22a55b"><path d="M19.9 7h-2.4a3.1 3.1 0 0 0-4.9-3.6l-.6.6-.6-.6A3.1 3.1 0 0 0 6.5 7H4.1c-.9 0-1.6.7-1.6 1.6v2.7c0 .5.4.9.9.9h7.5V7.9h2.2v4.3h7.5c.5 0 .9-.4.9-.9V8.6c0-.9-.7-1.6-1.6-1.6zM8.7 4.7c.6 0 1.1.5 1.1 1.1V7H8.7a1.15 1.15 0 0 1 0-2.3zm6.6 2.3h-1.1V5.8a1.15 1.15 0 1 1 1.1 1.2z"/><path d="M3.9 13.9v5.9c0 .9.7 1.6 1.6 1.6h5.4v-7.5H3.9zM13.1 21.4h5.4c.9 0 1.6-.7 1.6-1.6v-5.9h-7v7.5z"/></svg>
+      </div>
+      <div class="points-text">
+        <div class="points-label">Total Points Earned</div>
+        <div class="points-value">2,000 <span>PTS</span></div>
+      </div>
+    </div>
+
+    <div class="points-cell">
+      <div class="points-icon pi-blue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2f6fd0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 12a8.4 8.4 0 1 1-2.6-6.1"/><path d="M18.6 3.4v4.7h-4.7"/><circle cx="12" cy="12" r="1.7" fill="#2f6fd0" stroke="none"/></svg>
+      </div>
+      <div class="points-text">
+        <div class="points-label">Total Points Redeemed</div>
+        <div class="points-value">10.00 <span>Br</span></div>
+      </div>
+    </div>
+
+    <div class="points-cell">
+      <div class="points-icon pi-purple">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7b3fe4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6.6" rx="6.6" ry="2.8"/><path d="M5.4 6.6v4.2c0 1.5 3 2.8 6.6 2.8s6.6-1.3 6.6-2.8V6.6"/><path d="M5.4 10.8V15c0 1.6 3 2.8 6.6 2.8s6.6-1.2 6.6-2.8v-4.2"/></svg>
+      </div>
+      <div class="points-text">
+        <div class="points-label">Total Float Converted</div>
+        <div class="points-value">4 <span>PTS</span></div>
+      </div>
+    </div>
+
+    <div class="points-cell">
+      <div class="points-icon pi-amber">
+        <svg viewBox="0 0 24 24" fill="#e8912a"><path d="M7.2 18.4a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM17.2 18.4a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM1.7 2.4a1 1 0 1 0 0 2h1.6l3 12.3c.1.5.5.8 1 .8h11a1 1 0 1 0 0-2H8.1l-.4-1.8h9.9c.5 0 .9-.3 1-.8l1.7-7.3a1 1 0 0 0-1-1.2H5.7l-.6-2.4a1 1 0 0 0-1-.6H1.7z"/></svg>
+      </div>
+      <div class="points-text">
+        <div class="points-label">Total Redeemed Orders</div>
+        <div class="points-value">1 <span>ORDER</span></div>
+      </div>
     </div>
   </div>
 
@@ -400,28 +634,16 @@
         <svg viewBox="0 0 24 24"><path d="M7.6 3.3 3.2 7.7l4.4 4.4 1.6-1.6-1.7-1.7h9.2V6.6H7.5l1.7-1.7z"/><path d="m16.4 20.7 4.4-4.4-4.4-4.4-1.6 1.6 1.7 1.7H7.3v2.2h9.2l-1.7 1.7z"/></svg>
       </div>
     </div>
-    <div class="action-card" onclick="window.location.href='13.html'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='13.html'">
-      <h4>Points<br>Details</h4>
+    <div class="action-card" onclick="window.location.href='14.html'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='14.html'">
+      <h4>How It<br>Works</h4>
       <div class="action-icon-circle">
-        <svg viewBox="0 0 24 24"><path d="m12 2.6 3 6 6.7.9-4.8 4.7 1.1 6.6-6-3.1-6 3.1 1.1-6.6L2.3 9.5l6.7-.9 3-6z"/></svg>
-      </div>
-    </div>
-    <div class="action-card" onclick="window.location.href='22.html'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='22.html'">
-      <h4>Order<br>History</h4>
-      <div class="action-icon-circle">
-        <svg viewBox="0 0 24 24"><path d="M12.6 3a9 9 0 0 0-9 9H.7l3.9 3.9.1.1L8.6 12H5.7a6.9 6.9 0 1 1 2 4.9l-1.4 1.4A8.9 8.9 0 1 0 12.6 3z"/><path d="M11.6 7.7v5.1l4.4 2.6.7-1.2-3.7-2.2V7.7h-1.4z"/></svg>
-      </div>
-    </div>
-    <div class="action-card" onclick="window.location.href='21.html'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='21.html'">
-      <h4>Redemption<br>History</h4>
-      <div class="action-icon-circle">
-        <svg viewBox="0 0 24 24"><path d="M17.3 1.6H6.7c-1.2 0-2.2 1-2.2 2.2v16.4c0 1.2 1 2.2 2.2 2.2h10.6c1.2 0 2.2-1 2.2-2.2V3.8c0-1.2-1-2.2-2.2-2.2zM9 19.7H6.8v-2.2H9v2.2zm0-4H6.8v-2.2H9v2.2zm4.1 4h-2.2v-2.2h2.2v2.2zm0-4h-2.2v-2.2h2.2v2.2zm4.1 4H15v-2.2h2.2v2.2zm0-4H15v-2.2h2.2v2.2zm0-4.4H6.8V4.8h10.4v6.5z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
       </div>
     </div>
     <div class="action-card" onclick="window.location.href='20.html'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='20.html'">
-      <h4>Accumulation<br>History</h4>
+      <h4>History</h4>
       <div class="action-icon-circle">
-        <svg viewBox="0 0 24 24"><path d="M3.4 2.1v19.8l2.4-1.6 2.4 1.6 2.4-1.6 2.4 1.6 2.4-1.6 2.6 1.6V2.1l-2.6 1.6-2.4-1.6-2.4 1.6-2.4-1.6-2.4 1.6L3.4 2.1z"/><path d="m10.6 16.2-2.8-2.8 1.3-1.3 1.5 1.5 4.3-4.3 1.3 1.3-5.6 5.6z" fill="#35c46e"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12.6 3a9 9 0 0 0-9 9H.7l3.9 3.9.1.1L8.6 12H5.7a6.9 6.9 0 1 1 2 4.9l-1.4 1.4A8.9 8.9 0 1 0 12.6 3z"/><path d="M11.6 7.7v5.1l4.4 2.6.7-1.2-3.7-2.2V7.7h-1.4z"/></svg>
       </div>
     </div>
   </div>
