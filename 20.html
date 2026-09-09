@@ -154,6 +154,7 @@
     background:#22a55b;flex-shrink:0;
   }
   .section-title{justify-content:space-between}
+  .section-actions{display:flex;align-items:center;gap:7px;flex-shrink:0}
   .see-all{
     color:#1fa855;
     font-size:11px;font-weight:700;
@@ -163,22 +164,29 @@
   }
   .see-all:active{color:#1c9b52}
 
-  /* ---------- Filter bar ---------- */
-  .filter-bar{
-    display:flex;align-items:center;gap:9px;
-    flex-wrap:wrap;
-    margin:2px 0 6px;
+  .filter-icon-btn{
+    position:relative;
+    width:30px;height:30px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;background:#f2f3f5;border:none;padding:0;
+    border-radius:50%;
+    color:#5b6169;
   }
-  .filter-label{
-    font-size:9.5px;font-weight:700;color:#8a9099;
-    letter-spacing:.4px;flex-shrink:0;
+  .filter-icon-btn.active{color:#1c9b52}
+  .filter-icon-btn.active::after{
+    content:'';
+    position:absolute;top:1px;right:1px;
+    width:6px;height:6px;border-radius:50%;
+    background:#1c9b52;border:1.5px solid #fff;
   }
+
+  /* ---------- Filter sheet ---------- */
   .filter-chip{
-    padding:4.5px 11px;
+    padding:8px 14px;
     border:1px solid #ececf0;
     background:#f2f3f5;
     color:#5b6169;
-    font-size:10.5px;font-weight:600;
+    font-size:12px;font-weight:600;
     letter-spacing:.2px;
     border-radius:20px;
     cursor:pointer;
@@ -190,6 +198,57 @@
     color:#fff;
     box-shadow:0 1px 3px rgba(28,155,82,.25);
   }
+  .filter-overlay{
+    position:fixed;inset:0;
+    background:rgba(15,22,36,.45);
+    z-index:90;
+    opacity:0;pointer-events:none;
+    transition:opacity .2s ease;
+  }
+  .filter-overlay.show{opacity:1;pointer-events:auto}
+
+  .filter-sheet{
+    position:fixed;left:50%;
+    transform:translateX(-50%);
+    bottom:-100%;
+    width:100%;max-width:390px;max-height:76vh;
+    overflow-y:auto;overflow-x:hidden;
+    background:#fff;
+    border-radius:18px 18px 0 0;
+    z-index:91;
+    box-shadow:0 8px 30px rgba(0,0,0,.18);
+    padding:4px 18px 22px;
+    transition:bottom .25s ease;
+  }
+  .filter-sheet.show{bottom:0}
+
+  .sheet-handle{
+    width:36px;height:4px;border-radius:2px;
+    background:#d4d7dd;
+    margin:8px auto 4px;
+  }
+  .sheet-title{
+    text-align:center;
+    font-size:15px;font-weight:800;color:#16181d;
+    letter-spacing:.3px;
+    margin-bottom:6px;
+  }
+  .sheet-group{margin:2px 0 4px}
+  .sheet-group-title{
+    font-size:11px;font-weight:700;color:#8a9099;
+    letter-spacing:.6px;
+    margin-bottom:9px;
+  }
+  .sheet-chips{display:flex;flex-wrap:wrap;gap:9px}
+  .sheet-actions{display:flex;gap:10px;margin-top:16px}
+  .sheet-btn{
+    flex:1;height:44px;border-radius:12px;
+    font-size:13px;font-weight:800;
+    cursor:pointer;
+    font-family:'Switzer','Inter',sans-serif;
+  }
+  .sheet-btn.reset{background:#f2f3f5;border:1px solid #ececf0;color:#5b6169}
+  .sheet-btn.done{background:#1c9b52;border:none;color:#fff}
 
   .day-group{
     margin-top:12px;
@@ -361,23 +420,12 @@
   <!-- History list -->
   <div class="section-title">
     ACCUMULATION HISTORY
-    <a class="see-all" href="javascript:void(0)" id="seeAllBtn" onclick="toggleSeeAll()">SEE ALL</a>
-  </div>
-
-  <div class="filter-bar" id="timeFilters">
-    <span class="filter-label">TIME</span>
-    <button type="button" class="filter-chip active" data-time="all" onclick="setTime('all')">ALL</button>
-    <button type="button" class="filter-chip" data-time="today" onclick="setTime('today')">TODAY</button>
-    <button type="button" class="filter-chip" data-time="week" onclick="setTime('week')">THIS WEEK</button>
-    <button type="button" class="filter-chip" data-time="month" onclick="setTime('month')">THIS MONTH</button>
-  </div>
-
-  <div class="filter-bar" id="typeFilters">
-    <span class="filter-label">TYPE</span>
-    <button type="button" class="filter-chip active" data-type="all" onclick="setType('all')">ALL</button>
-    <button type="button" class="filter-chip" data-type="airtime" onclick="setType('airtime')">AIRTIME</button>
-    <button type="button" class="filter-chip" data-type="payment" onclick="setType('payment')">PAYMENT</button>
-    <button type="button" class="filter-chip" data-type="package" onclick="setType('package')">PACKAGE</button>
+    <div class="section-actions">
+      <button type="button" class="filter-icon-btn" id="filterBtn" onclick="toggleFilter()" aria-label="Filter history">
+        <svg viewBox="0 0 24 24"><path d="M4 4l6 4M20 4l-6 4M10 8l1.5 6M14 8l-1.5 6M12 14v5M9 19h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <a class="see-all" href="javascript:void(0)" id="seeAllBtn" onclick="toggleSeeAll()">SEE ALL</a>
+    </div>
   </div>
 
   <div class="day-group">TODAY</div>
@@ -472,6 +520,38 @@
 
 </div>
 
+<!-- Filter overlay & sheet -->
+<div class="filter-overlay" id="filterOverlay" onclick="closeFilter()"></div>
+<div class="filter-sheet" id="filterSheet" role="dialog" aria-label="Filter history">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">FILTER HISTORY</div>
+
+  <div class="sheet-group">
+    <div class="sheet-group-title">TIME</div>
+    <div class="sheet-chips" id="timeGroup">
+      <button type="button" class="filter-chip active" data-time="all" onclick="setTime('all')">ALL</button>
+      <button type="button" class="filter-chip" data-time="today" onclick="setTime('today')">TODAY</button>
+      <button type="button" class="filter-chip" data-time="week" onclick="setTime('week')">THIS WEEK</button>
+      <button type="button" class="filter-chip" data-time="month" onclick="setTime('month')">THIS MONTH</button>
+    </div>
+  </div>
+
+  <div class="sheet-group">
+    <div class="sheet-group-title">TYPE</div>
+    <div class="sheet-chips" id="typeGroup">
+      <button type="button" class="filter-chip active" data-type="all" onclick="setType('all')">ALL</button>
+      <button type="button" class="filter-chip" data-type="airtime" onclick="setType('airtime')">AIRTIME</button>
+      <button type="button" class="filter-chip" data-type="payment" onclick="setType('payment')">PAYMENT</button>
+      <button type="button" class="filter-chip" data-type="package" onclick="setType('package')">PACKAGE</button>
+    </div>
+  </div>
+
+  <div class="sheet-actions">
+    <button type="button" class="sheet-btn reset" onclick="resetFilters()">RESET</button>
+    <button type="button" class="sheet-btn done" onclick="closeFilter()">DONE</button>
+  </div>
+</div>
+
 <div class="bottom-spacer"></div>
 
 <!-- Bottom Navigation -->
@@ -505,14 +585,37 @@
   var timeSel = 'all';
   var typeSel = 'all';
 
-  function setActive(barId, attr, val) {
-    var chips = document.getElementById(barId).querySelectorAll('.filter-chip');
+  function setActive(groupId, attr, val) {
+    var chips = document.getElementById(groupId).querySelectorAll('.filter-chip');
     for (var i = 0; i < chips.length; i++) {
       chips[i].className = (chips[i].getAttribute(attr) === val) ? 'filter-chip active' : 'filter-chip';
     }
   }
-  function setTime(v) { timeSel = v; setActive('timeFilters', 'data-time', v); applyFilters(); }
-  function setType(v) { typeSel = v; setActive('typeFilters', 'data-type', v); applyFilters(); }
+  function setTime(v) { timeSel = v; setActive('timeGroup', 'data-time', v); updateFilterIcon(); applyFilters(); }
+  function setType(v) { typeSel = v; setActive('typeGroup', 'data-type', v); updateFilterIcon(); applyFilters(); }
+  function toggleFilter() {
+    var sheet = document.getElementById('filterSheet');
+    var overlay = document.getElementById('filterOverlay');
+    var open = !sheet.classList.contains('show');
+    if (open) { sheet.classList.add('show'); overlay.classList.add('show'); }
+    else { sheet.classList.remove('show'); overlay.classList.remove('show'); }
+  }
+  function closeFilter() {
+    document.getElementById('filterSheet').classList.remove('show');
+    document.getElementById('filterOverlay').classList.remove('show');
+  }
+  function resetFilters() {
+    timeSel = 'all'; typeSel = 'all';
+    setActive('timeGroup', 'data-time', 'all');
+    setActive('typeGroup', 'data-type', 'all');
+    updateFilterIcon();
+    applyFilters();
+  }
+  function updateFilterIcon() {
+    var btn = document.getElementById('filterBtn');
+    if (timeSel !== 'all' || typeSel !== 'all') btn.classList.add('active');
+    else btn.classList.remove('active');
+  }
   function toggleSeeAll() {
     expanded = !expanded;
     document.getElementById('seeAllBtn').textContent = expanded ? 'SHOW LESS' : 'SEE ALL';
