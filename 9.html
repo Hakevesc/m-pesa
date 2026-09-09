@@ -257,6 +257,20 @@
 
   .reward-points svg { width: 14px; height: 14px; fill: #c2c6cc; flex-shrink: 0; }
 
+  .reward-status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 3px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.15px;
+    font-family: 'Switzer', 'Inter', sans-serif;
+  }
+
+  .reward-status.rs-ready { color: #1c9b52; }
+  .reward-status.rs-remaining { color: #e8912a; }
+
   .reward-arrow { flex-shrink: 0; display: flex; }
 
   .reward-arrow svg { width: 19px; height: 19px; fill: #22a55b; }
@@ -502,6 +516,34 @@
     var chips = Array.prototype.slice.call(document.querySelectorAll('#chipRow .chip'));
     var cards = Array.prototype.slice.call(document.querySelectorAll('.reward-list .reward-card'));
     var activeCat = 'all';
+
+    function fmt(v) {
+      var s = String(v);
+      var out = '';
+      while (s.length > 3) {
+        out = ',' + s.slice(-3) + out;
+        s = s.slice(0, -3);
+      }
+      return s + out;
+    }
+
+    var have = parseInt((document.querySelector('.points-total').textContent || '0').replace(/[^0-9]/g, ''), 10) || 0;
+
+    cards.forEach(function (card) {
+      var ptsText = (card.querySelector('.reward-points').textContent || '').replace(/[^0-9]/g, '');
+      var needed = parseInt(ptsText, 10) || 0;
+      var remaining = needed - have;
+      var status = document.createElement('div');
+      status.className = 'reward-status';
+      if (remaining <= 0) {
+        status.className += ' rs-ready';
+        status.textContent = 'READY TO REDEEM';
+      } else {
+        status.className += ' rs-remaining';
+        status.textContent = fmt(remaining) + ' more points needed';
+      }
+      card.querySelector('.reward-info').appendChild(status);
+    });
 
     function apply() {
       var term = (input.value || '').trim().toLowerCase();
