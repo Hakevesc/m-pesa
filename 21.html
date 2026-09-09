@@ -153,6 +153,43 @@
     content:'';width:3px;height:13px;border-radius:2px;
     background:#22a55b;flex-shrink:0;
   }
+  .section-title{justify-content:space-between}
+  .see-all{
+    color:#1fa855;
+    font-size:11px;font-weight:700;
+    letter-spacing:0;
+    text-decoration:none;
+    cursor:pointer;
+  }
+  .see-all:active{color:#1c9b52}
+
+  /* ---------- Filter bar ---------- */
+  .filter-bar{
+    display:flex;align-items:center;gap:9px;
+    flex-wrap:wrap;
+    margin:2px 0 6px;
+  }
+  .filter-label{
+    font-size:9.5px;font-weight:700;color:#8a9099;
+    letter-spacing:.4px;flex-shrink:0;
+  }
+  .filter-chip{
+    padding:4.5px 11px;
+    border:1px solid #ececf0;
+    background:#f2f3f5;
+    color:#5b6169;
+    font-size:10.5px;font-weight:600;
+    letter-spacing:.2px;
+    border-radius:20px;
+    cursor:pointer;
+    font-family:'Switzer','Inter',sans-serif;
+  }
+  .filter-chip.active{
+    background:#1c9b52;
+    border-color:#1c9b52;
+    color:#fff;
+    box-shadow:0 1px 3px rgba(28,155,82,.25);
+  }
 
   .day-group{
     margin-top:12px;
@@ -322,7 +359,25 @@
   </div>
 
   <!-- History list -->
-  <div class="section-title">REDEMPTION HISTORY</div>
+  <div class="section-title">
+    REDEMPTION HISTORY
+    <a class="see-all" href="javascript:void(0)" id="seeAllBtn" onclick="toggleSeeAll()">SEE ALL</a>
+  </div>
+
+  <div class="filter-bar" id="timeFilters">
+    <span class="filter-label">TIME</span>
+    <button type="button" class="filter-chip active" data-time="all" onclick="setTime('all')">ALL</button>
+    <button type="button" class="filter-chip" data-time="today" onclick="setTime('today')">TODAY</button>
+    <button type="button" class="filter-chip" data-time="week" onclick="setTime('week')">THIS WEEK</button>
+    <button type="button" class="filter-chip" data-time="month" onclick="setTime('month')">THIS MONTH</button>
+  </div>
+
+  <div class="filter-bar" id="typeFilters">
+    <span class="filter-label">TYPE</span>
+    <button type="button" class="filter-chip active" data-type="all" onclick="setType('all')">ALL</button>
+    <button type="button" class="filter-chip" data-type="float" onclick="setType('float')">FLOAT</button>
+    <button type="button" class="filter-chip" data-type="reward" onclick="setType('reward')">REWARD</button>
+  </div>
 
   <div class="day-group">TODAY</div>
 
@@ -415,6 +470,68 @@
 </div>
 
 <div class="gesture-bar"></div>
+
+<script>
+  var expanded = false;
+  var timeSel = 'all';
+  var typeSel = 'all';
+
+  function setActive(barId, attr, val) {
+    var chips = document.getElementById(barId).querySelectorAll('.filter-chip');
+    for (var i = 0; i < chips.length; i++) {
+      chips[i].className = (chips[i].getAttribute(attr) === val) ? 'filter-chip active' : 'filter-chip';
+    }
+  }
+  function setTime(v) { timeSel = v; setActive('timeFilters', 'data-time', v); applyFilters(); }
+  function setType(v) { typeSel = v; setActive('typeFilters', 'data-type', v); applyFilters(); }
+  function toggleSeeAll() {
+    expanded = !expanded;
+    document.getElementById('seeAllBtn').textContent = expanded ? 'SHOW LESS' : 'SEE ALL';
+    applyFilters();
+  }
+  function groupOf(entry) {
+    var s = entry.previousElementSibling;
+    while (s && !s.classList.contains('day-group')) s = s.previousElementSibling;
+    return s ? s.textContent.trim().toUpperCase() : '';
+  }
+  function whenOf(entry) {
+    var g = groupOf(entry);
+    if (g === 'TODAY') return 'today';
+    if (g === 'YESTERDAY') return 'yesterday';
+    return 'older';
+  }
+  function typeOf(entry) {
+    var el = entry.querySelector('.entry-title');
+    var t = (el ? el.textContent : '').toUpperCase();
+    if (t.indexOf('FLOAT') > -1 || t.indexOf('TOP-UP') > -1) return 'float';
+    return 'reward';
+  }
+  function entryMatches(e) {
+    var w = whenOf(e);
+    if (!expanded && w === 'older') return false;
+    if (timeSel === 'today' && w !== 'today') return false;
+    if (timeSel === 'week' && w === 'older') return false;
+    if (typeSel !== 'all' && typeOf(e) !== typeSel) return false;
+    return true;
+  }
+  function applyFilters() {
+    var entries = document.querySelectorAll('.entry');
+    var groups = document.querySelectorAll('.day-group');
+    for (var i = 0; i < entries.length; i++) {
+      entries[i].style.display = entryMatches(entries[i]) ? '' : 'none';
+    }
+    for (var g = 0; g < groups.length; g++) {
+      var sib = groups[g].nextElementSibling;
+      var show = false;
+      while (sib && !sib.classList.contains('day-group')) {
+        if (sib.classList.contains('entry') && sib.style.display !== 'none') { show = true; break; }
+        sib = sib.nextElementSibling;
+      }
+      groups[g].style.display = show ? '' : 'none';
+    }
+  }
+  applyFilters();
+</script>
 
 </body>
 </html>
