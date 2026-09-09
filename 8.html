@@ -70,19 +70,29 @@
   }
 
   /* Gift box & confetti illustration in hero card */
-  .hero-illustration{
-    position:absolute;right:2px;bottom:-24px;
-    width:145px;height:120px;pointer-events:none;
+  .hero-illustration,
+  .rb-illustration{
+    position:absolute;right:2px;bottom:-28px;
+    width:175px;height:145px;pointer-events:none;
     display:flex;align-items:flex-end;justify-content:center;
   }
-  .hero-confetti-svg{
+  .hero-confetti-svg,
+  .rb-confetti-svg{
     position:absolute;inset:0;width:100%;height:100%;
-    pointer-events:none;
+    pointer-events:none;z-index:1;
+    mix-blend-mode:overlay;
   }
-  .hero-gift-img{
-    position:relative;width:110px;height:110px;object-fit:contain;
-    filter:drop-shadow(0 4px 14px rgba(0,0,0,.24));
+  .hero-gift-img,
+  .rb-gift-img{
+    position:relative;width:138px;height:138px;object-fit:contain;
+    filter:drop-shadow(0 4px 16px rgba(0,0,0,.24));
+    z-index:2;
+    mix-blend-mode:soft-light;
     animation:giftFloat 3.2s ease-in-out infinite alternate;
+  }
+  @keyframes giftFloat{
+    0%{transform:translateY(0) rotate(0deg)}
+    100%{transform:translateY(-3.5px) rotate(1.5deg)}
   }
 
   .hero-label{
@@ -182,25 +192,7 @@
     transform:rotate(-10deg);pointer-events:none;
   }
 
-  /* Gift box & confetti illustration on right side of banner */
-  .rb-illustration{
-    position:absolute;right:0;bottom:-34px;
-    width:170px;height:145px;pointer-events:none;
-    display:flex;align-items:flex-end;justify-content:center;
-  }
-  .rb-confetti-svg{
-    position:absolute;inset:0;width:100%;height:100%;
-    pointer-events:none;
-  }
-  .rb-gift-img{
-    position:relative;width:130px;height:130px;object-fit:contain;
-    filter:drop-shadow(0 4px 16px rgba(0,0,0,.26));
-    animation:giftFloat 3.2s ease-in-out infinite alternate;
-  }
-  @keyframes giftFloat{
-    0%{transform:translateY(0) rotate(0deg)}
-    100%{transform:translateY(-4px) rotate(1.5deg)}
-  }
+
 
   /* White card on banner (vertical style like How It Works) */
   .rb-card{
@@ -332,38 +324,31 @@
 
   <!-- Hero Points Card -->
   <div class="hero-card">
-    <!-- Decorative dots -->
-    <div class="hero-dot hd1"></div>
-    <div class="hero-dot hd2"></div>
-    <div class="hero-dot hd3"></div>
-    <div class="hero-dot hd4"></div>
-
-    <!-- Gift box SVG decoration -->
-    <svg class="hero-gift-deco" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Box base -->
-      <rect x="18" y="54" width="84" height="54" rx="8" fill="rgba(255,255,255,0.18)"/>
-      <!-- Box lid -->
-      <rect x="12" y="42" width="96" height="16" rx="6" fill="rgba(255,255,255,0.28)"/>
-      <!-- Ribbon vertical on box -->
-      <rect x="54" y="54" width="12" height="54" rx="3" fill="rgba(255,255,255,0.25)"/>
-      <!-- Ribbon horizontal on lid -->
-      <rect x="12" y="46" width="96" height="8" rx="3" fill="rgba(255,255,255,0.22)"/>
-      <!-- Left bow loop -->
-      <ellipse cx="48" cy="36" rx="16" ry="10" fill="rgba(255,255,255,0.30)" transform="rotate(-20 48 36)"/>
-      <!-- Right bow loop -->
-      <ellipse cx="72" cy="36" rx="16" ry="10" fill="rgba(255,255,255,0.30)" transform="rotate(20 72 36)"/>
-      <!-- Bow center knot -->
-      <circle cx="60" cy="42" r="6" fill="rgba(255,255,255,0.40)"/>
-      <!-- Top ribbon tie -->
-      <rect x="57" y="12" width="6" height="30" rx="3" fill="rgba(255,255,255,0.28)"/>
-    </svg>
-
-    <div class="hero-label">Current Available Points</div>
-    <div class="hero-pts"><b>1,750</b><span>PTS</span></div>
-    <div class="hero-keep">
-      <span>Keep earning more!</span>
-      <svg viewBox="0 0 11 7" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.2 5.5 5.5 1.4l4.3 4.1"/></svg>
+    <!-- Gift box & confetti illustration -->
+    <div class="hero-illustration">
+      <svg class="hero-confetti-svg" viewBox="0 0 175 145" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Top-left pill \ -->
+        <rect x="28" y="16" width="6.5" height="18" rx="3.25" fill="#ffffff" opacity="0.9" transform="rotate(-38 28 16)"/>
+        <!-- Mid-left pill / -->
+        <rect x="12" y="42" width="6.5" height="17" rx="3.25" fill="#ffffff" opacity="0.85" transform="rotate(-65 12 42)"/>
+        <!-- Upper-left diamond ◆ -->
+        <rect x="16" y="68" width="9" height="9" rx="1.8" fill="#ffe359" opacity="0.95" transform="rotate(45 16 68)"/>
+        <!-- Top-center vertical pill | -->
+        <rect x="80" y="2" width="6.5" height="18" rx="3.25" fill="#ffffff" opacity="0.9" transform="rotate(6 80 2)"/>
+        <!-- Top-right yellow sparkle star ✦ -->
+        <path d="M136 12 C136 18 139 21 145 21 C139 21 136 24 136 30 C136 24 133 21 127 21 C133 21 136 18 136 12 Z" fill="#ffe359" opacity="0.95"/>
+        <!-- Secondary white sparkle star ✦ -->
+        <path d="M158 6 C158 10 160 12 164 12 C160 12 158 14 158 18 C158 14 156 12 152 12 C156 12 158 10 158 6 Z" fill="#ffffff" opacity="0.9"/>
+        <!-- Far-right pill / -->
+        <rect x="160" y="38" width="6.5" height="17" rx="3.25" fill="#ffffff" opacity="0.85" transform="rotate(42 160 38)"/>
+        <!-- Upper-right diamond ◆ -->
+        <rect x="154" y="66" width="8.5" height="8.5" rx="1.5" fill="#ffe359" opacity="0.85" transform="rotate(25 154 66)"/>
+      </svg>
+      <img class="hero-gift-img" src="assets/gift-box.png" alt="Points Gift">
     </div>
+
+    <div class="hero-label">CURRENT POINTS</div>
+    <div class="hero-pts"><b>1,750</b><span>PTS</span></div>
 
     <!-- Redeemable pill -->
     <a class="hero-pill" href="12.html">
@@ -427,23 +412,23 @@
   <div class="rewards-banner" onclick="window.location.href='9.html'">
     <!-- Gift box & confetti illustration -->
     <div class="rb-illustration">
-      <svg class="rb-confetti-svg" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class="rb-confetti-svg" viewBox="0 0 175 145" fill="none" xmlns="http://www.w3.org/2000/svg">
         <!-- Top-left pill \ -->
-        <rect x="22" y="16" width="6" height="17" rx="3" fill="#8ef5ad" opacity="0.9" transform="rotate(-35 22 16)"/>
+        <rect x="28" y="16" width="6.5" height="18" rx="3.25" fill="#ffffff" opacity="0.9" transform="rotate(-38 28 16)"/>
         <!-- Mid-left pill / -->
-        <rect x="12" y="46" width="6" height="16" rx="3" fill="#8ef5ad" opacity="0.85" transform="rotate(-65 12 46)"/>
-        <!-- Lower-left yellow diamond ◆ -->
-        <rect x="18" y="76" width="9" height="9" rx="2" fill="#ffe359" opacity="0.95" transform="rotate(45 18 76)"/>
+        <rect x="12" y="42" width="6.5" height="17" rx="3.25" fill="#ffffff" opacity="0.85" transform="rotate(-65 12 42)"/>
+        <!-- Upper-left diamond ◆ -->
+        <rect x="16" y="68" width="9" height="9" rx="1.8" fill="#ffe359" opacity="0.95" transform="rotate(45 16 68)"/>
         <!-- Top-center vertical pill | -->
-        <rect x="66" y="4" width="6" height="16" rx="3" fill="#8ef5ad" opacity="0.9" transform="rotate(8 66 4)"/>
+        <rect x="80" y="2" width="6.5" height="18" rx="3.25" fill="#ffffff" opacity="0.9" transform="rotate(6 80 2)"/>
         <!-- Top-right yellow sparkle star ✦ -->
-        <path d="M120 12 C120 17 122.5 19.5 128 19.5 C122.5 19.5 120 22 120 27 C120 22 117.5 19.5 112 19.5 C117.5 19.5 120 17 120 12 Z" fill="#ffe359" opacity="0.95"/>
+        <path d="M136 12 C136 18 139 21 145 21 C139 21 136 24 136 30 C136 24 133 21 127 21 C133 21 136 18 136 12 Z" fill="#ffe359" opacity="0.95"/>
         <!-- Secondary white sparkle star ✦ -->
-        <path d="M140 6 C140 9.5 141.5 11 145 11 C141.5 11 140 12.5 140 16 C140 12.5 138.5 11 135 11 C138.5 11 140 9.5 140 6 Z" fill="#ffffff" opacity="0.9"/>
+        <path d="M158 6 C158 10 160 12 164 12 C160 12 158 14 158 18 C158 14 156 12 152 12 C156 12 158 10 158 6 Z" fill="#ffffff" opacity="0.9"/>
         <!-- Far-right pill / -->
-        <rect x="144" y="38" width="6" height="16" rx="3" fill="#8ef5ad" opacity="0.85" transform="rotate(42 144 38)"/>
-        <!-- Lower-right mint diamond ◆ -->
-        <rect x="138" y="68" width="8" height="8" rx="1.5" fill="#8ef5ad" opacity="0.8" transform="rotate(25 138 68)"/>
+        <rect x="160" y="38" width="6.5" height="17" rx="3.25" fill="#ffffff" opacity="0.85" transform="rotate(42 160 38)"/>
+        <!-- Upper-right diamond ◆ -->
+        <rect x="154" y="66" width="8.5" height="8.5" rx="1.5" fill="#ffe359" opacity="0.85" transform="rotate(25 154 66)"/>
       </svg>
       <img class="rb-gift-img" src="assets/gift-box.png" alt="Rewards Gift">
     </div>
