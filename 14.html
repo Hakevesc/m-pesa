@@ -17,50 +17,61 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-  body {
+  html{
+    background:linear-gradient(45deg,#1c9b52 0%,#c41e2a 58%,#e8343e 100%);
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  body{
     font-family: 'Switzer', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #f5f5f7;
+    background:#fff;
     max-width: 390px;
-    margin: 0 auto;
-    min-height: 100vh;
-    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    /* real phone screen: 390 x 844, scrolls inside the frame */
+    width:390px;max-width:100%;
+    height:844px;max-height:100vh;
+    margin:0 auto;
+    overflow:hidden;
+    position:relative;
+    /* contains position:fixed children inside the phone */
+    transform:translateZ(0);
+    box-shadow:0 18px 50px rgba(0,0,0,.32);
   }
 
   /* ---------- Header ---------- */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px 12px;
-    background: #fff;
-    position: sticky;
-    top: 0;
-    z-index: 50;
+  /* ---------- Header ---------- */
+  .header{
+    display:grid;grid-template-columns:auto 1fr auto;align-items:center;
+    background:#fff;position:sticky;top:0;z-index:50;
+    padding:10px 16px 34px;
   }
-
-  .back-btn {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background: none;
-    border: none;
+  .back-btn{
+    grid-column:1;grid-row:1;
+    width:28px;height:28px;margin-left:-4px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;background:none;border:none;padding:0;
   }
-
-  .back-btn svg { width: 24px; height: 24px; fill: #1a1a1a; }
-
-  .header-title {
-    font-size: 18px;
-    font-weight: 800;
-    color: #1a1a1a;
-    letter-spacing: 0.4px;
-    white-space: nowrap;
+  .back-btn svg{width:20px;height:20px;fill:#1a1a1a}
+  .info-btn{
+    grid-column:3;grid-row:1;
+    width:28px;height:28px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;background:none;border:none;padding:0;
   }
+  .info-btn svg{width:20px;height:20px;fill:#1a1a1a}
+  .header-title{
+    grid-column:1/-1;grid-row:2;
+    text-align:center;margin-top:11px;line-height:1.15;
+    font-size:22px;font-weight:500;color:#000;
+    letter-spacing:.5px;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;
+  }
+  .header-spacer{display:none}
 
-  .header-spacer { width: 36px; flex-shrink: 0; }
+
+
+
 
   /* ---------- Layout ---------- */
   .content { padding: 14px 16px 0; }
@@ -71,21 +82,12 @@
     display: flex;
     align-items: center;
     gap: 7px;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 800;
     color: #16181d;
     letter-spacing: 0.7px;
     margin-bottom: 9px;
     padding-left: 2px;
-  }
-
-  .section-title::before {
-    content: '';
-    width: 3px;
-    height: 13px;
-    border-radius: 2px;
-    background: #22a55b;
-    flex-shrink: 0;
   }
 
   .card {
@@ -169,8 +171,8 @@
     display: flex;
     align-items: center;
     gap: 11px;
-    background: #eef8f2;
-    border: 1px solid #d8ede1;
+    background: #fdeef0;
+    border: 1px solid #f7d6da;
     border-radius: 12px;
     padding: 12px;
     margin-bottom: 10px;
@@ -179,7 +181,7 @@
   .rule-icon {
     width: 34px; height: 34px;
     border-radius: 10px;
-    background: #22a55b;
+    background: #e8343e;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
@@ -216,12 +218,12 @@
   .row-icon {
     width: 30px; height: 30px;
     border-radius: 9px;
-    background: #eaf6ef;
+    background: #fce7e9;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
 
-  .row-icon svg { width: 15px; height: 15px; fill: #22a55b; }
+  .row-icon svg { width: 15px; height: 15px; fill: #e8343e; }
 
   .row-main { flex: 1; min-width: 0; }
 
@@ -308,74 +310,182 @@
   .mini-table td:last-child { font-weight: 800; color: #16181d; }
 
   /* ---------- Reward catalogue ---------- */
-  .cat-head {
+  [hidden] { display: none !important; }
+
+  .rw-filters {
+    display: flex;
+    gap: 9px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 3px 2px 5px;
+    margin: 0 -2px 16px;
+  }
+
+  .rw-filters::-webkit-scrollbar { display: none; }
+
+  .rw-chip {
+    flex-shrink: 0;
+    height: 33px;
+    padding: 0 17px;
     display: flex;
     align-items: center;
-    padding: 10px 14px;
-    background: #fafafb;
-    border-bottom: 1px solid #ececf0;
-  }
-
-  .cat-head span {
-    font-size: 9.5px;
-    font-weight: 700;
-    color: #8a9099;
-    letter-spacing: 0.6px;
-  }
-
-  .cat-head span:first-child { flex: 1; }
-  .cat-head span:last-child { text-align: right; }
-
-  .cat-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border-bottom: 1px solid #f4f4f7;
-  }
-
-  .cat-row:last-child { border-bottom: none; }
-
-  .cat-name { flex: 1; min-width: 0; }
-
-  .cat-name b {
-    display: block;
+    background: #fff;
+    border: 1px solid #e6e7ec;
+    border-radius: 17px;
+    font-family: inherit;
     font-size: 12.5px;
+    font-weight: 600;
+    color: #2c3038;
+    letter-spacing: -0.1px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .rw-chip.active {
+    background: #e8343e;
+    border-color: #e8343e;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(232,52,62,0.30);
+  }
+
+  .cat-block { margin-bottom: 18px; }
+
+  .cat-block:last-child { margin-bottom: 0; }
+
+  .cat-block-head {
+    display: flex;
+    align-items: center;
+    margin: 0 2px 10px;
+  }
+
+  .cat-block-head h3 {
+    flex: 1;
+    font-size: 15.5px;
+    font-weight: 800;
+    color: #16181d;
+    letter-spacing: -0.35px;
+  }
+
+  .rw-more {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #8a9099;
+    cursor: pointer;
+  }
+
+  .rw-more svg {
+    width: 14px; height: 14px;
+    fill: #e8343e;
+    transition: transform 0.2s;
+  }
+
+  .rw-more.open svg { transform: rotate(180deg); }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .rw-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(22,24,29,0.06);
+    padding: 11px;
+  }
+
+  .rw-main {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .rw-icon {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #fde8ea;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .rw-icon svg { width: 13px; height: 13px; fill: #e8343e; }
+
+  .rw-body { flex: 1; min-width: 0; }
+
+  .rw-name {
+    padding-right: 41px;
+    font-size: 10px;
     font-weight: 700;
     color: #16181d;
-    letter-spacing: -0.1px;
+    letter-spacing: -0.15px;
     line-height: 1.3;
   }
 
-  .cashout {
-    display: inline-block;
-    margin-top: 4px;
-    font-size: 8.5px;
-    font-weight: 700;
-    color: #17904e;
-    background: #eaf6ef;
-    padding: 2px 6px;
-    border-radius: 5px;
+  .rw-card[data-cashout="0"] .rw-name { padding-right: 0; }
+
+  .rw-pts {
+    margin-top: 2px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #e8343e;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  .rw-pts i { font-style: normal; font-size: 9.5px; font-weight: 700; margin-left: 2px; }
+
+  .rw-val {
+    margin-top: 2px;
+    font-size: 10px;
+    font-weight: 500;
+    color: #8a9099;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .rw-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 6.5px;
+    font-weight: 800;
+    color: #c41e2a;
+    background: #fde8ea;
+    padding: 3px 5px;
+    border-radius: 8px;
     letter-spacing: 0.3px;
   }
 
-  .cat-figures { text-align: right; flex-shrink: 0; }
-
-  .cat-points {
-    font-size: 13.5px;
-    font-weight: 800;
-    color: #22a55b;
-    letter-spacing: -0.3px;
+  .rw-foot {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    padding-top: 9px;
   }
 
-  .cat-points span { font-size: 9.5px; font-weight: 700; color: #8a9099; margin-left: 2px; }
-
-  .cat-value {
-    font-size: 10.5px;
-    font-weight: 500;
-    color: #8a9099;
-    margin-top: 2px;
+  .rw-go {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #e8343e;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
   }
+
+  .rw-go svg { width: 14px; height: 14px; fill: #fff; }
 
   /* ---------- Rule list ---------- */
   .rules { display: flex; flex-direction: column; gap: 11px; }
@@ -396,28 +506,30 @@
   /* ---------- Reversal callout ---------- */
   .callout {
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 12px;
     background: #fff8ec;
-    border: 1px solid #f6e3c4;
-    border-radius: 12px;
-    padding: 12px;
+    border: 1px solid #f7e6cc;
+    border-radius: 14px;
+    padding: 13px 14px;
   }
 
-  .callout svg { width: 17px; height: 17px; flex-shrink: 0; margin-top: 1px; fill: #e08a1e; }
+  .callout svg { width: 23px; height: 23px; flex-shrink: 0; fill: #f5a623; }
 
   .callout b {
     display: block;
-    font-size: 12px;
-    font-weight: 700;
-    color: #7a5312;
-    margin-bottom: 3px;
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #16181d;
+    letter-spacing: -0.2px;
+    margin-bottom: 2px;
   }
 
   .callout p {
     font-size: 11px;
-    font-weight: 400;
-    color: #8a6520;
-    line-height: 1.5;
+    font-weight: 500;
+    color: #5b6169;
+    line-height: 1.4;
   }
 
   /* ---------- CTA ---------- */
@@ -441,83 +553,43 @@
   .cta svg { width: 17px; height: 17px; fill: #fff; }
 
   /* ---------- Bottom nav ---------- */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 390px;
-    background: white;
-    display: flex;
-    justify-content: space-around;
-    padding: 8px 0 12px;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
-    z-index: 99;
-    border-top: 1px solid #f0f0f0;
-  }
 
-  .nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    flex: 1;
-  }
 
-  .nav-item svg { width: 22px; height: 22px; fill: #999; }
 
-  .nav-item span {
-    font-size: 10px;
-    font-weight: 600;
-    color: #999;
-    letter-spacing: 0.3px;
-  }
 
-  .nav-item.active span { color: #2ec56d; }
-  .nav-item.active svg { fill: #2ec56d; }
 
-  .bottom-spacer { height: 86px; }
   /* ---------- Header (consistent) ---------- */
-  .header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    height:64px;
-    padding:0 16px;
-    background:#fff;
-    position:sticky;
-    top:0;
-    z-index:50;
-  }
-  .back-btn{
-    width:40px;height:40px;flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;background:none;border:none;padding:0;
-    position:static;
-  }
-  .back-btn svg{width:24px;height:24px;fill:#1a1a1a}
-  .header-title{
-    flex:1;text-align:center;
-    font-size:20px;font-weight:800;color:#1a1a1a;
-    letter-spacing:.5px;white-space:nowrap;
-    overflow:hidden;text-overflow:ellipsis;
-  }
-  .header-spacer{width:40px;flex-shrink:0}
-  .info-btn{
-    width:40px;height:40px;flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;background:none;border:none;padding:0;
-    position:static;
-  }
-  .info-btn svg{width:24px;height:24px;fill:#1a1a1a}
 
+
+  .phone-scroll{
+    height:calc(100% - 24px);
+    overflow-y:auto;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .phone-scroll::-webkit-scrollbar{display:none}
+  body.sheet-open .phone-scroll{overflow:hidden}
+
+  .gesture-bar{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    height:24px;
+    background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    z-index:400;
+    pointer-events:none;
+  }
+  .gesture-bar::after{
+    content:'';
+    width:134px;height:5px;
+    border-radius:3px;
+    background:#1a1a1a;
+  }
 </style>
 </head>
 <body>
-
+<div class="phone-scroll">
 <!-- Header -->
 <div class="header">
   <button class="back-btn" onclick="goBack('8.html')">
@@ -623,69 +695,199 @@
   <!-- 3. Your balance -->
   <!-- 4. Reversals -->
   <div class="section">
-    <div class="section-title">IF A TRANSACTION IS REVERSED</div>
     <div class="callout">
       <svg viewBox="0 0 24 24"><path d="M12 2 1 21h22L12 2zm1 15h-2v-2h2v2zm0-4h-2V9h2v4z"/></svg>
       <div>
-        <b>Points are reversed too</b>
-        <p>When a transaction that earned you points is reversed, the same points are removed from your balance and recorded in your history. Never more than the points originally awarded for that transaction.</p>
+        <b>Points reversal</b>
+        <p>Reversed transactions also reverse the points earned.</p>
       </div>
     </div>
   </div>
 
   <!-- 5. Reward catalogue -->
   <div class="section">
-    <div class="section-title">REWARD CATALOGUE</div>
-    <div class="card">
-      <div class="cat-head"><span>REWARD</span><span>POINTS NEEDED</span></div>
+    <div class="rw-filters">
+      <button class="rw-chip active" data-filter="all">All</button>
+      <button class="rw-chip" data-filter="cashout">Cashout</button>
+      <button class="rw-chip" data-filter="float">Float</button>
+      <button class="rw-chip" data-filter="airtime">Airtime</button>
+      <button class="rw-chip" data-filter="devices">Devices</button>
+      <button class="rw-chip" data-filter="home">Home</button>
+    </div>
 
-      <div class="cat-row">
-        <div class="cat-name"><b>Float</b></div>
-        <div class="cat-figures"><div class="cat-points">134 <span>PTS</span></div><div class="cat-value">100 Br value</div></div>
+    <div class="cat-block" data-cat="float">
+      <div class="cat-block-head">
+        <h3>Float</h3>
+        <button class="rw-more" hidden><span>See all</span><svg viewBox="0 0 24 24"><path d="M12 20 5 13l1.4-1.4L11 16.2V4h2v12.2l4.6-4.6L19 13z"/></svg></button>
       </div>
-      <div class="cat-row">
-        <div class="cat-name"><b>Float</b></div>
-        <div class="cat-figures"><div class="cat-points">667 <span>PTS</span></div><div class="cat-value">500 Br value</div></div>
+      <div class="cat-grid">
+        <div class="rw-card" data-cashout="0">
+          <div class="rw-main">
+            <div class="rw-icon"><svg viewBox="0 0 24 24"><path d="M12 3C7.6 3 4 4.3 4 6s3.6 3 8 3 8-1.3 8-3-3.6-3-8-3zM4 8.5V11c0 1.7 3.6 3 8 3s8-1.3 8-3V8.5c-1.8 1.3-5 2-8 2s-6.2-.7-8-2zm0 5V16c0 1.7 3.6 3 8 3s8-1.3 8-3v-2.5c-1.8 1.3-5 2-8 2s-6.2-.7-8-2z"/></svg></div>
+            <div class="rw-body">
+              <div class="rw-name">Float</div>
+              <div class="rw-pts">134 <i>PTS</i></div>
+              <div class="rw-val">100 Br value</div>
+            </div>
+          </div>
+          <div class="rw-foot"><span class="rw-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></span></div>
+        </div>
+        <div class="rw-card" data-cashout="0">
+          <div class="rw-main">
+            <div class="rw-icon"><svg viewBox="0 0 24 24"><path d="M12 3C7.6 3 4 4.3 4 6s3.6 3 8 3 8-1.3 8-3-3.6-3-8-3zM4 8.5V11c0 1.7 3.6 3 8 3s8-1.3 8-3V8.5c-1.8 1.3-5 2-8 2s-6.2-.7-8-2zm0 5V16c0 1.7 3.6 3 8 3s8-1.3 8-3v-2.5c-1.8 1.3-5 2-8 2s-6.2-.7-8-2z"/></svg></div>
+            <div class="rw-body">
+              <div class="rw-name">Float</div>
+              <div class="rw-pts">667 <i>PTS</i></div>
+              <div class="rw-val">500 Br value</div>
+            </div>
+          </div>
+          <div class="rw-foot"><span class="rw-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></span></div>
+        </div>
+        <div class="rw-card" data-cashout="0">
+          <div class="rw-main">
+            <div class="rw-icon"><svg viewBox="0 0 24 24"><path d="M12 3C7.6 3 4 4.3 4 6s3.6 3 8 3 8-1.3 8-3-3.6-3-8-3zM4 8.5V11c0 1.7 3.6 3 8 3s8-1.3 8-3V8.5c-1.8 1.3-5 2-8 2s-6.2-.7-8-2zm0 5V16c0 1.7 3.6 3 8 3s8-1.3 8-3v-2.5c-1.8 1.3-5 2-8 2s-6.2-.7-8-2z"/></svg></div>
+            <div class="rw-body">
+              <div class="rw-name">Float</div>
+              <div class="rw-pts">934 <i>PTS</i></div>
+              <div class="rw-val">700 Br value</div>
+            </div>
+          </div>
+          <div class="rw-foot"><span class="rw-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></span></div>
+        </div>
       </div>
-      <div class="cat-row">
-        <div class="cat-name"><b>Float</b></div>
-        <div class="cat-figures"><div class="cat-points">934 <span>PTS</span></div><div class="cat-value">700 Br value</div></div>
+    </div>
+
+    <div class="cat-block" data-cat="airtime">
+      <div class="cat-block-head">
+        <h3>Airtime &amp; Packages</h3>
+        <button class="rw-more" hidden><span>See all</span><svg viewBox="0 0 24 24"><path d="M12 20 5 13l1.4-1.4L11 16.2V4h2v12.2l4.6-4.6L19 13z"/></svg></button>
       </div>
-      <div class="cat-row">
-        <div class="cat-name"><b>Water Cup</b></div>
-        <div class="cat-figures"><div class="cat-points">2,000 <span>PTS</span></div><div class="cat-value">1,500 Br value</div></div>
+      <div class="cat-grid">
+        <div class="rw-card" data-cashout="1">
+          <div class="rw-main">
+            <div class="rw-icon"><svg viewBox="0 0 24 24"><path d="M12 2.2 2.9 6.5 12 10.9l9.1-4.4L12 2.2z"/><path d="M2 8.2v9l9.1 4.4v-9L2 8.2zM12.9 12.6v9l9.1-4.4v-9l-9.1 4.4z"/></svg></div>
+            <div class="rw-body">
+              <div class="rw-name">Mega Package</div>
+              <div class="rw-pts">13,334 <i>PTS</i></div>
+              <div class="rw-val">10,000 Br value</div>
+            </div>
+            <span class="rw-tag">CASHOUT</span>
+          </div>
+          <div class="rw-foot"><span class="rw-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></span></div>
+        </div>
       </div>
-      <div class="cat-row">
-        <div class="cat-name"><b>Feature Phone</b><span class="cashout">CASHOUT OPTION</span></div>
-        <div class="cat-figures"><div class="cat-points">2,667 <span>PTS</span></div><div class="cat-value">2,000 Br value</div></div>
+    </div>
+
+    <div class="cat-block" data-cat="devices">
+      <div class="cat-block-head">
+        <h3>Devices &amp; Electronics</h3>
+        <button class="rw-more" hidden><span>See all</span><svg viewBox="0 0 24 24"><path d="M12 20 5 13l1.4-1.4L11 16.2V4h2v12.2l4.6-4.6L19 13z"/></svg></button>
       </div>
-      <div class="cat-row">
-        <div class="cat-name"><b>Power Bank</b><span class="cashout">CASHOUT OPTION</span></div>
-        <div class="cat-figures"><div class="cat-points">5,334 <span>PTS</span></div><div class="cat-value">4,000 Br value</div></div>
+      <div class="cat-grid">
+        <div class="rw-card" data-cashout="1">
+          <div class="rw-main">
+            <div class="rw-icon"><svg viewBox="0 0 24 24"><path d="M16.5 2h-9C6.1 2 5 3.1 5 4.5v15C5 20.9 6.1 22 7.5 22h9c1.4 0 2.5-1.1 2.5-2.5v-15C19 3.1 17.9 2 16.5 2zM12 20.6a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2zm5.1-3.4H6.9V5.1h10.2v12.1z"/></svg></div>
+            <div class="rw-body">
+              <div class="rw-name">Feature Phone</div>
+              <div class="rw-pts">2,667 <i>PTS</i></div>
+              <div class="rw-val">2,000 Br value</div>
+            </div>
+            <span class="rw-tag">CASHOUT</span>
+          </div>
+          <div class="rw-foot"><span class="rw-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></span></div>
+        </div>
+        <div class="rw-card" data-cashout="1">
+          <div class="rw-main">
+            <div class="rw-icon"><svg viewBox="0 0 24 24"><path d="M15.7 4H14V2h-4v2H8.3C7.6 4 7 4.6 7 5.3v15.4c0 .7.6 1.3 1.3 1.3h7.4c.7 0 1.3-.6 1.3-1.3V5.3c0-.7-.6-1.3-1.3-1.3zM11 20v-4H9l4-6v4h2l-4 6z"/></svg></div>
+            <div class="rw-body">
+              <div class="rw-name">Power Bank</div>
+              <div class="rw-pts">5,334 <i>PTS</i></div>
+              <div class="rw-val">4,000 Br value</div>
+            </div>
+            <span class="rw-tag">CASHOUT</span>
+          </div>
+          <div class="rw-foot"><span class="rw-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></span></div>
+        </div>
+        <div class="rw-card" data-cashout="1">
+          <div class="rw-main">
+            <div class="rw-icon"><svg viewBox="0 0 24 24"><path d="M12 21l3.5-4.4a4.5 4.5 0 0 0-7 0L12 21zM12 9c-2.6 0-5 1-6.9 2.7l1.8 2.2A7.7 7.7 0 0 1 12 12c2 0 3.8.7 5.1 1.9l1.8-2.2A10.4 10.4 0 0 0 12 9zM12 3C8.3 3 4.9 4.3 2.3 6.5l1.8 2.2A13 13 0 0 1 12 6c3.1 0 5.9 1 8 2.7l1.8-2.2A15.2 15.2 0 0 0 12 3z"/></svg></div>
+            <div class="rw-body">
+              <div class="rw-name">MiFi Modem</div>
+              <div class="rw-pts">6,667 <i>PTS</i></div>
+              <div class="rw-val">5,000 Br value</div>
+            </div>
+            <span class="rw-tag">CASHOUT</span>
+          </div>
+          <div class="rw-foot"><span class="rw-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></span></div>
+        </div>
+        <div class="rw-card" data-cashout="1">
+          <div class="rw-main">
+            <div class="rw-icon"><svg viewBox="0 0 24 24"><path d="M17 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-5 2.5a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2zm0 15a4.8 4.8 0 1 1 0-9.6 4.8 4.8 0 0 1 0 9.6zm0-2.3a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg></div>
+            <div class="rw-body">
+              <div class="rw-name">Soundbox</div>
+              <div class="rw-pts">13,334 <i>PTS</i></div>
+              <div class="rw-val">10,000 Br value</div>
+            </div>
+            <span class="rw-tag">CASHOUT</span>
+          </div>
+          <div class="rw-foot"><span class="rw-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></span></div>
+        </div>
+        <div class="rw-card" data-cashout="1">
+          <div class="rw-main">
+            <div class="rw-icon"><svg viewBox="0 0 24 24"><path d="M17 1H7a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm0 18H7V5h10v14z"/></svg></div>
+            <div class="rw-body">
+              <div class="rw-name">Smartphone</div>
+              <div class="rw-pts">26,667 <i>PTS</i></div>
+              <div class="rw-val">20,000 Br value</div>
+            </div>
+            <span class="rw-tag">CASHOUT</span>
+          </div>
+          <div class="rw-foot"><span class="rw-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></span></div>
+        </div>
+        <div class="rw-card" data-cashout="1">
+          <div class="rw-main">
+            <div class="rw-icon"><svg viewBox="0 0 24 24"><path d="M19 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-7 19a1.2 1.2 0 1 1 0-2.4 1.2 1.2 0 0 1 0 2.4zm7-4H5V4h14v13z"/></svg></div>
+            <div class="rw-body">
+              <div class="rw-name">Tablet</div>
+              <div class="rw-pts">33,334 <i>PTS</i></div>
+              <div class="rw-val">25,000 Br value</div>
+            </div>
+            <span class="rw-tag">CASHOUT</span>
+          </div>
+          <div class="rw-foot"><span class="rw-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></span></div>
+        </div>
       </div>
-      <div class="cat-row">
-        <div class="cat-name"><b>MiFi Modem</b><span class="cashout">CASHOUT OPTION</span></div>
-        <div class="cat-figures"><div class="cat-points">6,667 <span>PTS</span></div><div class="cat-value">5,000 Br value</div></div>
+    </div>
+
+    <div class="cat-block" data-cat="home">
+      <div class="cat-block-head">
+        <h3>Home &amp; Energy</h3>
+        <button class="rw-more" hidden><span>See all</span><svg viewBox="0 0 24 24"><path d="M12 20 5 13l1.4-1.4L11 16.2V4h2v12.2l4.6-4.6L19 13z"/></svg></button>
       </div>
-      <div class="cat-row">
-        <div class="cat-name"><b>LED / Solar Light System with Charger</b><span class="cashout">CASHOUT OPTION</span></div>
-        <div class="cat-figures"><div class="cat-points">8,000 <span>PTS</span></div><div class="cat-value">6,000 Br value</div></div>
-      </div>
-      <div class="cat-row">
-        <div class="cat-name"><b>Mega Package</b><span class="cashout">CASHOUT OPTION</span></div>
-        <div class="cat-figures"><div class="cat-points">13,334 <span>PTS</span></div><div class="cat-value">10,000 Br value</div></div>
-      </div>
-      <div class="cat-row">
-        <div class="cat-name"><b>Soundbox</b><span class="cashout">CASHOUT OPTION</span></div>
-        <div class="cat-figures"><div class="cat-points">13,334 <span>PTS</span></div><div class="cat-value">10,000 Br value</div></div>
-      </div>
-      <div class="cat-row">
-        <div class="cat-name"><b>Smartphone</b><span class="cashout">CASHOUT OPTION</span></div>
-        <div class="cat-figures"><div class="cat-points">26,667 <span>PTS</span></div><div class="cat-value">20,000 Br value</div></div>
-      </div>
-      <div class="cat-row">
-        <div class="cat-name"><b>Tablet</b><span class="cashout">CASHOUT OPTION</span></div>
-        <div class="cat-figures"><div class="cat-points">33,334 <span>PTS</span></div><div class="cat-value">25,000 Br value</div></div>
+      <div class="cat-grid">
+        <div class="rw-card" data-cashout="0">
+          <div class="rw-main">
+            <div class="rw-icon"><svg viewBox="0 0 24 24"><path d="M18.5 3h-13l1.6 17.2c.1.9.9 1.6 1.8 1.6h6.2c.9 0 1.7-.7 1.8-1.6L18.5 3zM7.7 5h8.6l-.3 3H8l-.3-3z"/></svg></div>
+            <div class="rw-body">
+              <div class="rw-name">Water Cup</div>
+              <div class="rw-pts">2,000 <i>PTS</i></div>
+              <div class="rw-val">1,500 Br value</div>
+            </div>
+          </div>
+          <div class="rw-foot"><span class="rw-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></span></div>
+        </div>
+        <div class="rw-card" data-cashout="1">
+          <div class="rw-main">
+            <div class="rw-icon"><svg viewBox="0 0 24 24"><path d="M9 21c0 .6.4 1 1 1h4c.6 0 1-.4 1-1v-1H9v1zm3-19a7 7 0 0 0-4 12.7V17c0 .6.4 1 1 1h6c.6 0 1-.4 1-1v-2.3A7 7 0 0 0 12 2z"/></svg></div>
+            <div class="rw-body">
+              <div class="rw-name">LED / Solar Light System with Charger</div>
+              <div class="rw-pts">8,000 <i>PTS</i></div>
+              <div class="rw-val">6,000 Br value</div>
+            </div>
+            <span class="rw-tag">CASHOUT</span>
+          </div>
+          <div class="rw-foot"><span class="rw-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -698,23 +900,23 @@
     <div class="card card-pad">
       <div class="rules">
         <div class="rule-item">
-          <svg viewBox="0 0 24 24" fill="#22a55b"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#e8343e"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
           <p><b>Points are never deducted until a redemption succeeds.</b> If a redemption fails, your balance stays exactly as it was.</p>
         </div>
         <div class="rule-item">
-          <svg viewBox="0 0 24 24" fill="#22a55b"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#e8343e"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
           <p><b>You cannot redeem more than you have.</b> If your available points are not enough, the redemption is declined and nothing is deducted.</p>
         </div>
         <div class="rule-item">
-          <svg viewBox="0 0 24 24" fill="#22a55b"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#e8343e"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
           <p><b>The same transaction only ever earns points once</b>, and the same redemption is only ever processed once.</p>
         </div>
         <div class="rule-item">
-          <svg viewBox="0 0 24 24" fill="#22a55b"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#e8343e"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
           <p><b>Every redemption gets a unique reference number</b> so you can trace it in your history.</p>
         </div>
         <div class="rule-item">
-          <svg viewBox="0 0 24 24" fill="#22a55b"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
+          <svg viewBox="0 0 24 24" fill="#e8343e"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
           <p><b>Only eligible merchants and agents</b> can earn and redeem loyalty points.</p>
         </div>
       </div>
@@ -729,34 +931,66 @@
 
 </div>
 
-<div class="bottom-spacer"></div>
 
-<!-- Bottom Navigation -->
-<div class="bottom-nav">
-  <a class="nav-item active" href="index.html">
-    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-    <span>HOME</span>
-  </a>
-  <a class="nav-item" href="#">
-    <svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
-    <span>ORGANIZATION</span>
-  </a>
-  <a class="nav-item" href="#">
-    <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
-    <span>MINIAPPS</span>
-  </a>
-  <a class="nav-item" href="#">
-    <svg viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
-    <span>TRANSACT</span>
-  </a>
-  <a class="nav-item" href="#">
-    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-    <span>ACCOUNT</span>
-  </a>
-</div>
 
 <script>
 function goBack(f){if(history.length>1){history.back()}else{window.location.href=f}}
+
+(function () {
+  var CAP = 2;
+  var chips = [].slice.call(document.querySelectorAll('.rw-chip'));
+  var blocks = [].slice.call(document.querySelectorAll('.cat-block'));
+  var filter = 'all';
+  var expanded = {};
+
+  function render() {
+    blocks.forEach(function (block) {
+      var cat = block.getAttribute('data-cat');
+      var cards = [].slice.call(block.querySelectorAll('.rw-card'));
+      var matched = cards.filter(function (card) {
+        if (filter === 'all') return true;
+        if (filter === 'cashout') return card.getAttribute('data-cashout') === '1';
+        return cat === filter;
+      });
+      var open = !!expanded[cat];
+
+      cards.forEach(function (card) {
+        var i = matched.indexOf(card);
+        card.hidden = i === -1 || (!open && i >= CAP);
+      });
+
+      block.hidden = matched.length === 0;
+
+      var more = block.querySelector('.rw-more');
+      more.hidden = matched.length <= CAP;
+      more.querySelector('span').textContent = open ? 'Show less' : 'See all';
+      more.classList.toggle('open', open);
+    });
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      filter = chip.getAttribute('data-filter');
+      chips.forEach(function (c) { c.classList.toggle('active', c === chip); });
+      expanded = {};
+      render();
+    });
+  });
+
+  blocks.forEach(function (block) {
+    block.querySelector('.rw-more').addEventListener('click', function () {
+      var cat = block.getAttribute('data-cat');
+      expanded[cat] = !expanded[cat];
+      render();
+    });
+  });
+
+  render();
+})();
 </script>
+</div>
+
+<div class="gesture-bar"></div>
+
 </body>
 </html>

@@ -17,42 +17,57 @@
 
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
+  html{
+    background:linear-gradient(45deg,#1c9b52 0%,#c41e2a 58%,#e8343e 100%);
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+  }
+
   body{
     font-family:'Switzer','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-    background:#f5f5f7;
+    background:#fff;
     max-width:390px;
-    margin:0 auto;
-    min-height:100vh;
-    overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
+    /* real phone screen: 390 x 844, scrolls inside the frame */
+    width:390px;max-width:100%;
+    height:844px;max-height:100vh;
+    margin:0 auto;
+    overflow:hidden;
+    position:relative;
+    /* contains position:fixed children inside the phone */
+    transform:translateZ(0);
+    box-shadow:0 18px 50px rgba(0,0,0,.32);
   }
 
   /* ---------- Header ---------- */
+  /* ---------- Header ---------- */
   .header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    height:64px;
-    padding:0 16px;
-    background:#fff;
-    position:sticky;
-    top:0;
-    z-index:50;
-    border-bottom:1px solid #f0f0f0;
+    display:grid;grid-template-columns:auto 1fr auto;align-items:center;
+    background:#fff;position:sticky;top:0;z-index:50;
+    padding:10px 16px 34px;
   }
   .back-btn{
-    width:40px;height:40px;flex-shrink:0;
+    grid-column:1;grid-row:1;
+    width:28px;height:28px;margin-left:-4px;
     display:flex;align-items:center;justify-content:center;
     cursor:pointer;background:none;border:none;padding:0;
   }
-  .back-btn svg{width:24px;height:24px;fill:#1a1a1a}
+  .back-btn svg{width:20px;height:20px;fill:#1a1a1a}
+  .info-btn{
+    grid-column:3;grid-row:1;
+    width:28px;height:28px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;background:none;border:none;padding:0;
+  }
+  .info-btn svg{width:20px;height:20px;fill:#1a1a1a}
   .header-title{
-    flex:1;text-align:center;
-    font-size:18px;font-weight:800;color:#1a1a1a;
+    grid-column:1/-1;grid-row:2;
+    text-align:center;margin-top:11px;line-height:1.15;
+    font-size:22px;font-weight:500;color:#000;
     letter-spacing:.5px;white-space:nowrap;
     overflow:hidden;text-overflow:ellipsis;
   }
-  .header-spacer{width:40px;flex-shrink:0}
+  .header-spacer{display:none}
 
   .page{padding:14px 16px 20px}
 
@@ -213,18 +228,16 @@
   .section-title{
     display:flex;align-items:center;gap:7px;
     margin-bottom:12px;
-    font-size:12px;font-weight:800;color:#16181d;
+    font-size:16px;font-weight:800;color:#16181d;
     letter-spacing:.7px;
     justify-content:space-between;
   }
   .section-title-left{
     display:flex;align-items:center;gap:7px;
   }
-  .section-title-left::before{
-    content:'';width:3px;height:13px;border-radius:2px;
-    background:#22a55b;flex-shrink:0;
-  }
   .section-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+  [hidden]{display:none!important}
+
   .see-all{
     color:#1fa855;
     font-size:11px;font-weight:700;
@@ -399,7 +412,9 @@
   }
   .filter-overlay.show{opacity:1;pointer-events:auto}
 
-  .filter-sheet{
+    .filter-sheet{visibility:hidden;transition:visibility .32s ease}
+  .filter-sheet.show{visibility:visible}
+.filter-sheet{
     position:fixed;left:50%;
     transform:translateX(-50%);
     bottom:-100%;
@@ -412,7 +427,7 @@
     padding:4px 18px 22px;
     transition:bottom .25s ease;
   }
-  .filter-sheet.show{bottom:0}
+  .filter-sheet.show{bottom:24px}
 
   .sheet-handle{
     width:36px;height:4px;border-radius:2px;
@@ -446,40 +461,37 @@
   .sheet-btn.done:hover{background:#168545}
 
   /* ---------- Bottom Navigation ---------- */
-  .bottom-nav{
-    position:fixed;
-    bottom:0;left:50%;
-    transform:translateX(-50%);
-    width:100%;max-width:390px;
-    background:white;
-    display:flex;justify-content:space-around;
-    padding:8px 0 12px;
-    box-shadow:0 -2px 10px rgba(0,0,0,.06);
-    z-index:80;
-    border-top:1px solid #f0f0f0;
+
+
+  .phone-scroll{
+    height:calc(100% - 24px);
+    overflow-y:auto;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
   }
-  .nav-item{
-    display:flex;flex-direction:column;align-items:center;
-    gap:4px;cursor:pointer;text-decoration:none;flex:1;
-  }
-  .nav-item svg{width:22px;height:22px;fill:#999}
-  .nav-item span{
-    font-size:10px;font-weight:600;color:#999;
-    letter-spacing:.3px;font-family:'Switzer','Inter',sans-serif;
-  }
-  .nav-item.active span{color:#2ec56d}
-  .nav-item.active svg{fill:#2ec56d}
-  .bottom-spacer{height:80px}
+  .phone-scroll::-webkit-scrollbar{display:none}
+  body.sheet-open .phone-scroll{overflow:hidden}
 
   .gesture-bar{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    height:24px;
+    background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    z-index:400;
+    pointer-events:none;
+  }
+  .gesture-bar::after{
+    content:'';
     width:134px;height:5px;
-    background:#1a1a1a;border-radius:3px;
-    margin:8px auto 12px;
+    border-radius:3px;
+    background:#1a1a1a;
   }
 </style>
 </head>
 <body>
-
+<div class="phone-scroll">
 <!-- Header -->
 <div class="header">
   <button class="back-btn" onclick="goBack('8.html')" aria-label="Go back">
@@ -536,14 +548,11 @@
       </div>
     </div>
 
-    <!-- Section Title & Filter Button -->
+    <!-- Section Title & See All Link -->
     <div class="section-title">
       <div class="section-title-left">ACCUMULATION HISTORY</div>
       <div class="section-actions">
-        <button type="button" class="filter-icon-btn" id="filterBtn-accumulation" onclick="openFilter()" aria-label="Filter accumulation history">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-        </button>
-        <a class="see-all" href="javascript:void(0)" id="seeAllBtn-accumulation" onclick="toggleSeeAll('accumulation')">SEE ALL</a>
+        <a class="see-all" href="21.html?tab=accumulation">SEE ALL</a>
       </div>
     </div>
 
@@ -678,14 +687,11 @@
       </div>
     </div>
 
-    <!-- Section Title & Filter Button -->
+    <!-- Section Title & See All Link -->
     <div class="section-title">
       <div class="section-title-left">REDEMPTION HISTORY</div>
       <div class="section-actions">
-        <button type="button" class="filter-icon-btn" id="filterBtn-redemption" onclick="openFilter()" aria-label="Filter redemption history">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-        </button>
-        <a class="see-all" href="javascript:void(0)" id="seeAllBtn-redemption" onclick="toggleSeeAll('redemption')">SEE ALL</a>
+        <a class="see-all" href="21.html?tab=redemption">SEE ALL</a>
       </div>
     </div>
 
@@ -793,14 +799,11 @@
       </div>
     </div>
 
-    <!-- Section Title & Filter Button -->
+    <!-- Section Title & See All Link -->
     <div class="section-title">
       <div class="section-title-left">ORDER HISTORY</div>
       <div class="section-actions">
-        <button type="button" class="filter-icon-btn" id="filterBtn-order" onclick="openFilter()" aria-label="Filter order history">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-        </button>
-        <a class="see-all" href="javascript:void(0)" id="seeAllBtn-order" onclick="toggleSeeAll('order')">SEE ALL</a>
+        <a class="see-all" href="21.html?tab=order">SEE ALL</a>
       </div>
     </div>
 
@@ -938,33 +941,8 @@
   </div>
 </div>
 
-<div class="bottom-spacer"></div>
 
-<!-- Bottom Navigation -->
-<div class="bottom-nav">
-  <a class="nav-item" href="index.html">
-    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-    <span>HOME</span>
-  </a>
-  <a class="nav-item" href="#">
-    <svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
-    <span>ORGANIZATION</span>
-  </a>
-  <a class="nav-item" href="#">
-    <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
-    <span>MINIAPPS</span>
-  </a>
-  <a class="nav-item" href="#">
-    <svg viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
-    <span>TRANSACT</span>
-  </a>
-  <a class="nav-item" href="#">
-    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-    <span>ACCOUNT</span>
-  </a>
-</div>
 
-<div class="gesture-bar"></div>
 
 <script>
   var currentTab = 'accumulation';
@@ -1091,12 +1069,18 @@
     document.getElementById('filterOverlay').classList.remove('show');
   }
 
+  var PAGE_SIZE = 5;
+
+  function updateSeeAll(tab, matchCount) {
+    var btn = document.getElementById('seeAllBtn-' + tab);
+    if (!btn) return;
+    var more = matchCount > PAGE_SIZE;
+    btn.hidden = !more && !state[tab].expanded;
+    btn.textContent = state[tab].expanded ? 'SHOW LESS' : 'SEE ALL';
+  }
+
   function toggleSeeAll(tab) {
     state[tab].expanded = !state[tab].expanded;
-    var btn = document.getElementById('seeAllBtn-' + tab);
-    if (btn) {
-      btn.textContent = state[tab].expanded ? 'SHOW LESS' : 'SEE ALL';
-    }
     applyFilters(tab);
   }
 
@@ -1144,20 +1128,26 @@
     var typeFn = (tab === 'accumulation') ? typeOfAccumulation : typeOfRedemption;
 
     var visibleCount = 0;
+    var matchCount = 0;
 
     for (var i = 0; i < entries.length; i++) {
       var e = entries[i];
       var w = whenOf(e);
       var match = true;
 
-      if (!s.expanded && w === 'older') match = false;
       if (s.time === 'today' && w !== 'today') match = false;
       if (s.time === 'week' && w === 'older') match = false;
       if (s.type !== 'all' && typeFn(e) !== s.type) match = false;
 
+      if (match) matchCount++;
+      /* Collapsed lists stop at the 10 most recent matches. */
+      if (match && !s.expanded && matchCount > PAGE_SIZE) match = false;
+
       e.style.display = match ? '' : 'none';
       if (match) visibleCount++;
     }
+
+    updateSeeAll(tab, matchCount);
 
     for (var g = 0; g < groups.length; g++) {
       var sib = groups[g].nextElementSibling;
@@ -1181,6 +1171,7 @@
     if (!pane) return;
     var s = state.order;
     var entries = pane.querySelectorAll('.entry');
+    var matchCount = 0;
     var groups = pane.querySelectorAll('.day-group');
     var visibleCount = 0;
 
@@ -1190,13 +1181,17 @@
       var tm = c.getAttribute('data-time');
       var match = true;
 
-      if (!s.expanded && tm === 'older') match = false;
       if (s.status !== 'all' && st !== s.status) match = false;
       if (s.time !== 'all' && tm !== s.time) match = false;
+
+      if (match) matchCount++;
+      if (match && !s.expanded && matchCount > PAGE_SIZE) match = false;
 
       c.style.display = match ? '' : 'none';
       if (match) visibleCount++;
     }
+
+    updateSeeAll('order', matchCount);
 
     for (var g = 0; g < groups.length; g++) {
       var sib = groups[g].nextElementSibling;
@@ -1230,5 +1225,9 @@
 <script>
 function goBack(f){if(history.length>1){history.back()}else{window.location.href=f}}
 </script>
+</div>
+
+<div class="gesture-bar"></div>
+
 </body>
 </html>
