@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Merchant Lite — Home</title>
+<style>
+/* ---------- Switzer ---------- */
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-300.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-800.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-900.woff2') format('woff2');font-weight:900;font-style:normal;font-display:swap}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+
+html{
+  background:linear-gradient(45deg,#1c9b52 0%,#c41e2a 58%,#e8343e 100%);
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+}
+
+body{
+  font-family:'Switzer','Segoe UI',Arial,sans-serif;
+  background:#fff;
+  width:100%;
+  max-width:390px;
+  position:relative;
+  -webkit-font-smoothing:antialiased;
+  /* real phone screen: 390 x 844, scrolls inside the frame */
+  width:390px;max-width:100%;
+  height:844px;max-height:100vh;
+  margin:0 auto;
+  overflow:hidden;
+  position:relative;
+  /* contains position:fixed children inside the phone */
+  transform:translateZ(0);
+  box-shadow:0 18px 50px rgba(0,0,0,.32);
+}
+
+/* ---------- Header ---------- */
+.header{
+  position:relative;
+  height:150px;
+  padding:34px 16px 0;
+  background:radial-gradient(120% 130% at 18% 0%, #e42a20 0%, #d01c1a 42%, #b81217 78%, #a5101a 100%);
+  overflow:hidden;
+}
+.header::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:url('assets/mpesa-pattern.png') no-repeat right bottom;
+  background-size:auto 205%;
+  -webkit-mask-image:linear-gradient(100deg,transparent 2%,rgba(0,0,0,.45) 24%,#000 58%);
+  mask-image:linear-gradient(100deg,transparent 2%,rgba(0,0,0,.45) 24%,#000 58%);
+  pointer-events:none;
+}
+.header-top{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+}
+.header-left{display:flex;align-items:center;gap:11px}
+.avatar-circle{
+  width:47px;height:47px;flex-shrink:0;
+  background:#dbe7fb;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:700;color:#2f6fd0;
+  letter-spacing:.2px;
+}
+.header-info h2{
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.2px;
+  line-height:1.1;
+}
+.header-badge{
+  display:inline-block;
+  margin-top:6px;
+  background:rgba(255,255,255,.22);
+  color:#fff;
+  font-size:9px;
+  font-weight:500;
+  letter-spacing:.3px;
+  padding:3px 9px;
+  border-radius:9px;
+}
+.header-icons{display:flex;align-items:center;gap:20px;padding-top:14px}
+.header-icons svg{width:21px;height:21px;display:block;cursor:pointer}
+
+/* ---------- Balance cards ---------- */
+.balance-section{
+  position:relative;
+  z-index:3;
+  margin-top:-45px;
+}
+.balance-cards{
+  display:flex;
+  gap:12px;
+  padding:0 16px 6px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scroll-padding-left:16px;
+  scrollbar-width:none;
+}
+.balance-cards::-webkit-scrollbar{display:none}
+.balance-card{
+  flex:0 0 292px;
+  width:292px;
+  background:#fff;
+  border-radius:14px;
+  padding:12px 15px 13px;
+  scroll-snap-align:start;
+  box-shadow:0 6px 16px rgba(0,0,0,.10);
+}
+.balance-cards.single{overflow-x:visible}
+.balance-cards.single .balance-card{flex:1 1 auto;width:auto}
+
+.b-grid{display:flex;gap:12px}
+.b-col{flex:1;min-width:0}
+.b-label{
+  font-size:11px;
+  color:#9b9b9b;
+  font-weight:400;
+  letter-spacing:.1px;
+  margin-bottom:3px;
+  white-space:nowrap;
+}
+.b-value{
+  font-size:23.5px;
+  font-weight:700;
+  color:#1b1b1b;
+  letter-spacing:-.5px;
+  line-height:1.15;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
+}
+.b-value .eye{width:18px;height:18px;flex-shrink:0;cursor:pointer}
+.b-cur{
+  font-size:.55em;
+  font-weight:700;
+  letter-spacing:0;
+  color:#8d8d8d;
+  align-self:flex-end;
+  margin-left:-2px;
+  padding-bottom:2px;
+}
+.b-value.small{font-size:17.5px;letter-spacing:-.2px}
+.b-col.b-right{text-align:right}
+.b-col.b-right .b-value,
+.b-col.b-right .b-value.small{justify-content:flex-end}
+.b-col.b-right .b-value.reward{justify-content:flex-end;gap:5px}
+
+.b-value.activate{
+  display:flex;align-items:center;gap:5px;
+  font-size:15px;font-weight:700;color:#1fa855;cursor:pointer;
+}
+.b-value.activate .chev{width:8px;height:13px}
+.reward{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  cursor:pointer;
+}
+.reward .chev{width:9px;height:15px;flex-shrink:0;margin-right:1px}
+.b-divider{height:1px;background:#eeeeee;margin:11px 0 10px}
+
+/* ---------- Winner banner ---------- */
+.winner-banner{
+  position:relative;
+  margin:14px 14px 6px; /* +14px from .quick-actions padding = 20px, equal to the gap above */
+  height:178px;
+  border-radius:16px;
+  overflow:hidden;
+  background:#d32b22;
+  box-shadow:0 3px 10px rgba(0,0,0,.10);
+}
+.winner-photo{
+  position:absolute;
+  inset:0;
+  background:url('assets/M-PESA-Banner-Ads-2_1920-Px.jpg') no-repeat center bottom;
+  background-size:106% auto;
+}
+.winner-tint{
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(90deg,
+      rgba(0,0,0,.80) 0%,
+      rgba(0,0,0,.72) 24%,
+      rgba(0,0,0,.56) 40%,
+      rgba(0,0,0,.32) 55%,
+      rgba(0,0,0,.12) 70%,
+      rgba(0,0,0,0) 84%),
+    linear-gradient(180deg, rgba(0,0,0,.20) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,.22) 100%);
+}
+.winner-card-deco{
+  position:absolute;
+  left:94px;top:13px;
+  width:77px;height:47px;
+  border-radius:6px;
+  background:rgba(255,255,255,.085);
+  border:1px solid rgba(255,255,255,.13);
+  z-index:2;
+  padding-top:5px;
+  text-align:center;
+  pointer-events:none;
+  display:none;
+}
+.winner-card-deco .deco-user{
+  width:13px;height:13px;
+  fill:rgba(255,255,255,.30);
+}
+.winner-card-deco .deco-digits{
+  position:absolute;
+  left:0;right:0;bottom:7px;
+  font-size:6.5px;
+  font-weight:600;
+  letter-spacing:1.4px;
+  color:rgba(255,255,255,.28);
+}
+.winner-content{
+  position:relative;
+  z-index:3;
+  padding:18px 18px 0;
+}
+.winner-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  height:18px;
+  background:none;
+  padding:0;
+}
+.winner-badge .flame{
+  width:17px;height:17px;flex-shrink:0;
+  border-radius:50%;
+  background:#ea3a2c;
+  display:flex;align-items:center;justify-content:center;
+}
+.winner-badge .flame svg{width:9px;height:9px}
+.winner-badge .label{
+  font-size:9px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:.9px;
+}
+.winner-badge .label{
+  font-size:9.5px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:.9px;
+}
+.winner-title{
+  margin-top:7px;
+  font-size:15px;
+  font-weight:800;
+  color:#fff;
+  line-height:1.06;
+  letter-spacing:.1px;
+  text-shadow:0 1px 3px rgba(0,0,0,.16);
+}
+.winner-amount{
+  display:block;
+  font-size:21px;
+  letter-spacing:-.3px;
+}
+.winner-amount .cur{font-size:.62em;font-weight:800;letter-spacing:0;margin-left:1px}
+.winner-subtitle{
+  margin-top:6px;
+  font-size:9.5px;
+  font-weight:500;
+  color:rgba(255,255,255,.88);
+  letter-spacing:.5px;
+}
+.winner-subtitle{
+  margin-top:7px;
+  font-size:10.5px;
+  font-weight:500;
+  color:rgba(255,255,255,.88);
+  letter-spacing:.5px;
+}
+.view-more-btn{
+  margin-top:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  height:27px;
+  padding:0 15px;
+  background:#fff;
+  color:#e8443a;
+  border:none;
+  font-family:inherit;
+  font-size:9.5px;
+  font-weight:700;
+  letter-spacing:1px;
+  border-radius:14px;
+  cursor:pointer;
+  box-shadow:0 3px 10px rgba(0,0,0,.14);
+}
+
+/* ---------- Quick actions ---------- */
+.quick-actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  padding:14px 14px 0;
+}
+.action-card{
+  position:relative;
+  height:76px;
+  background:#fff;
+  border:1px solid #2ec56d;
+  border-radius:10px;
+  padding:11px 11px 0 11px;
+  cursor:pointer;
+  box-shadow:0 2px 6px rgba(20,120,60,.10);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.action-card:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(20,120,60,.18)}
+.action-card:active{transform:scale(.98)}
+.quick-actions .qa-empty{
+  grid-column:1/-1;
+  padding:16px 2px;
+  font-size:11.5px;font-weight:500;color:#a4a9b0;
+}
+.quick-actions.two-up{grid-template-columns:repeat(2,1fr)}
+.quick-actions.two-up .action-card{height:84px}
+.quick-actions.two-up .action-card h4{font-size:12px;padding-right:40px}
+
+.action-card h4{
+  font-size:11.5px;
+  font-weight:600;
+  color:#1f2429;
+  line-height:1.22;
+  letter-spacing:-.1px;
+  padding-right:34px;   /* keeps long labels clear of the icon */
+}
+.action-icon{
+  position:absolute;
+  right:11px;bottom:11px;
+  width:31px;height:31px;
+  background:linear-gradient(135deg,#3ad07a,#1fa855);
+  border-radius:50%;
+  box-shadow:0 3px 8px rgba(31,168,85,.32);
+  display:flex;align-items:center;justify-content:center;
+}
+.action-icon svg{width:17.5px;height:17.5px}
+
+/* ---------- Transactions ---------- */
+.transaction-section{
+  padding:14px 14px 0;
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+}
+.transaction-list{
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.transaction-list::-webkit-scrollbar{display:none}
+.transaction-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:6px;
+}
+.transaction-header h3{
+  font-size:16px;
+  font-weight:800;
+  color:#141414;
+  letter-spacing:.2px;
+}
+.see-all{
+  color:#1fa855;
+  font-size:12.5px;
+  font-weight:600;
+  text-decoration:none;
+}
+.transaction-item{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 0;
+  border-bottom:1px solid #f0f0f0;
+}
+.transaction-item:last-child{border-bottom:none}
+.transaction-avatar{
+  width:40px;height:40px;flex-shrink:0;
+  background:#e3ecfb;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:#4a7fd4;
+}
+.transaction-avatar.av-float{
+  background:conic-gradient(from 210deg,#f5a623,#e8343e,#8e2de2,#f5a623);
+  color:#fff;
+}
+.transaction-avatar.av-float svg{width:19px;height:19px;fill:#fff}
+.transaction-info{flex:1;min-width:0}
+.transaction-name{font-size:13px;font-weight:700;color:#1b1b1b;letter-spacing:.2px;text-transform:uppercase}
+.transaction-id{font-size:11.5px;color:#9b9b9b;font-weight:400;margin-top:3px}
+.transaction-amount{text-align:right;flex-shrink:0}
+.transaction-amount .amount{font-size:13px;font-weight:600;color:#3c3c3c}
+.transaction-amount .b-cur{font-size:.78em;padding-bottom:0;margin-left:0}
+.transaction-amount .time{font-size:11px;color:#9b9b9b;margin-top:3px;white-space:nowrap}
+
+.bottom-spacer{display:none}
+
+/* ---------- Quick action sub-menu ---------- */
+/* ---------- Quick action sub-screen ---------- */
+.action-list{
+  padding:14px 16px 0;
+}
+.al-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  width:100%;
+  background:#fff;
+  border:none;
+  border-radius:14px;
+  padding:17px 16px;
+  margin-bottom:12px;
+  font-family:inherit;
+  font-size:15px;
+  font-weight:700;
+  color:#16181d;
+  letter-spacing:-.1px;
+  text-align:left;
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.al-row:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(0,0,0,.10)}
+.al-row:active{transform:scale(.99)}
+.al-icon{
+  width:26px;height:26px;flex-shrink:0;
+  color:#e8343e;
+  display:flex;align-items:center;justify-content:center;
+}
+.al-icon svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.al-row .chev{
+  margin-left:auto;width:8px;height:14px;flex-shrink:0;
+  fill:none;stroke:#b6bbc2;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+body.sheet-open .phone-scroll{overflow:hidden}
+
+/* ---------- Scan FAB ---------- */
+.scan-fab{
+  position:fixed;
+  bottom:86px;
+  left:50%;
+  transform:translateX(-50%);
+  height:38px;
+  padding:0 15px 0 5px;
+  background:#fff;
+  border:1px solid #D8D8D8;
+  border-radius:13px;
+  box-shadow:0 3px 12px rgba(0,0,0,.14);
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:7px;
+  z-index:120;
+  cursor:pointer;
+}
+.scan-fab .scan-icon{
+  width:28px;height:28px;flex-shrink:0;
+  background:#d3211f;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.scan-fab .scan-icon svg{width:15px;height:15px;fill:#fff}
+.scan-fab .scan-label{
+  font-size:11px;
+  font-weight:800;
+  color:#d3211f;
+  letter-spacing:.5px;
+}
+
+/* ---------- Bottom nav ---------- */
+.bottom-nav{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:390px;
+  background:#fff;
+  display:flex;
+  padding:16px 4px 20px;
+  z-index:110;
+  border-top:1px solid #efefef;
+  box-shadow:0 -1px 8px rgba(0,0,0,.04);
+}
+.nav-item{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  text-decoration:none;
+  cursor:pointer;
+}
+.nav-item svg{width:21px;height:21px;display:block}
+.nav-item span{
+  font-size:8.5px;
+  font-weight:600;
+  color:#a8a8a8;
+  letter-spacing:.2px;
+}
+.nav-item.active span{color:#1fa855}
+
+
+.phone-scroll{
+  height:calc(100% - 24px);
+  padding-bottom:73px; /* clears the fixed bottom nav */
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.phone-scroll::-webkit-scrollbar{display:none}
+body.sheet-open .phone-scroll{overflow:hidden}
+
+.gesture-bar{
+  position:fixed;
+  left:0;right:0;bottom:0;
+  height:24px;
+  background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  z-index:400;
+  pointer-events:none;
+}
+.gesture-bar::after{
+  content:'';
+  width:134px;height:5px;
+  border-radius:3px;
+  background:#1a1a1a;
+}
+</style>
+</head>
+<body>
+<div class="phone-scroll">
+<!-- ===== Header ===== -->
+<div class="header">
+  <div class="header-top">
+    <div class="header-left">
+      <div class="avatar-circle">LC</div>
+      <div class="header-info">
+        <h2>LONDON CAFE -LC</h2>
+        <div class="header-badge">344100 - HEAD OFFICE</div>
+      </div>
+    </div>
+    <div class="header-icons">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 8V5.5A2.5 2.5 0 0 1 5.5 3H8"/><path d="M16 3h2.5A2.5 2.5 0 0 1 21 5.5V8"/>
+        <path d="M21 16v2.5a2.5 2.5 0 0 1-2.5 2.5H16"/><path d="M8 21H5.5A2.5 2.5 0 0 1 3 18.5V16"/>
+        <rect x="6.7" y="6.7" width="4" height="4" rx=".7"/><rect x="13.3" y="6.7" width="4" height="4" rx=".7"/>
+        <rect x="6.7" y="13.3" width="4" height="4" rx=".7"/>
+        <path d="M13.3 13.3h1.8M13.3 17.3h0M15.6 17.3h1.7M17.3 15.4v-2.1"/>
+      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8.5a6 6 0 1 0-12 0c0 6-2 7.5-2 7.5h16s-2-1.5-2-7.5z"/>
+        <path d="M10.3 20a2 2 0 0 0 3.4 0"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Balance cards ===== -->
+<div class="balance-section">
+  <div class="balance-cards" id="balanceCards"></div>
+</div>
+
+<!-- ===== Quick action sub-screen ===== -->
+<div class="action-list" id="actionList" hidden></div>
+
+<!-- ===== Banner ad ===== -->
+<div class="winner-banner">
+  <div class="winner-photo"></div>
+  <div class="winner-tint"></div>
+  <div class="winner-card-deco">
+    <svg class="deco-user" viewBox="0 0 24 24"><circle cx="12" cy="7.4" r="3.9"/><path d="M12 13c-4.1 0-7.3 2.4-7.3 5.3v1.4h14.6v-1.4c0-2.9-3.2-5.3-7.3-5.3z"/></svg>
+    <div class="deco-digits">&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 0000 &bull;&bull;</div>
+  </div>
+  <div class="winner-content">
+    <div class="winner-badge">
+      <span class="flame">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M13.5 1.5s.9 3.4-1.4 5.6c-2.2 2.2-4.6 3.6-4.6 7.1A6.5 6.5 0 0 0 14 20.6c3.2 0 5.9-2.6 5.9-6 0-4.7-3.4-6.4-3.4-6.4s.4 2.4-1 3.3c0 0 .6-4.6-1.9-7.2-.5-.5-.1-2.8-.1-2.8z"/></svg>
+      </span>
+      <span class="label">TOP WINNER</span>
+    </div>
+    <div class="winner-title"><span class="winner-amount">100,000 <span class="cur">ETB</span></span>MONDAY WINNER</div>
+    <div class="winner-subtitle">TRANSACT MORE AND WIN BIG</div>
+    <button class="view-more-btn" onclick="window.location.href='7.html'">VIEW MORE</button>
+  </div>
+</div>
+
+<!-- ===== Quick actions ===== -->
+<div class="quick-actions" id="quickActions"></div>
+
+<!-- ===== Transaction history ===== -->
+<div class="transaction-section">
+  <div class="transaction-header">
+    <h3>TRANSACTION HISTORY</h3>
+    <a href="#" class="see-all">See All</a>
+  </div>
+  <div class="transaction-list">
+    <div class="transaction-item">
+      <div class="transaction-avatar">PP</div>
+      <div class="transaction-info">
+        <div class="transaction-name">Sell Airtime</div>
+        <div class="transaction-id">14537289</div>
+      </div>
+      <div class="transaction-amount">
+        <div class="amount">- 3,390.00 <span class="b-cur">ETB</span></div>
+        <div class="time">Today &bull; 03:56 PM</div>
+      </div>
+    </div>
+    <div class="transaction-item">
+      <div class="transaction-avatar">PP</div>
+      <div class="transaction-info">
+        <div class="transaction-name">Request Payment</div>
+        <div class="transaction-id">14537289</div>
+      </div>
+      <div class="transaction-amount">
+        <div class="amount">- 3,390.00 <span class="b-cur">ETB</span></div>
+        <div class="time">19 Sep &bull; 01:56 PM</div>
+      </div>
+    </div>
+    <div class="transaction-item">
+      <div class="transaction-avatar">PP</div>
+      <div class="transaction-info">
+        <div class="transaction-name">Withdraw to Bank</div>
+        <div class="transaction-id">14537289</div>
+      </div>
+      <div class="transaction-amount">
+        <div class="amount">- 3,390.00 <span class="b-cur">ETB</span></div>
+        <div class="time">17 Sep &bull; 10:04 PM</div>
+      </div>
+    </div>
+    <div class="transaction-item">
+      <div class="transaction-avatar">PP</div>
+      <div class="transaction-info">
+        <div class="transaction-name">Distribute Float</div>
+        <div class="transaction-id">14537289</div>
+      </div>
+      <div class="transaction-amount">
+        <div class="amount">- 3,390.00 <span class="b-cur">ETB</span></div>
+        <div class="time">16 Sep &bull; 09:16 PM</div>
+      </div>
+    </div>
+    <div class="transaction-item">
+      <div class="transaction-avatar av-float"><svg viewBox="0 0 24 24"><path d="M7.6 3.3 3.2 7.7l4.4 4.4 1.6-1.6-1.7-1.7h9.2V6.6H7.5l1.7-1.7z"/><path d="m16.4 20.7 4.4-4.4-4.4-4.4-1.6 1.6 1.7 1.7H7.3v2.2h9.2l-1.7 1.7z"/></svg></div>
+      <div class="transaction-info">
+        <div class="transaction-name">Transfer Float</div>
+        <div class="transaction-id">23343627</div>
+      </div>
+      <div class="transaction-amount">
+        <div class="amount">+ 1,000.00 <span class="b-cur">ETB</span></div>
+        <div class="time">12 Sep &bull; 06:06 PM</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-spacer"></div>
+
+<!-- ===== Scan FAB ===== -->
+<div class="scan-fab">
+  <div class="scan-icon">
+    <svg viewBox="0 0 24 24"><path d="M2 4.5C2 3.1 3.1 2 4.5 2H8v2.4H4.4V8H2V4.5zM16 2h3.5C20.9 2 22 3.1 22 4.5V8h-2.4V4.4H16V2zM22 16v3.5c0 1.4-1.1 2.5-2.5 2.5H16v-2.4h3.6V16H22zM8 22H4.5C3.1 22 2 20.9 2 19.5V16h2.4v3.6H8V22z"/><rect x="3" y="10.9" width="18" height="2.2" rx="1.1"/></svg>
+  </div>
+  <span class="scan-label">SCAN</span>
+</div>
+
+<!-- ===== Bottom navigation ===== -->
+<div class="bottom-nav">
+  <a class="nav-item active" href="#">
+    <svg viewBox="0 0 24 24" fill="#1fa855"><path d="M2.2 15.4c3.6.3 6.4-.9 8.4-2.6 2.3-2 3.6-4.6 4.4-6.8.3-.9 1.6-.8 1.8.2.2 1 .3 2 .3 3.1 3.1-.6 5.1-2.2 5.1-2.2s.3 5.6-3.6 8.9c-2.7 2.3-6.3 3-9.7 2.6-2.9-.4-5.2-1.5-6.7-3.2z"/></svg>
+    <span>HOME</span>
+  </a>
+  <a class="nav-item" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M3 20h18"/><path d="M5 20V8.5L12 4l7 4.5V20"/><path d="M9.5 20v-4.5h5V20"/><path d="M9.2 11h1.6M13.2 11h1.6"/></svg>
+    <span>ORGANIZATION</span>
+  </a>
+  <a class="nav-item" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="1.6" stroke-linejoin="round"><path d="M6.5 4 9.6 9.4H3.4L6.5 4z"/><rect x="13.6" y="4.2" width="6.4" height="5.2" rx="1"/><circle cx="6.7" cy="17" r="3.1"/><rect x="13.6" y="13.9" width="6.4" height="6.2" rx="1"/></svg>
+    <span>MINIAPPS</span>
+  </a>
+  <a class="nav-item" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5h14l-3-3"/><path d="M20 15.5H6l3 3"/></svg>
+    <span>TRANSACT</span>
+  </a>
+  <a class="nav-item" href="#">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.2" r="3.7"/><path d="M4.8 20c0-3.4 3.2-5.7 7.2-5.7s7.2 2.3 7.2 5.7"/></svg>
+    <span>ACCOUNT</span>
+  </a>
+</div>
+</div>
+
+<div class="gesture-bar"></div>
+
+<script src="catalog.js"></script>
+<script>
+(function () {
+  var PRODUCTS = window.QA_CATALOG.PRODUCTS;
+  var ICONS    = window.QA_CATALOG.ICONS;
+
+  /* Which product/operator this home screen represents. Defaults to the
+     unified independent store; pages.html drives it with the dropdowns. */
+  var params = new URLSearchParams(location.search);
+  var pIndex = clamp(parseInt(params.get('p'), 10), PRODUCTS.length, 0);
+  var vIndex = clamp(parseInt(params.get('v'), 10), PRODUCTS[pIndex].variants.length, 2);
+
+  function clamp(i, len, dflt) {
+    if (isNaN(i) || i < 0 || i >= len) return Math.min(dflt, len - 1);
+    return i;
+  }
+
+  var grid     = document.getElementById('quickActions');
+  var backdrop = document.getElementById('qaBackdrop');
+  var sheet    = document.getElementById('qaSheet');
+  var list     = document.getElementById('qaList');
+
+  /* "Sell Airtime" -> two lines, like the original cards.
+     "Sell Float to Print A/C" -> let it wrap on its own. */
+  function stack(label) {
+    var parts = label.split(' ');
+    return parts.length === 2 ? parts[0] + '<br>' + parts[1] : label;
+  }
+
+  var EYE_SVG = '<svg class="eye" viewBox="0 0 24 24" fill="none" stroke="#8d8d8d" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
+                '<path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.9"/><path d="M3.5 20.5 20.5 3.5"/></svg>';
+  var CELLS    = window.QA_CATALOG.BALANCE_CELLS;
+  var LAYOUT   = window.QA_CATALOG.CARD_LAYOUT;
+  var ALL_CELLS = window.QA_CATALOG.ALL_CELLS;
+  var cardsWrap = document.getElementById('balanceCards');
+
+  /* Outline marks for the sub-screen rows (they inherit the red via CSS). */
+  var ROW_ICONS = {
+    qr:    '<svg viewBox="0 0 24 24"><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/><rect x="7" y="7" width="4" height="4" rx="1"/><rect x="13" y="13" width="4" height="4" rx="1"/><path d="M13 7h4M17 7v4M7 13h4M7 17h4"/></svg>',
+    hand:  '<svg viewBox="0 0 24 24"><path d="M3 14.5h2.6l2 1.6c.4.3.9.5 1.4.5h3a1 1 0 0 1 0 2H8.6"/><path d="M3 13.6V21h8.7c.9 0 1.8-.3 2.5-.9l4.1-3.4a1.5 1.5 0 0 0-1.8-2.2l-3.1 2.6"/><path d="M17.3 3c-4 0-7.3 2.9-7.6 6.7 0 .7.5 1.3 1.2 1.3h1.4a5.3 5.3 0 0 0 5.2-4.2c.2-1.1.7-2.1 1.4-2.9"/></svg>',
+    link:  '<svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-8.5 8.5"/><path d="M18 14.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4.5"/></svg>',
+    card:  '<svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/><path d="M6 14.5h3"/></svg>',
+    bank:  '<svg viewBox="0 0 24 24"><path d="M12 3.2 3 8h18zM5.5 11v6.5M9.5 11v6.5M14.5 11v6.5M18.5 11v6.5M3 20.8h18"/></svg>',
+    money: '<svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v5M18 9.5v5"/></svg>'
+  };
+
+  /* Which mark a sub-item gets, matched on its wording. */
+  function rowIcon(label) {
+    var t = label.toLowerCase();
+    if (t.indexOf('qr') > -1)                              return ROW_ICONS.qr;
+    if (t.indexOf('card') > -1)                            return ROW_ICONS.card;
+    if (t.indexOf('link') > -1)                            return ROW_ICONS.link;
+    if (t.indexOf('bank') > -1)                            return ROW_ICONS.bank;
+    if (t.indexOf('request') > -1 || t.indexOf('pay') > -1) return ROW_ICONS.hand;
+    return ROW_ICONS.money;
+  }
+
+  function cellHtml(key, narrow, right) {
+    var c = CELLS[key];
+    if (!c) return '';
+    var value;
+    if (c.link) {
+      value = '<div class="b-value small reward" data-link="' + c.link + '" role="link" tabindex="0">' +
+                '<span>' + c.value + '</span>' +
+                '<svg class="chev" viewBox="0 0 10 16" fill="none" stroke="#2b2b2b" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l6 6-6 6"/></svg>' +
+              '</div>';
+    } else if (c.activate) {
+      value = '<div class="b-value small activate" data-link="#">' +
+                '<span>' + c.value + '</span>' +
+                '<svg class="chev" viewBox="0 0 10 16" fill="none" stroke="#1fa855" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l6 6-6 6"/></svg>' +
+              '</div>';
+    } else {
+      value = '<div class="b-value' + (c.big ? '' : ' small') + '">' + c.value +
+                (c.unit ? ' <span class="b-cur">' + c.unit + '</span>' : '') +
+                (c.eye ? EYE_SVG : '') +
+              '</div>';
+    }
+    return '<div class="b-col' + (right ? ' b-right' : '') + '"' +
+             (c.link || narrow ? ' style="flex:0 0 96px"' : '') + '>' +
+             '<div class="b-label">' + c.label + '</div>' + value +
+           '</div>';
+  }
+
+  function renderBalances() {
+    var v = PRODUCTS[pIndex].variants[vIndex];
+    var on = v.balances || PRODUCTS[pIndex].balances || ALL_CELLS;
+
+    /* Same card design every time - cells the product does not have are
+       simply left out, the surviving ones keep their slot. */
+    cardsWrap.innerHTML = LAYOUT.map(function (card) {
+      var pick = function (candidates) {
+        for (var i = 0; i < candidates.length; i++) {
+          if (on.indexOf(candidates[i]) > -1) return candidates[i];
+        }
+        return null;
+      };
+      var rows = card.map(function (row, idx) {
+        var l = pick(row[0]), r = pick(row[1]);
+        if (!l && !r) return '';
+        /* the cell beside the headline balance stays narrow so the big
+           number keeps its room */
+        var narrowRight = idx === 0;
+        return '<div class="b-grid">' +
+                 (l ? cellHtml(l) : '<div class="b-col"></div>') +
+                 (r ? cellHtml(r, narrowRight, true) : '') +
+               '</div>';
+      }).filter(Boolean);
+      if (!rows.length) return '';
+      return '<div class="balance-card">' + rows.join('<div class="b-divider"></div>') + '</div>';
+    }).join('');
+
+    /* One card only? Let it take the full width instead of sitting in a
+       fixed-width carousel slot. */
+    cardsWrap.classList.toggle('single', cardsWrap.children.length === 1);
+
+    cardsWrap.querySelectorAll('[data-link]').forEach(function (el) {
+      el.addEventListener('click', function () { window.location.href = el.getAttribute('data-link'); });
+    });
+  }
+
+  function render() {
+    renderBalances();
+    var v = PRODUCTS[pIndex].variants[vIndex];
+    /* Two or four actions read better as a wide 2-up grid than as a
+       3-column row with an orphan card. */
+    var n = v.actions.length;
+    grid.classList.toggle('two-up', n <= 2 || n === 4);
+    grid.innerHTML = '';
+    if (!n) {
+      grid.innerHTML = '<div class="qa-empty">Quick actions for this product are not specified yet.</div>';
+      return;
+    }
+    v.actions.forEach(function (a) {
+      var card = document.createElement('div');
+      card.className = 'action-card';
+      card.innerHTML =
+        '<h4>' + stack(a.label) + '</h4>' +
+        '<div class="action-icon">' + (ICONS[a.icon] || ICONS.self) + '</div>';
+      if (a.children) card.addEventListener('click', function () { openList(a); });
+      grid.appendChild(card);
+    });
+  }
+
+  var listEl  = document.getElementById('actionList');
+  var homeEls = ['.winner-banner', '.quick-actions', '.transaction-section'];
+
+  /* Tapping an action with sub-items opens them as their own screen -
+     one flat list, the way the design shows it. */
+  function openList(action) {
+    var items = [];
+    action.children.forEach(function (child) {
+      items.push(child.label);
+      if (child.children) child.children.forEach(function (g) { items.push(g.label); });
+    });
+
+    listEl.innerHTML = items.map(function (label) {
+      return '<button type="button" class="al-row">' +
+               '<span class="al-icon">' + rowIcon(label) + '</span>' +
+               '<span>' + label + '</span>' +
+               '<svg class="chev" viewBox="0 0 8 14"><path d="m1.4 1.4 5 5.6-5 5.6"/></svg>' +
+             '</button>';
+    }).join('');
+
+    listEl.hidden = false;
+    homeEls.forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el) el.hidden = true;
+    });
+  }
+
+  function closeList() {
+    listEl.hidden = true;
+    homeEls.forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (el) el.hidden = false;
+    });
+  }
+
+  /* HOME in the bottom nav brings the merchant home screen back. */
+  var homeNav = document.querySelector('.bottom-nav .nav-item');
+  if (homeNav) homeNav.addEventListener('click', function (e) { e.preventDefault(); closeList(); });
+
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeList(); });
+
+  /* Catalog page: hand over the product list, take selections back. */
+  if (window.parent !== window) {
+    window.parent.postMessage({
+      type: 'qa-catalog',
+      p: pIndex,
+      v: vIndex,
+      products: PRODUCTS.map(function (p) {
+        return { name: p.name, variants: p.variants.map(function (x) { return x.name; }) };
+      })
+    }, '*');
+  }
+
+  window.addEventListener('message', function (e) {
+    var d = e.data;
+    if (!d || d.type !== 'qa-select') return;
+    pIndex = clamp(d.p, PRODUCTS.length, 0);
+    vIndex = clamp(d.v, PRODUCTS[pIndex].variants.length, 0);
+    closeList();
+    render();
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>

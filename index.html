@@ -2,711 +2,356 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Merchant Lite — Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merchant Lite — All Pages</title>
 <style>
-/* ---------- Switzer ---------- */
-@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-300.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap}
-@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
-@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
-@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-800.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap}
-@font-face{font-family:'Switzer';src:url('assets/fonts/switzer-900.woff2') format('woff2');font-weight:900;font-style:normal;font-display:swap}
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-300.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-800.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-900.woff2') format('woff2');font-weight:900;font-style:normal;font-display:swap}
 
-html{
-  background:linear-gradient(45deg,#1c9b52 0%,#c41e2a 58%,#e8343e 100%);
-  min-height:100vh;
-  display:flex;align-items:center;justify-content:center;
-}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
-body{
-  font-family:'Switzer','Segoe UI',Arial,sans-serif;
-  background:#fff;
-  width:100%;
-  max-width:390px;
-  position:relative;
-  -webkit-font-smoothing:antialiased;
-  /* real phone screen: 390 x 844, scrolls inside the frame */
-  width:390px;max-width:100%;
-  height:844px;max-height:100vh;
-  margin:0 auto;
-  overflow:hidden;
-  position:relative;
-  /* contains position:fixed children inside the phone */
-  transform:translateZ(0);
-  box-shadow:0 18px 50px rgba(0,0,0,.32);
-}
+  html,body{height:100%}
+  body{
+    font-family:'Switzer','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:#f3f4f6;
+    color:#16181d;
+    display:flex;
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
 
-/* ---------- Header ---------- */
-.header{
-  position:relative;
-  height:178px;
-  padding:44px 16px 0;
-  background:radial-gradient(120% 130% at 18% 0%, #e42a20 0%, #d01c1a 42%, #b81217 78%, #a5101a 100%);
-  overflow:hidden;
-}
-.header::after{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:url('assets/mpesa-pattern.png') no-repeat right bottom;
-  background-size:auto 205%;
-  -webkit-mask-image:linear-gradient(100deg,transparent 2%,rgba(0,0,0,.45) 24%,#000 58%);
-  mask-image:linear-gradient(100deg,transparent 2%,rgba(0,0,0,.45) 24%,#000 58%);
-  pointer-events:none;
-}
-.header-top{
-  position:relative;
-  z-index:2;
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-}
-.header-left{display:flex;align-items:center;gap:11px}
-.avatar-circle{
-  width:47px;height:47px;flex-shrink:0;
-  background:#dbe7fb;
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;font-weight:700;color:#2f6fd0;
-  letter-spacing:.2px;
-}
-.header-info h2{
-  color:#fff;
-  font-size:14px;
-  font-weight:700;
-  letter-spacing:.2px;
-  line-height:1.1;
-}
-.header-badge{
-  display:inline-block;
-  margin-top:6px;
-  background:rgba(255,255,255,.22);
-  color:#fff;
-  font-size:9px;
-  font-weight:500;
-  letter-spacing:.3px;
-  padding:3px 9px;
-  border-radius:9px;
-}
-.header-icons{display:flex;align-items:center;gap:20px;padding-top:14px}
-.header-icons svg{width:21px;height:21px;display:block;cursor:pointer}
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    width:264px;
+    flex-shrink:0;
+    height:100%;
+    background:#fff;
+    border-right:1px solid #ececf0;
+    display:flex;
+    flex-direction:column;
+  }
+  .sb-head{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:18px 16px;
+    border-bottom:1px solid #f0f0f3;
+    flex-shrink:0;
+  }
+  .sb-logo{
+    width:38px;height:38px;flex-shrink:0;
+    border-radius:10px;
+    background:linear-gradient(135deg,#ef4238,#d3211f);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:19px;font-weight:800;
+  }
+  .sb-name{font-size:14px;font-weight:800;letter-spacing:-.1px}
+  .sb-sub{margin-top:2px;font-size:11px;color:#8a9099;font-weight:500}
 
-/* ---------- Balance cards ---------- */
-.balance-section{
-  position:relative;
-  z-index:3;
-  margin-top:-63px;
-}
-.balance-cards{
-  display:flex;
-  gap:12px;
-  padding:0 16px 6px;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  scroll-padding-left:16px;
-  scrollbar-width:none;
-}
-.balance-cards::-webkit-scrollbar{display:none}
-.balance-card{
-  flex:0 0 292px;
-  width:292px;
-  background:#fff;
-  border-radius:14px;
-  padding:12px 15px 13px;
-  scroll-snap-align:start;
-  box-shadow:0 6px 16px rgba(0,0,0,.10);
-}
-.b-grid{display:flex}
-.b-col{flex:1;min-width:0}
-.b-label{
-  font-size:11px;
-  color:#9b9b9b;
-  font-weight:400;
-  letter-spacing:.1px;
-  margin-bottom:3px;
-  white-space:nowrap;
-}
-.b-value{
-  font-size:23.5px;
-  font-weight:700;
-  color:#1b1b1b;
-  letter-spacing:-.5px;
-  line-height:1.15;
-  display:flex;
-  align-items:center;
-  gap:5px;
-  white-space:nowrap;
-}
-.b-value .eye{width:18px;height:18px;flex-shrink:0;cursor:pointer}
-.b-cur{
-  font-size:.55em;
-  font-weight:700;
-  letter-spacing:0;
-  color:#8d8d8d;
-  align-self:flex-end;
-  margin-left:-2px;
-  padding-bottom:2px;
-}
-.b-value.small{font-size:17.5px;letter-spacing:-.2px}
-.reward{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:6px;
-  cursor:pointer;
-}
-.reward .chev{width:9px;height:15px;flex-shrink:0;margin-right:1px}
-.b-divider{height:1px;background:#eeeeee;margin:11px 0 10px}
+  .sb-scroll{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    padding:8px 0 28px;
+  }
 
-/* ---------- Winner banner ---------- */
-.winner-banner{
-  position:relative;
-  margin:16px 14px 0;
-  height:178px;
-  border-radius:16px;
-  overflow:hidden;
-  background:#d32b22;
-  box-shadow:0 3px 10px rgba(0,0,0,.10);
-}
-.winner-photo{
-  position:absolute;
-  inset:0;
-  background:url('assets/winner.jpg') no-repeat 110px 0;
-  background-size:auto 200%;
-}
-.winner-tint{
-  position:absolute;inset:0;z-index:1;
-  background:
-    linear-gradient(90deg,
-      #e5372c 0%,
-      #e0342a 26%,
-      rgba(222,50,40,.94) 40%,
-      rgba(220,47,37,.72) 48%,
-      rgba(218,44,35,.38) 58%,
-      rgba(216,42,33,.14) 68%,
-      rgba(215,41,32,.03) 78%,
-      rgba(215,41,32,0) 86%),
-    linear-gradient(180deg, rgba(255,140,90,.10) 0%, rgba(255,140,90,0) 40%, rgba(140,15,10,.12) 100%);
-}
-.winner-card-deco{
-  position:absolute;
-  left:94px;top:13px;
-  width:77px;height:47px;
-  border-radius:6px;
-  background:rgba(255,255,255,.085);
-  border:1px solid rgba(255,255,255,.13);
-  z-index:2;
-  padding-top:5px;
-  text-align:center;
-  pointer-events:none;
-}
-.winner-card-deco .deco-user{
-  width:13px;height:13px;
-  fill:rgba(255,255,255,.30);
-}
-.winner-card-deco .deco-digits{
-  position:absolute;
-  left:0;right:0;bottom:7px;
-  font-size:6.5px;
-  font-weight:600;
-  letter-spacing:1.4px;
-  color:rgba(255,255,255,.28);
-}
-.winner-content{
-  position:relative;
-  z-index:3;
-  padding:24px 20px 0;
-}
-.winner-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  height:21px;
-  background:rgba(0,0,0,.18);
-  border-radius:11px;
-  padding:0 9px 0 1px;
-}
-.winner-badge .flame{
-  width:19px;height:19px;flex-shrink:0;
-  border-radius:50%;
-  background:#ea3a2c;
-  display:flex;align-items:center;justify-content:center;
-}
-.winner-badge .flame svg{width:10px;height:10px}
-.winner-badge .label{
-  font-size:9.5px;
-  font-weight:700;
-  color:#fff;
-  letter-spacing:.9px;
-}
-.winner-title{
-  margin-top:8px;
-  font-size:20px;
-  font-weight:800;
-  color:#fff;
-  line-height:1.06;
-  letter-spacing:.1px;
-  text-shadow:0 1px 3px rgba(0,0,0,.16);
-}
-.winner-amount{
-  display:block;
-  font-size:27px;
-  letter-spacing:-.4px;
-}
-.winner-amount .cur{font-size:.62em;font-weight:800;letter-spacing:0;margin-left:1px}
-.winner-subtitle{
-  margin-top:7px;
-  font-size:10.5px;
-  font-weight:500;
-  color:rgba(255,255,255,.88);
-  letter-spacing:.5px;
-}
-.view-more-btn{
-  margin-top:12px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  height:35px;
-  padding:0 19px;
-  background:#fff;
-  color:#e8443a;
-  border:none;
-  font-family:inherit;
-  font-size:11.5px;
-  font-weight:600;
-  letter-spacing:1.2px;
-  border-radius:18px;
-  cursor:pointer;
-  box-shadow:0 3px 10px rgba(0,0,0,.14);
-}
+  .group-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:13px 16px;
+    background:none;
+    border:none;
+    font-family:inherit;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:.7px;
+    color:#8a9099;
+    text-transform:uppercase;
+    cursor:pointer;
+    border-top:1px solid #f4f4f6;
+  }
+  .group:first-child .group-btn{border-top:none}
+  .group-btn:hover{color:#16181d;background:#fafafb}
+  .group-btn .chev{
+    width:14px;height:14px;flex-shrink:0;
+    fill:none;stroke:#b6bbc2;stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round;
+    transition:transform .18s ease;
+  }
+  .group.open .group-btn{color:#16181d}
+  .group.open .group-btn .chev{transform:rotate(90deg)}
 
-/* ---------- Quick actions ---------- */
-.quick-actions{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  padding:20px 14px 0;
-}
-.action-card{
-  position:relative;
-  height:88px;
-  background:#fff;
-  border:1px solid #f0b4b0;
-  border-radius:10px;
-  padding:11px 11px 0 11px;
-  cursor:pointer;
-  box-shadow:0 1px 3px rgba(0,0,0,.05);
-  transition:transform .15s ease;
-}
-.action-card:active{transform:scale(.98)}
-.action-card h4{
-  font-size:12.5px;
-  font-weight:600;
-  color:#1f2429;
-  line-height:1.22;
-  letter-spacing:-.1px;
-}
-.action-icon{
-  position:absolute;
-  right:11px;bottom:11px;
-  width:31px;height:31px;
-  background:#e8343e;
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-}
-.action-icon svg{width:17.5px;height:17.5px}
+  .group-items{display:none;padding:0 8px 8px}
+  .group.open .group-items{display:block}
 
-/* ---------- Transactions ---------- */
-.transaction-section{padding:26px 14px 0}
-.transaction-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:6px;
-}
-.transaction-header h3{
-  font-size:16px;
-  font-weight:800;
-  color:#141414;
-  letter-spacing:.2px;
-}
-.see-all{
-  color:#e8343e;
-  font-size:12.5px;
-  font-weight:600;
-  text-decoration:none;
-}
-.transaction-item{
-  display:flex;
-  align-items:center;
-  padding:12px 0;
-}
-.transaction-avatar{
-  width:40px;height:40px;flex-shrink:0;
-  background:#e3ecfb;
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:700;color:#4a7fd4;
-  margin-right:11px;
-}
-.transaction-info{flex:1;min-width:0}
-.transaction-name{font-size:13px;font-weight:700;color:#1b1b1b;letter-spacing:.1px}
-.transaction-id{font-size:11.5px;color:#9b9b9b;font-weight:400;margin-top:3px}
-.transaction-amount{text-align:right;flex-shrink:0}
-.transaction-amount .amount{font-size:13px;font-weight:600;color:#3c3c3c}
-.transaction-amount .b-cur{font-size:.78em;padding-bottom:0;margin-left:0}
-.transaction-amount .time{font-size:11px;color:#9b9b9b;margin-top:3px}
+  .page-link{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:9px 10px;
+    border-radius:9px;
+    text-decoration:none;
+    color:#16181d;
+    font-size:12.5px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .page-link:hover{background:#f5f6f8}
+  .page-link svg{width:16px;height:16px;flex-shrink:0;fill:none;stroke:#6b7079;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .page-link.active{background:#fdeeee;color:#e8343e}
+  .page-link.active svg{stroke:#e8343e}
+  .page-link .file{
+    margin-left:auto;
+    font-size:10px;
+    font-weight:600;
+    color:#b6bbc2;
+  }
+  .page-link.active .file{color:#eb8b8b}
 
-.bottom-spacer{height:96px}
+  /* ---------- Preview ---------- */
+  .stage{
+    flex:1;
+    min-width:0;
+    height:100%;
+    display:flex;
+    background:linear-gradient(45deg,#1c9b52 0%,#c41e2a 58%,#e8343e 100%);
+  }
+  /* current screen + product controls live in the sidebar footer */
+  .sb-foot{
+    flex-shrink:0;
+    border-top:1px solid #f0f0f3;
+    padding:14px 16px 16px;
+    background:#fff;
+  }
 
-/* ---------- Scan FAB ---------- */
-.scan-fab{
-  position:fixed;
-  bottom:101px;
-  left:50%;
-  transform:translateX(-50%);
-  width:60px;height:60px;
-  background:#fff;
-  border-radius:50%;
-  box-shadow:0 4px 14px rgba(0,0,0,.16);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:2px;
-  z-index:120;
-  cursor:pointer;
-}
-.scan-fab .scan-icon{
-  width:26px;height:26px;
-  background:#d3211f;
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-}
-.scan-fab .scan-icon svg{width:14px;height:14px;fill:#fff}
-.scan-fab .scan-label{
-  font-size:8px;
-  font-weight:700;
-  color:#d3211f;
-  letter-spacing:.4px;
-}
+  .sb-controls{margin:0}
+  .sb-controls select{
+    width:100%;
+    font-family:inherit;
+    font-size:12px;font-weight:700;
+    color:#16181d;
+    background:#f5f6f8;
+    border:1px solid #e7e9ed;
+    border-radius:9px;
+    padding:9px 10px;
+    margin-bottom:9px;
+    cursor:pointer;
+  }
+  .sb-controls select:last-child{margin-bottom:0}
 
-/* ---------- Bottom nav ---------- */
-.bottom-nav{
-  position:fixed;
-  bottom:24px;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:390px;
-  background:#fff;
-  display:flex;
-  padding:11px 4px 34px;
-  z-index:110;
-  box-shadow:0 -1px 8px rgba(0,0,0,.06);
-}
-.nav-item{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-  text-decoration:none;
-  cursor:pointer;
-}
-.nav-item svg{width:21px;height:21px;display:block}
-.nav-item span{
-  font-size:8.5px;
-  font-weight:600;
-  color:#a8a8a8;
-  letter-spacing:.2px;
-}
-.nav-item.active span{color:#1fa855}
+  .stage-body{
+    flex:1;
+    min-height:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+  }
+  .phone{
+    width:390px;
+    height:844px;
+    max-height:100%;
+    background:#fff;
+    box-shadow:0 18px 50px rgba(0,0,0,.32);
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .phone iframe{width:100%;height:100%;border:none;display:block}
 
-
-.phone-scroll{
-  height:calc(100% - 24px);
-  overflow-y:auto;
-  overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-}
-.phone-scroll::-webkit-scrollbar{display:none}
-body.sheet-open .phone-scroll{overflow:hidden}
-
-.gesture-bar{
-  position:fixed;
-  left:0;right:0;bottom:0;
-  height:24px;
-  background:#fff;
-  display:flex;align-items:center;justify-content:center;
-  z-index:400;
-  pointer-events:none;
-}
-.gesture-bar::after{
-  content:'';
-  width:134px;height:5px;
-  border-radius:3px;
-  background:#1a1a1a;
-}
+  .empty{
+    color:rgba(255,255,255,.9);
+    font-size:13px;
+    font-weight:600;
+  }
 </style>
 </head>
 <body>
-<div class="phone-scroll">
-<!-- ===== Header ===== -->
-<div class="header">
-  <div class="header-top">
-    <div class="header-left">
-      <div class="avatar-circle">LC</div>
-      <div class="header-info">
-        <h2>LONDON CAFE -LC</h2>
-        <div class="header-badge">344100 - HEAD OFFICE</div>
-      </div>
-    </div>
-    <div class="header-icons">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 8V5.5A2.5 2.5 0 0 1 5.5 3H8"/><path d="M16 3h2.5A2.5 2.5 0 0 1 21 5.5V8"/>
-        <path d="M21 16v2.5a2.5 2.5 0 0 1-2.5 2.5H16"/><path d="M8 21H5.5A2.5 2.5 0 0 1 3 18.5V16"/>
-        <rect x="6.7" y="6.7" width="4" height="4" rx=".7"/><rect x="13.3" y="6.7" width="4" height="4" rx=".7"/>
-        <rect x="6.7" y="13.3" width="4" height="4" rx=".7"/>
-        <path d="M13.3 13.3h1.8M13.3 17.3h0M15.6 17.3h1.7M17.3 15.4v-2.1"/>
-      </svg>
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 8.5a6 6 0 1 0-12 0c0 6-2 7.5-2 7.5h16s-2-1.5-2-7.5z"/>
-        <path d="M10.3 20a2 2 0 0 0 3.4 0"/>
-      </svg>
-    </div>
-  </div>
-</div>
 
-<!-- ===== Balance cards ===== -->
-<div class="balance-section">
-  <div class="balance-cards">
-
-    <div class="balance-card">
-      <div class="b-grid">
-        <div class="b-col">
-          <div class="b-label">Working Account Balance</div>
-          <div class="b-value">
-            24,605.00 <span class="b-cur">ETB</span>
-            <svg class="eye" viewBox="0 0 24 24" fill="none" stroke="#8d8d8d" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7-10-7-10-7z"/>
-              <circle cx="12" cy="12" r="2.9"/>
-              <path d="M3.5 20.5 20.5 3.5"/>
-            </svg>
-          </div>
-        </div>
-        <div class="b-col" style="flex:0 0 86px">
-          <div class="b-label">Loyalty Points</div>
-          <div class="b-value small reward" onclick="window.location.href='8.html'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='8.html'">
-            <span>50 Point</span>
-            <svg class="chev" viewBox="0 0 10 16" fill="none" stroke="#2b2b2b" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l6 6-6 6"/></svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="b-divider"></div>
-
-      <div class="b-grid">
-        <div class="b-col">
-          <div class="b-label">Mekoya Balance</div>
-          <div class="b-value small">100.00 <span class="b-cur">ETB</span></div>
-        </div>
-        <div class="b-col" style="flex:0 0 86px">
-          <div class="b-label">Commission</div>
-          <div class="b-value small">0.00 <span class="b-cur">ETB</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="balance-card">
-      <div class="b-grid">
-        <div class="b-col">
-          <div class="b-label">Printing Account Balance</div>
-          <div class="b-value">2,605.00 <span class="b-cur">ETB</span></div>
-        </div>
-        <div class="b-col" style="flex:0 0 86px">
-          <div class="b-label">Loyalty Points</div>
-          <div class="b-value small reward" onclick="window.location.href='8.html'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='8.html'">
-            <span>20 Point</span>
-            <svg class="chev" viewBox="0 0 10 16" fill="none" stroke="#2b2b2b" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 2l6 6-6 6"/></svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="b-divider"></div>
-
-      <div class="b-grid">
-        <div class="b-col">
-          <div class="b-label">Mekoya Balance</div>
-          <div class="b-value small">100.00 <span class="b-cur">ETB</span></div>
-        </div>
-        <div class="b-col" style="flex:0 0 86px">
-          <div class="b-label">Commission</div>
-          <div class="b-value small">0.00 <span class="b-cur">ETB</span></div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ===== Top winner banner ===== -->
-<div class="winner-banner">
-  <div class="winner-photo"></div>
-  <div class="winner-tint"></div>
-  <div class="winner-card-deco">
-    <svg class="deco-user" viewBox="0 0 24 24"><circle cx="12" cy="7.4" r="3.9"/><path d="M12 13c-4.1 0-7.3 2.4-7.3 5.3v1.4h14.6v-1.4c0-2.9-3.2-5.3-7.3-5.3z"/></svg>
-    <div class="deco-digits">&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 0000 &bull;&bull;</div>
-  </div>
-  <div class="winner-content">
-    <div class="winner-badge">
-      <span class="flame">
-        <svg viewBox="0 0 24 24" fill="#fff"><path d="M13.5 1.5s.9 3.4-1.4 5.6c-2.2 2.2-4.6 3.6-4.6 7.1A6.5 6.5 0 0 0 14 20.6c3.2 0 5.9-2.6 5.9-6 0-4.7-3.4-6.4-3.4-6.4s.4 2.4-1 3.3c0 0 .6-4.6-1.9-7.2-.5-.5-.1-2.8-.1-2.8z"/></svg>
-      </span>
-      <span class="label">TOP WINNER</span>
-    </div>
-    <div class="winner-title"><span class="winner-amount">100,000 <span class="cur">ETB</span></span>MONDAY WINNER</div>
-    <div class="winner-subtitle">TRANSACT MORE AND WIN BIG</div>
-    <button class="view-more-btn" onclick="window.location.href='7.html'">VIEW MORE</button>
-  </div>
-</div>
-
-<!-- ===== Quick actions ===== -->
-<div class="quick-actions">
-  <div class="action-card">
-    <h4>Receive<br>Payment</h4>
-    <div class="action-icon">
-      <svg viewBox="0 0 24 24" fill="#fff">
-        <path d="M2.8 14.9c0-.6.4-1 1-1h2.4l2 1.6c.4.3.9.5 1.4.5h3c.5 0 .9.4.9.9s-.4.9-.9.9h-3.4v1.5h3.8c.8 0 1.6-.3 2.2-.8l3.1-2.6c.6-.5 1.5-.4 2 .2.5.6.4 1.5-.2 2l-4.1 3.4c-.7.6-1.6.9-2.5.9H3.8c-.6 0-1-.4-1-1v-6.5z"/>
-        <path d="M17.1 2.8c-4.2 0-7.6 3.1-7.9 7-.1.8.5 1.4 1.3 1.4h1.4c2.5 0 4.7-1.8 5.2-4.2.2-1.2.8-2.2 1.5-3.1.4-.5.1-1.1-.5-1.1z"/>
-      </svg>
+<!-- ===== Sidebar ===== -->
+<aside class="sidebar">
+  <div class="sb-head">
+    <div class="sb-logo">M</div>
+    <div>
+      <div class="sb-name">Merchant Lite App</div>
+      <div class="sb-sub">All Pages &bull; <span id="screenCount">0</span> Screens</div>
     </div>
   </div>
 
-  <div class="action-card">
-    <h4>Sell<br>Airtime</h4>
-    <div class="action-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="4.4" y="3" width="9.8" height="18" rx="2.3"/>
-        <path d="M8.1 17.9h2.4"/>
-        <path d="M17.2 7.7a4.5 4.5 0 0 1 0 6.4"/>
-        <path d="M19.8 5.2a8 8 0 0 1 0 11.4"/>
-      </svg>
+  <div class="sb-scroll" id="sbScroll"></div>
+
+  <div class="sb-foot">
+    <div class="sb-controls" id="qaControls" hidden>
+      <select id="qaProduct" aria-label="Product"></select>
+      <select id="qaVariant" aria-label="Variant"></select>
     </div>
+
   </div>
+</aside>
 
-  <div class="action-card">
-    <h4>Sell<br>Package</h4>
-    <div class="action-icon">
-      <svg viewBox="0 0 24 24" fill="#fff">
-        <path d="M12 2.4 2.2 7.3 12 12.2l9.8-4.9L12 2.4z"/>
-        <path d="M4.6 11.1 2.2 12.3 12 17.2l9.8-4.9-2.4-1.2L12 14.8l-7.4-3.7z"/>
-        <path d="M4.6 15.5 2.2 16.7 12 21.6l9.8-4.9-2.4-1.2L12 19.2l-7.4-3.7z"/>
-      </svg>
-    </div>
+<!-- ===== Preview ===== -->
+<main class="stage">
+  <div class="stage-body">
+    <div class="phone"><iframe id="preview" src="home.html" title="Screen preview"></iframe></div>
   </div>
+</main>
 
-  <div class="action-card">
-    <h4>Assisted<br>Payment</h4>
-    <div class="action-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="4.4" y="3" width="9.8" height="18" rx="2.3"/>
-        <rect x="6.9" y="8.4" width="4.8" height="3.5" rx="1" fill="#fff" stroke="none"/>
-        <path d="M8.1 17.9h2.4"/>
-        <path d="M17.2 7.7a4.5 4.5 0 0 1 0 6.4"/>
-        <path d="M19.8 5.2a8 8 0 0 1 0 11.4"/>
-      </svg>
-    </div>
-  </div>
+<script>
+(function () {
+  /* Add a screen by dropping it into the right group - the sidebar,
+     the screen count and the preview all pick it up automatically. */
+  var ICONS = {
+    home:  '<svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>',
+    star:  '<svg viewBox="0 0 24 24"><path d="m12 3.6 2.6 5.3 5.8.9-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.6 9.8l5.8-.9z"/></svg>',
+    gift:  '<svg viewBox="0 0 24 24"><path d="M3.5 11h17v9.5a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z"/><path d="M2.5 7.5h19V11h-19zM12 7.5v14"/><path d="M12 7.5S10.5 3 8 3a2.3 2.3 0 0 0 0 4.5zM12 7.5S13.5 3 16 3a2.3 2.3 0 0 1 0 4.5z"/></svg>',
+    swap:  '<svg viewBox="0 0 24 24"><path d="M4 8.5h14l-3.5-3.5M20 15.5H6l3.5 3.5"/></svg>',
+    list:  '<svg viewBox="0 0 24 24"><path d="M8 6.5h12M8 12h12M8 17.5h12M4 6.5h.01M4 12h.01M4 17.5h.01"/></svg>',
+    info:  '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M12 11v5M12 8.2h.01"/></svg>',
+    check: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="m8.4 12.3 2.5 2.5 4.7-4.9"/></svg>',
+    truck: '<svg viewBox="0 0 24 24"><path d="M3 7h10v9H3zM13 10.5h4l3 3V16h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg>',
+    pin:   '<svg viewBox="0 0 24 24"><path d="M12 21s6.5-5.4 6.5-10A6.5 6.5 0 1 0 5.5 11c0 4.6 6.5 10 6.5 10z"/><circle cx="12" cy="10.8" r="2.3"/></svg>',
+    cart:  '<svg viewBox="0 0 24 24"><path d="M3 4h2.2l2.3 11h9.8l2.2-8H6.2"/><circle cx="9.5" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg>',
+    ticket:'<svg viewBox="0 0 24 24"><path d="M4 8.5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-4z"/><path d="M13 7v10"/></svg>',
+    cal:   '<svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8.5 3.5V6M15.5 3.5V6"/></svg>',
+    promo: '<svg viewBox="0 0 24 24"><path d="M4 10.5 12.5 3l7.5 2 1 7.5L13 21z"/><circle cx="15.5" cy="8" r="1.4"/></svg>',
+    grid:  '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/></svg>'
+  };
 
-  <div class="action-card">
-    <h4>Deposit</h4>
-    <div class="action-icon">
-      <svg viewBox="0 0 24 24" fill="#fff">
-        <g transform="rotate(-9 12 12)">
-          <rect x="2.4" y="10" width="19.2" height="9.2" rx="1.7" opacity=".5"/>
-          <rect x="2.4" y="6.2" width="19.2" height="9.2" rx="1.7"/>
-          <circle cx="7.6" cy="10.8" r="1.1" fill="#e8343e"/>
-          <circle cx="12" cy="10.8" r="1.1" fill="#e8343e"/>
-          <circle cx="16.4" cy="10.8" r="1.1" fill="#e8343e"/>
-        </g>
-      </svg>
-    </div>
-  </div>
+  var GROUPS = [
+    { name: 'Home', open: true, items: [
+      { label: 'Merchant Home', file: 'home.html', icon: 'home' }
+    ]},
+    { name: 'Loyalty Points', open: false, items: [
+      { label: 'Loyalty Point',        file: '8.html',    icon: 'star' },
+      { label: 'Convert Float',        file: '12.html',   icon: 'swap' },
+      { label: 'How It Works',         file: '14.html',   icon: 'info' },
+      { label: 'Activity History',     file: '20.html',   icon: 'list' },
+      { label: 'Check Rewards',        file: '9.html',    icon: 'gift' },
+      { label: 'Reward Details',       file: '16.html',   icon: 'gift' },
+      { label: 'Reward Details (Alt)', file: '16_1.html', icon: 'gift' },
+      { label: 'Confirm Order',        file: '17.html',   icon: 'cart' },
+      { label: 'Track Delivery',       file: '18.html',   icon: 'truck' },
+      { label: 'Delivery Details',     file: '19.html',   icon: 'pin' }
+    ]},
+    { name: 'Merchant Promo', open: false, items: [
+      { label: 'Promo Home',     file: '2.html', icon: 'promo' },
+      { label: 'Promo Rules',    file: '6.html', icon: 'info' },
+      { label: 'Draw Codes',     file: '3.html', icon: 'ticket' },
+      { label: 'Select Date',    file: '4.html', icon: 'cal' },
+      { label: 'Download Codes', file: '5.html', icon: 'cal' },
+      { label: 'Prize Matrix',   file: '7.html', icon: 'grid' }
+    ]}
+  ];
 
-  <div class="action-card" onclick="window.location.href='2.html'" role="link" tabindex="0" onkeydown="if(event.key==='Enter')window.location.href='2.html'">
-    <h4>Self<br>Service</h4>
-    <div class="action-icon">
-      <svg viewBox="0 0 24 24" fill="#fff">
-        <path d="M12 3.4 2.6 8 12 12.6 21.4 8 12 3.4z"/>
-        <path d="M4.9 11.6 2.6 12.7 12 17.3l9.4-4.6-2.3-1.1L12 15.1l-7.1-3.5z" opacity=".75"/>
-        <circle cx="17.7" cy="17.4" r="4.6"/>
-        <path d="m15.7 17.4 1.5 1.5 3-3.1" fill="none" stroke="#e8343e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-  </div>
-</div>
+  var scroll  = document.getElementById('sbScroll');
+  var preview = document.getElementById('preview');
+  var count   = 0;
 
-<!-- ===== Transaction history ===== -->
-<div class="transaction-section">
-  <div class="transaction-header">
-    <h3>TRANSACTION HISTORY</h3>
-    <a href="20.html?tab=accumulation" class="see-all">See All</a>
-  </div>
-  <div class="transaction-item">
-    <div class="transaction-avatar">PP</div>
-    <div class="transaction-info">
-      <div class="transaction-name">PICTAC PIX</div>
-      <div class="transaction-id">14537289</div>
-    </div>
-    <div class="transaction-amount">
-      <div class="amount">- 3,390.00 <span class="b-cur">ETB</span></div>
-      <div class="time">03:56 PM</div>
-    </div>
-  </div>
-</div>
+  function buildItems(items, container) {
+    items.forEach(function (it) {
+      count++;
+      var a = document.createElement('a');
+      a.className = 'page-link';
+      a.href = it.file;
+      a.innerHTML = (ICONS[it.icon] || ICONS.grid) +
+        '<span>' + it.label + '</span>' +
+        '<span class="file">' + it.file.replace('.html', '') + '</span>';
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        select(a, it);
+      });
+      container.appendChild(a);
+    });
+  }
 
-<div class="bottom-spacer"></div>
+  GROUPS.forEach(function (g) {
+    var wrap = document.createElement('div');
+    wrap.className = 'group' + (g.open ? ' open' : '');
 
-<!-- ===== Scan FAB ===== -->
-<div class="scan-fab">
-  <div class="scan-icon">
-    <svg viewBox="0 0 24 24"><path d="M2 4.5C2 3.1 3.1 2 4.5 2H8v2.4H4.4V8H2V4.5zM16 2h3.5C20.9 2 22 3.1 22 4.5V8h-2.4V4.4H16V2zM22 16v3.5c0 1.4-1.1 2.5-2.5 2.5H16v-2.4h3.6V16H22zM8 22H4.5C3.1 22 2 20.9 2 19.5V16h2.4v3.6H8V22z"/><rect x="3" y="10.9" width="18" height="2.2" rx="1.1"/></svg>
-  </div>
-  <span class="scan-label">SCAN</span>
-</div>
+    var btn = document.createElement('button');
+    btn.className = 'group-btn';
+    btn.type = 'button';
+    btn.innerHTML = '<span>' + g.name + '</span>' +
+      '<svg class="chev" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>';
+    btn.addEventListener('click', function () { wrap.classList.toggle('open'); });
+    wrap.appendChild(btn);
 
-<!-- ===== Bottom navigation ===== -->
-<div class="bottom-nav">
-  <a class="nav-item active" href="#">
-    <svg viewBox="0 0 24 24" fill="#1fa855"><path d="M2.2 15.4c3.6.3 6.4-.9 8.4-2.6 2.3-2 3.6-4.6 4.4-6.8.3-.9 1.6-.8 1.8.2.2 1 .3 2 .3 3.1 3.1-.6 5.1-2.2 5.1-2.2s.3 5.6-3.6 8.9c-2.7 2.3-6.3 3-9.7 2.6-2.9-.4-5.2-1.5-6.7-3.2z"/></svg>
-    <span>HOME</span>
-  </a>
-  <a class="nav-item" href="#">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M3 20h18"/><path d="M5 20V8.5L12 4l7 4.5V20"/><path d="M9.5 20v-4.5h5V20"/><path d="M9.2 11h1.6M13.2 11h1.6"/></svg>
-    <span>ORGANIZATION</span>
-  </a>
-  <a class="nav-item" href="#">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="1.6" stroke-linejoin="round"><path d="M6.5 4 9.6 9.4H3.4L6.5 4z"/><rect x="13.6" y="4.2" width="6.4" height="5.2" rx="1"/><circle cx="6.7" cy="17" r="3.1"/><rect x="13.6" y="13.9" width="6.4" height="6.2" rx="1"/></svg>
-    <span>MINIAPPS</span>
-  </a>
-  <a class="nav-item" href="#">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5h14l-3-3"/><path d="M20 15.5H6l3 3"/></svg>
-    <span>TRANSACT</span>
-  </a>
-  <a class="nav-item" href="#">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#b3b3b3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.2" r="3.7"/><path d="M4.8 20c0-3.4 3.2-5.7 7.2-5.7s7.2 2.3 7.2 5.7"/></svg>
-    <span>ACCOUNT</span>
-  </a>
-</div>
-</div>
+    var list = document.createElement('div');
+    list.className = 'group-items';
+    buildItems(g.items, list);
 
-<div class="gesture-bar"></div>
+    wrap.appendChild(list);
+    scroll.appendChild(wrap);
+  });
+
+  document.getElementById('screenCount').textContent = count;
+
+  function select(link, item) {
+    var prev = scroll.querySelector('.page-link.active');
+    if (prev) prev.classList.remove('active');
+    link.classList.add('active');
+    if (item.file.indexOf('home.html') === -1) qaControls.hidden = true;
+    preview.src = item.file;
+  }
+
+  /* ----- Quick-actions dropdowns (the embedded page sends its catalog) ----- */
+  var qaControls = document.getElementById('qaControls');
+  var qaProduct  = document.getElementById('qaProduct');
+  var qaVariant  = document.getElementById('qaVariant');
+  var qaCatalog  = null;
+
+  function fillSelect(sel, values, index) {
+    sel.innerHTML = '';
+    values.forEach(function (name, i) {
+      var o = document.createElement('option');
+      o.value = i;
+      o.textContent = name;
+      sel.appendChild(o);
+    });
+    sel.value = index;
+  }
+
+  function sendSelection() {
+    preview.contentWindow.postMessage({
+      type: 'qa-select',
+      p: +qaProduct.value,
+      v: +qaVariant.value
+    }, '*');
+  }
+
+  qaProduct.addEventListener('change', function () {
+    var p = qaCatalog[+qaProduct.value];
+    fillSelect(qaVariant, p.variants, 0);
+    qaVariant.hidden = p.variants.length < 2;
+    sendSelection();
+  });
+  qaVariant.addEventListener('change', sendSelection);
+
+  window.addEventListener('message', function (e) {
+    var d = e.data;
+    if (!d || d.type !== 'qa-catalog') return;
+    qaCatalog = d.products;
+    fillSelect(qaProduct, qaCatalog.map(function (p) { return p.name; }), d.p);
+    fillSelect(qaVariant, qaCatalog[d.p].variants, d.v);
+    qaVariant.hidden = qaCatalog[d.p].variants.length < 2;
+    qaControls.hidden = false;
+  });
+
+  /* Open on the first screen of the first group. */
+  var first = scroll.querySelector('.page-link');
+  if (first) select(first, GROUPS[0].items[0]);
+})();
+</script>
 
 </body>
 </html>

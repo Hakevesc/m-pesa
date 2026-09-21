@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quick Actions by Product</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-300.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-600.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-800.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap}
+  @font-face{font-family:'Switzer';src:url('assets/fonts/switzer-900.woff2') format('woff2');font-weight:900;font-style:normal;font-display:swap}
+
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+  html{
+    background:linear-gradient(45deg,#1c9b52 0%,#c41e2a 58%,#e8343e 100%);
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  body{
+    font-family:'Switzer','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:#fff;
+    width:390px;max-width:100%;
+    height:844px;max-height:100vh;
+    margin:0 auto;
+    overflow:hidden;
+    position:relative;
+    transform:translateZ(0);
+    box-shadow:0 18px 50px rgba(0,0,0,.32);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  [hidden]{display:none!important}
+
+  .phone-scroll{
+    height:calc(100% - 24px);
+    overflow-y:auto;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .phone-scroll::-webkit-scrollbar{display:none}
+  body.sheet-open .phone-scroll{overflow:hidden}
+
+  .gesture-bar{
+    position:fixed;
+    left:0;right:0;bottom:0;
+    height:24px;
+    background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    z-index:400;
+    pointer-events:none;
+  }
+  .gesture-bar::after{
+    content:'';
+    width:134px;height:5px;
+    border-radius:3px;
+    background:#1a1a1a;
+  }
+
+  /* ---------- Header ---------- */
+  .header{
+    display:grid;grid-template-columns:auto 1fr auto;align-items:center;
+    background:#fff;position:sticky;top:0;z-index:50;
+    padding:10px 16px 18px;
+  }
+  .back-btn{
+    grid-column:1;grid-row:1;
+    width:28px;height:28px;margin-left:-4px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;background:none;border:none;padding:0;
+  }
+  .back-btn svg{width:20px;height:20px;fill:#1a1a1a}
+  .header-title{
+    grid-column:1/-1;grid-row:2;
+    text-align:center;margin-top:11px;line-height:1.15;
+    font-size:22px;font-weight:500;color:#000;
+    letter-spacing:.5px;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;
+  }
+
+  .role-note{
+    padding:10px 16px 0;
+    font-size:11px;
+    font-weight:600;
+    color:#8a9099;
+    letter-spacing:.2px;
+  }
+
+  /* ---------- Quick actions ---------- */
+  .section-label{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 16px 10px;
+    font-size:16px;font-weight:800;color:#16181d;
+    letter-spacing:.6px;
+  }
+  .count-pill{
+    font-size:10.5px;font-weight:700;
+    color:#1c9b52;
+    background:#eaf7ee;
+    border-radius:999px;
+    padding:4px 9px;
+    letter-spacing:.2px;
+  }
+
+  .quick-actions{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+    padding:0 14px;
+  }
+  .action-card{
+    position:relative;
+    min-height:88px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:6px;
+    background:#fff;
+    border:1px solid #2ec56d;
+    border-radius:10px;
+    padding:10px 10px 9px;
+    cursor:pointer;
+    text-align:left;
+    font-family:inherit;
+    box-shadow:0 2px 6px rgba(20,120,60,.10);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .action-card:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(20,120,60,.18)}
+  .action-card:active{transform:scale(.98)}
+  .action-card h4{
+    font-size:12.5px;
+    font-weight:600;
+    color:#1f2429;
+    line-height:1.22;
+    letter-spacing:-.1px;
+  }
+  .card-foot{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:6px;
+  }
+  .action-icon{
+    width:28px;height:28px;flex-shrink:0;
+    margin-left:auto;
+    background:linear-gradient(135deg,#3ad07a,#1fa855);
+    border-radius:50%;
+    box-shadow:0 3px 8px rgba(31,168,85,.32);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .action-icon svg{width:16px;height:16px;fill:#fff}
+  .action-card .more{
+    font-size:9.5px;font-weight:700;
+    color:#1c9b52;
+    letter-spacing:.3px;
+    white-space:nowrap;
+  }
+
+  /* ---------- Balance card preview ---------- */
+  .balances{padding:18px 14px 0}
+  .balances-title{
+    font-size:11px;font-weight:800;color:#8a9099;
+    letter-spacing:.7px;text-transform:uppercase;
+    margin-bottom:8px;padding:0 2px;
+  }
+  .balance-chips{display:flex;flex-wrap:wrap;gap:7px}
+  .balance-chip{
+    font-size:11px;font-weight:700;
+    color:#16181d;
+    background:#f3f4f6;
+    border:1px solid #e7e9ed;
+    border-radius:8px;
+    padding:7px 10px;
+  }
+  .balance-hint{
+    margin-top:9px;padding:0 2px;
+    font-size:10.5px;font-weight:500;color:#a4a9b0;
+    line-height:1.5;
+  }
+
+  .bottom-spacer{height:26px}
+
+  /* ---------- Sub-menu sheet ---------- */
+  .sheet-backdrop{
+    position:fixed;inset:0;
+    background:rgba(16,20,24,.45);
+    opacity:0;visibility:hidden;
+    transition:opacity .25s ease, visibility .25s ease;
+    z-index:200;
+  }
+  .sheet-backdrop.open{opacity:1;visibility:visible}
+  .sheet{
+    position:fixed;left:50%;bottom:24px;
+    transform:translate(-50%,120%);
+    width:100%;max-width:390px;
+    background:#fff;
+    border-radius:24px 24px 0 0;
+    padding:10px 18px 22px;
+    z-index:201;
+    box-shadow:0 -8px 30px rgba(0,0,0,.16);
+    transition:transform .32s cubic-bezier(.22,1,.36,1), visibility .32s ease;
+    visibility:hidden;
+    max-height:70%;
+    overflow-y:auto;
+    scrollbar-width:none;
+  }
+  .sheet::-webkit-scrollbar{display:none}
+  .sheet.open{transform:translate(-50%,0);visibility:visible}
+  .sheet-handle{width:40px;height:4px;border-radius:2px;background:#dfe2e6;margin:0 auto 16px}
+  .sheet-title{
+    text-align:center;font-size:17px;font-weight:800;
+    color:#16181d;letter-spacing:-.2px;margin-bottom:4px;
+  }
+  .sheet-sub{
+    text-align:center;font-size:11.5px;font-weight:500;
+    color:#8a9099;margin-bottom:16px;
+  }
+  .menu-item{
+    width:100%;
+    display:flex;align-items:center;gap:11px;
+    padding:13px 12px;
+    background:#fff;
+    border:1px solid #ececf0;
+    border-radius:12px;
+    margin-bottom:8px;
+    font-family:inherit;
+    font-size:13px;font-weight:700;
+    color:#16181d;
+    text-align:left;
+    cursor:default;
+  }
+  .menu-item.has-children{cursor:pointer}
+  .menu-item.has-children:hover{background:#fafbfc}
+  .menu-dot{
+    width:28px;height:28px;flex-shrink:0;
+    border-radius:50%;
+    background:#eaf7ee;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .menu-dot svg{width:15px;height:15px;fill:#1c9b52}
+  .menu-item .chev{
+    margin-left:auto;
+    width:7px;height:12px;flex-shrink:0;
+    fill:none;stroke:#b6bbc2;stroke-width:1.8;
+    stroke-linecap:round;stroke-linejoin:round;
+  }
+  .sub-list{
+    margin:-2px 0 10px 39px;
+    padding-left:12px;
+    border-left:2px solid #eaf7ee;
+  }
+  .sub-list .menu-item{
+    font-size:12px;font-weight:600;
+    padding:10px 12px;
+    background:#fafbfc;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone-scroll">
+
+  <div class="header">
+    <button class="back-btn" onclick="goBack('pages.html')" aria-label="Go back">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    </button>
+    <div class="header-title" id="screenTitle">QUICK ACTIONS</div>
+  </div>
+
+  <div class="role-note" id="roleNote"></div>
+
+  <div class="section-label">
+    <span>QUICK ACTIONS</span>
+    <span class="count-pill" id="countPill">0 actions</span>
+  </div>
+
+  <div class="quick-actions" id="actionGrid"></div>
+
+  <div class="balances" id="balanceBlock" hidden>
+    <div class="balances-title">Balance card</div>
+    <div class="balance-chips" id="balanceChips"></div>
+    <div class="balance-hint">Balance card layout is a placeholder &mdash; it will be replaced once the balance-card spec arrives.</div>
+  </div>
+
+  <div class="bottom-spacer"></div>
+</div>
+
+<div class="gesture-bar"></div>
+
+<!-- Sub-menu sheet -->
+<div class="sheet-backdrop" id="menuBackdrop"></div>
+<div class="sheet" id="menuSheet" role="dialog" aria-modal="true" aria-labelledby="menuTitle">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title" id="menuTitle">Request Payment</div>
+  <div class="sheet-sub" id="menuSub">Sub-menu</div>
+  <div id="menuList"></div>
+</div>
+
+<script>
+function goBack(f){if(history.length>1){history.back()}else{window.location.href=f}}
+</script>
+
+<script src="catalog.js"></script>
+<script>
+(function () {
+  /* -------------------------------------------------------------------
+     Quick actions per product + operator role, transcribed from
+     "Quick action features 2.pptx". Each action may carry `children`
+     (one sub-menu level) and those may carry `children` again.
+     Add or edit entries here - the tabs, grid and sheets follow.
+     ------------------------------------------------------------------- */
+  var PRODUCTS = window.QA_CATALOG.PRODUCTS;
+  var ICONS    = window.QA_CATALOG.ICONS;
+
+  var grid        = document.getElementById('actionGrid');
+  var roleNote    = document.getElementById('roleNote');
+  var countPill   = document.getElementById('countPill');
+  var balBlock    = document.getElementById('balanceBlock');
+  var balChips    = document.getElementById('balanceChips');
+
+  var backdrop = document.getElementById('menuBackdrop');
+  var sheet    = document.getElementById('menuSheet');
+  var menuList = document.getElementById('menuList');
+
+  /* Which product/variant to show is chosen outside the phone - from the
+     dropdowns on pages.html, or with ?p=&v= when opened on its own. */
+  var params = new URLSearchParams(location.search);
+  var pIndex = clamp(parseInt(params.get('p'), 10) || 0, PRODUCTS.length);
+  var vIndex = clamp(parseInt(params.get('v'), 10) || 0, PRODUCTS[pIndex].variants.length);
+
+  function clamp(i, len) { return (isNaN(i) || i < 0 || i >= len) ? 0 : i; }
+
+  function renderActions() {
+    var p = PRODUCTS[pIndex];
+    var v = p.variants[vIndex];
+
+    document.getElementById('screenTitle').textContent = v.name.toUpperCase();
+    roleNote.textContent = v.note ? p.note + ' · ' + v.note : p.note;
+    countPill.textContent = v.actions.length + (v.actions.length === 1 ? ' action' : ' actions');
+
+    grid.innerHTML = '';
+    v.actions.forEach(function (a) {
+      var card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'action-card';
+      card.innerHTML =
+        '<h4>' + a.label.replace(' ', '<br>') + '</h4>' +
+        '<div class="card-foot">' +
+          (a.children ? '<span class="more">' + a.children.length + ' MORE</span>' : '') +
+          '<div class="action-icon">' + (ICONS[a.icon] || ICONS.self) + '</div>' +
+        '</div>';
+      if (a.children) card.addEventListener('click', function () { openMenu(a); });
+      grid.appendChild(card);
+    });
+
+    if (v.balances && v.balances.length) {
+      balBlock.hidden = false;
+      balChips.innerHTML = '';
+      v.balances.forEach(function (b) {
+        var chip = document.createElement('div');
+        chip.className = 'balance-chip';
+        chip.textContent = b;
+        balChips.appendChild(chip);
+      });
+    } else {
+      balBlock.hidden = true;
+    }
+  }
+
+  function menuRow(item, nested) {
+    var row = document.createElement('button');
+    row.type = 'button';
+    row.className = 'menu-item' + (item.children ? ' has-children' : '');
+    row.innerHTML =
+      (nested ? '' : '<span class="menu-dot">' + (ICONS[item.icon] || ICONS.float) + '</span>') +
+      '<span>' + item.label + '</span>' +
+      (item.children ? '<svg class="chev" viewBox="0 0 7 12"><path d="m1.3 1.3 4.4 4.7-4.4 4.7"/></svg>' : '');
+    return row;
+  }
+
+  function openMenu(action) {
+    document.getElementById('menuTitle').textContent = action.label;
+    document.getElementById('menuSub').textContent =
+      PRODUCTS[pIndex].variants[vIndex].name + ' · ' + action.children.length + ' options';
+
+    menuList.innerHTML = '';
+    action.children.forEach(function (child) {
+      var row = menuRow(child, false);
+      menuList.appendChild(row);
+
+      if (child.children) {
+        var sub = document.createElement('div');
+        sub.className = 'sub-list';
+        sub.hidden = true;
+        child.children.forEach(function (g) { sub.appendChild(menuRow(g, true)); });
+        menuList.appendChild(sub);
+        row.addEventListener('click', function () { sub.hidden = !sub.hidden; });
+      }
+    });
+
+    backdrop.classList.add('open');
+    sheet.classList.add('open');
+    document.body.classList.add('sheet-open');
+  }
+
+  function closeMenu() {
+    backdrop.classList.remove('open');
+    sheet.classList.remove('open');
+    document.body.classList.remove('sheet-open');
+  }
+
+  backdrop.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+
+  renderActions();
+
+  /* Talk to the catalog page: hand it the list, take selections back. */
+  function publishCatalog() {
+    if (window.parent === window) return;
+    window.parent.postMessage({
+      type: 'qa-catalog',
+      p: pIndex,
+      v: vIndex,
+      products: PRODUCTS.map(function (p) {
+        return { name: p.name, variants: p.variants.map(function (v) { return v.name; }) };
+      })
+    }, '*');
+  }
+
+  window.addEventListener('message', function (e) {
+    var d = e.data;
+    if (!d || d.type !== 'qa-select') return;
+    pIndex = clamp(d.p, PRODUCTS.length);
+    vIndex = clamp(d.v, PRODUCTS[pIndex].variants.length);
+    closeMenu();
+    renderActions();
+  });
+
+  publishCatalog();
+})();
+</script>
+
+</body>
+</html>
